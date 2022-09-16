@@ -1,5 +1,6 @@
 package com.ssafy.server.oauth.handler;
 
+import com.ssafy.server.oauth.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
@@ -18,9 +19,10 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        log.debug("onAuthenticationSuccess");
+        log.debug("onAuthenticationFailure");
         String targetUrl = "http://localhost:3000/oauth/redirect";
 
+        CookieUtil.deleteCookie(request, response, "refreshToken");
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }

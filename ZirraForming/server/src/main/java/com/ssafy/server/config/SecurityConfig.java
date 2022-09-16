@@ -1,18 +1,25 @@
 package com.ssafy.server.config;
 
 import com.ssafy.server.config.properties.CorsProperties;
+import com.ssafy.server.config.properties.TokenProperties;
+import com.ssafy.server.domain.repository.MemberRepository;
 import com.ssafy.server.oauth.exception.RestAuthenticationEntryPoint;
+import com.ssafy.server.oauth.filter.TokenAuthenticationFilter;
 import com.ssafy.server.oauth.handler.OAuth2AuthenticationFailureHandler;
 import com.ssafy.server.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import com.ssafy.server.oauth.service.CustomOAuth2UserService;
+import com.ssafy.server.oauth.token.AuthTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -24,7 +31,10 @@ import java.util.Arrays;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsProperties corsProperties;
+    private final TokenProperties tokenProperties;
+    private final AuthTokenProvider tokenProvider;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final MemberRepository memberRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -56,6 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .successHandler(oAuth2AuthenticationSuccessHandler())
                     .failureHandler(oAuth2AuthenticationFailureHandler());
+
+        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     /*
@@ -67,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+
     /*
      * security 설정 시, 사용할 인코더 설정
      * */
@@ -76,11 +89,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /*
+     * 토큰 필터 설정
+     * */
+    @Bean
+    public TokenAuthenticationFilter tokenAuthenticationFilter() {
+        return new TokenAuthenticationFilter(tokenProvider);
+    }
+
+
+    /*
      * Oauth 인증 성공 핸들러
      * */
     @Bean
     public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
-        return new OAuth2AuthenticationSuccessHandler();
+        return new OAuth2AuthenticationSuccessHandler(tokenProvider, tokenProperties, memberRepository);
     }
 
     /*
