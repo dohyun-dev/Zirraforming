@@ -1,26 +1,18 @@
 spring:
-  profiles:
-    active: local
+  config:
+    activate:
+      on-profile: "develop"
   # 데이터 소스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/zirraforming?serverTimezone=Asia/Seoul
-    username: root
-    password: admin1234
-    hikari:
-      pool-name: jpa-hikari-pool
-      maximum-pool-size: 5
-      jdbc-url: ${spring.datasource.url}
-      username: ${spring.datasource.username}
-      password: ${spring.datasource.password}
-      driver-class-name: ${spring.datasource.driver-class-name}
-      data-source-properties:
-        rewriteBatchedStatements: true
+#    url: jdbc:mysql://mysql:3307/zirraforming?serverTimezone=Asia/Seoul
+#    username: root
+#    password: admin1234
 
   # Redis 설정
-  redis:
-    host: localhost
-    port: 6380
+#  redis:
+#    host: redis
+#    port: 6380
 
   # JPA 설정
   jpa:
@@ -48,13 +40,11 @@ spring:
           clientSecret: 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
           scope:
             - email
-            - profile
         facebook:
           clientId: '{페이스북 client-id}'
           clientSecret: '{페이스북 client-secret}'
           scope:
             - email
-            - public_profile
         naver:
           clientId: '{네이버 client-id}'
           clientSecret: '{네이버 client-secret}'
@@ -73,8 +63,6 @@ spring:
           authorizationGrantType: authorization_code
           redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
           scope:
-            - profile_nickname
-            - profile_image
             - account_email
           clientName: Kakao
       # Provider 설정
@@ -109,3 +97,8 @@ app:
   oauth2:
     authorizedRedirectUris:
       - http://localhost:3000/oauth/redirect
+
+logging:
+  level:
+    org.springframework.security: trace
+    com.ssafy.server: debug

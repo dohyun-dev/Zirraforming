@@ -1,0 +1,91 @@
+version: "3"
+services:
+  mysql:
+    container_name: "mysql"
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: zirraforming
+      MYSQL_ROOT_PASSWORD: admin1234
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
+    ports:
+      - 3307:3306
+    volumes:
+      - ./docker-volume/init/:/docker-entrypoint-initdb.d/
+      - ./docker-volume/database/datadir/:/var/lib/mysql
+    command: [ '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
+    expose:
+      - 3307
+    # networks:
+    #   - backend-network
+
+  redis:
+    container_name: "redis"
+    image: "redis:alpine"
+    restart: always
+    ports:
+      - 6380:6379
+    expose:
+      - 6380
+    # networks:
+    #   - backend-network
+  
+  mongodb:          
+    container_name: "mongodb"
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin1234
+    volumes:
+      - ./docker-volume:/data/db
+    ports: 
+      - "27018:27017"
+    expose:
+      - 27017
+    # networks:
+    #   - frontend-network
+
+  springbootapp:
+    container_name: "springbootapp"
+    build: 
+      context: ./server
+      dockerfile: Dockerfile-local
+    ports:
+      - 8080:8080
+    volumes:
+      - ./docker-volume:/images
+    depends_on:
+      - mysql
+      - redis
+      - mongodb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin1234
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6380
+    # networks:
+    #   - frontend-network
+    #   - backend-network
+  
+  react:
+    container_name: "react"
+    build:
+      context: ./client
+      dockerfile: Dockerfile-local
+    ports:
+      - 3000:3000
+    stdin_open: true
+    # networks:
+    #   - frontend-network
+
+# volumes:
+#   mysql_volume: {}
+#   mongodb_volume: {}
+#   springboot_volume: {}
+
+# networks:
+#   backend-network:
+#   frontend-network:
