@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "member_badge")
-public class MemberBadge {
+public class MemberBadge extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +17,4 @@ public class MemberBadge {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "badge_id")
     private Badge badge;
-
-
-    @Embedded
-    private DateTime dateTime;
 }

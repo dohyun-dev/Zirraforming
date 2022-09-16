@@ -1,10 +1,15 @@
 package com.ssafy.server.domain.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "member")
-public class Member {
+@Getter
+@Table(name = "members")
+@NoArgsConstructor
+public class Member extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +26,8 @@ public class Member {
     @JoinColumn(name = "character_type_id")
     private CharacterType characterType;
 
-    @Embedded
-    private DateTime dateTime;
+    public Member(String email, String nickname) {
+        this.email = email;
+        this.nickname = nickname;
+    }
 }

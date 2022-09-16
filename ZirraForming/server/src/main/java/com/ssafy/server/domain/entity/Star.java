@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "star")
-public class Star {
+public class Star extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,4 @@ public class Star {
 
     @Column(name = "img_url")
     private String imgUrl;
-
-    @Embedded
-    private DateTime dateTime;
 }

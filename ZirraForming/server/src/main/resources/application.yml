@@ -48,33 +48,27 @@ spring:
           clientSecret: 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
           scope:
             - email
-            - profile
         facebook:
           clientId: '{페이스북 client-id}'
           clientSecret: '{페이스북 client-secret}'
           scope:
             - email
-            - public_profile
         naver:
-          clientId: '{네이버 client-id}'
-          clientSecret: '{네이버 client-secret}'
+          clientId: 96QOhaKKftnlMuxEBRGT
+          clientSecret: YPlSdz6TVv
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
           redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
           scope:
-            - nickname
             - email
-            - profile_image
           clientName: Naver
         kakao:
-          clientId: '{카카오 client-id}'
-          clientSecret: '{카카오 client-secret}'
+          clientId: f5c3e22bfb7f34929bb5b6a4f5d3f318
+          clientSecret: Qsmqx8sM5oe1ygclWuNgY8NNv8A5OmX8
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
           redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
           scope:
-            - profile_nickname
-            - profile_image
             - account_email
           clientName: Kakao
       # Provider 설정
@@ -109,3 +103,10 @@ app:
   oauth2:
     authorizedRedirectUris:
       - http://localhost:3000/oauth/redirect
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
+    com.ssafy.server: debug
