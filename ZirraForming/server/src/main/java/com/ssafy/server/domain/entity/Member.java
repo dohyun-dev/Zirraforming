@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -29,5 +30,26 @@ public class Member extends BaseTimeEntity{
     public Member(String email, String nickname) {
         this.email = email;
         this.nickname = nickname;
+    }
+
+    public static Member of(String email, String nickname) {
+        return new Member(email, nickname);
+    }
+
+    public void updateCharacterType(CharacterType characterType) {
+        this.characterType = characterType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return member != null && Objects.equals(id, member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
