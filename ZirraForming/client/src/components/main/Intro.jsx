@@ -4,11 +4,13 @@ import { BasicButton } from "../../items/Button";
 
 import MouseSVG from "../../assets/svgs/whitemouse.svg";
 import { Html } from "@react-three/drei";
+import Navbar from "../Navbar";
 
 const Wrapper = styled(motion.div)`
   position: fixed;
   left: 10vw;
-  top: 8vh;
+  /* top: 10vh; */
+  top: 150px;
 
   display: grid;
   grid-template-rows: 1fr 4fr 2fr 2fr 1px;
@@ -110,6 +112,7 @@ const childrenVar = {
 function Intro() {
   return (
     <>
+      <Navbar />
       <Wrapper variants={WrapVar} initial="start" animate="end">
         <Title variants={childrenVar}>당신의 지구는 안녕하십니까?</Title>
         <TitleWrap variants={childrenVar}>
