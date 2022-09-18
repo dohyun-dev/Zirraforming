@@ -1,3 +1,8 @@
+const size = {
+  mobile: "650px",
+  tablet: "992px",
+};
+
 const Theme = {
   // Fonts
   titleFont: "Black Han Sans",
@@ -11,6 +16,10 @@ const Theme = {
 
   darkWhite: "#dcdde1",
   lightWhite: "#f5f6fa",
+
+  // 반응형
+  mobile: `(max-width:${size.mobile})`,
+  tablet: `(max-width:${size.tablet})`,
 };
 
 export default Theme;

@@ -3,24 +3,24 @@ import styled from "styled-components";
 import { BasicButton } from "../../items/Button";
 
 import MouseSVG from "../../assets/svgs/whitemouse.svg";
+import { Html } from "@react-three/drei";
 
 const Wrapper = styled(motion.div)`
-  position: relative;
+  position: fixed;
   left: 10vw;
-  top: 10vh;
+  top: 8vh;
 
   display: grid;
-  grid-template-rows: 1fr 5fr 2fr 2fr 10px;
-  flex-direction: column;
+  grid-template-rows: 1fr 4fr 2fr 2fr 1px;
   align-items: center;
 
   width: 80vw;
-  height: min(65vw, 60vh);
+  height: 40vh;
   transition: all linear 0.3;
 `;
 
 const Title = styled(motion.h1)`
-  font-size: min(6vw, 80px);
+  font-size: min(7vw, 60px);
   text-align: center;
   font-weight: 400;
   white-space: nowrap;
@@ -35,7 +35,7 @@ const TitleWrap = styled(motion.div)`
   padding: 40px 30px 5px;
 
   .title__top {
-    font-size: min(4vw, 40px);
+    font-size: min(3vw, 30px);
     color: #fbc531;
     text-align: center;
     align-self: end;
@@ -45,8 +45,8 @@ const TitleWrap = styled(motion.div)`
     align-self: start;
     color: #3c9f58;
     text-align: center;
-    line-height: min(18vw, 150px);
-    font-size: min(18vw, 150px);
+    line-height: min(15vw, 130px);
+    font-size: min(15vw, 130px);
   }
 `;
 
@@ -63,12 +63,13 @@ const ButtonWrap = styled(motion.div)`
   height: 100%;
   align-items: center;
   justify-content: space-evenly;
+  padding-top: 40px;
 `;
 
 const SVG = styled(motion.img)`
   position: relative;
 
-  top: 50px;
+  top: 20px;
   width: 50px;
   height: 50px;
   margin: auto auto;

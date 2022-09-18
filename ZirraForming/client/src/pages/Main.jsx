@@ -1,13 +1,19 @@
 import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
-import { Stars, PerspectiveCamera, ScrollControls } from "@react-three/drei";
+import {
+  Stars,
+  PerspectiveCamera,
+  ScrollControls,
+  OrthographicCamera,
+} from "@react-three/drei";
 import styled from "styled-components";
 
-import Earth from "../components/three/earth";
+import Earth from "../components/three/Earth";
+import { Suspense } from "react";
+import Spinner from "../components/main/Spinner";
 
 const CanvasWrap = styled.div`
-  width: "100vw";
-  height: "100vh";
+  width: 100vw;
+  height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("/assets/bg/space.jfif");
   background-position: center center;
@@ -21,23 +27,24 @@ function Main() {
       <Canvas
         gl={{ antialias: true }}
         style={{
-          width: "100vw",
-          height: "100vh",
-
+          width: "100%",
+          height: "100%",
           // backgroundColor: "black",
         }}
       >
-        <ScrollControls pages={5}>
+        <Stars
+          saturation={100}
+          radius={400}
+          count={20000}
+          factor={0}
+          fade={true}
+          speed={1}
+        />
+        {/* <Suspense fallback={<Spinner />}> */}
+        <ScrollControls pages={4}>
           <Earth />
-          <PerspectiveCamera
-            position={[0, 1, 5]}
-            aspect={window.innerWidth / window.innerHeight}
-            fov={100}
-            near={0.1}
-            far={1000}
-          />
-          <ambientLight intensity={1} color="white" />
         </ScrollControls>
+        {/* </Suspense> */}
       </Canvas>
     </CanvasWrap>
   );
