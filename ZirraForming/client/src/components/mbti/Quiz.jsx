@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { BasicButton } from "../../items/styleButton";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -22,6 +23,7 @@ const Wrapper = styled(motion.div)`
 `;
 
 function Quiz() {
+	const navigate = useNavigate();
 	const quizData = [
 		{
 			question: "커피를 마시기 위해 카페에 방문한 나는",
@@ -63,13 +65,59 @@ function Quiz() {
 			weight1: [0, 0, 0, 1, 0, 1, 0, 0],
 			weight2: [0, 1, 0, 0, 0, 0, 0, 1],
 		},
+		{
+			question:
+				"길거리에 종량제 봉투 없이 생활 쓰레기를 무단 투기하는 것을 목격한다면 나는",
+			questionImgPath: "/assets/styleQuiz/문제6.png",
+			answer1: "직접가서 여기에 버리면 안된다고 이야기한다.",
+			answer2: "“개념이 없네”라며 혼자 속으로 흉을 본다.",
+			weight1: [0, 0, 0, 1, 0, 1, 0, 0],
+			weight2: [0, 1, 0, 0, 0, 0, 0, 1],
+		},
+		{
+			question: "생수병, 음료병을 버릴 때 나는",
+			questionImgPath: "/assets/styleQuiz/문제7.png",
+			answer1: "일반쓰레기와 분리하여 분리수거를 한다.",
+			answer2: "페트병의 라벨을 뜯고 병뚜껑을 분리하여 분리수거를 한다.",
+			weight1: [0, 0, 0, 1, 0, 1, 0, 0],
+			weight2: [0, 1, 0, 0, 0, 0, 0, 1],
+		},
+		{
+			question: "환경을 지킬 수 있는 활동을 신청하려고 할 때 나는",
+			questionImgPath: "/assets/styleQuiz/문제8.png",
+			answer1: "직접 방문하여 활동할 수 있는 프로그램을 신청한다.",
+			answer2: "기부 활동을 통해 실천할 수 있는 프로그램을 신청한다.",
+			weight1: [0, 0, 0, 1, 0, 1, 0, 0],
+			weight2: [0, 1, 0, 0, 0, 0, 0, 1],
+		},
+		{
+			question: "평소에 제품을 구매할 때 나는",
+			questionImgPath: "/assets/styleQuiz/문제9.png",
+			answer1: "가격이 비싸도 친환경 마크가 있는 제품을 구매한다.",
+			answer2: "자주 구매하는 제품으로 구매한다.",
+			weight1: [0, 0, 0, 1, 0, 1, 0, 0],
+			weight2: [0, 1, 0, 0, 0, 0, 0, 1],
+		},
+		{
+			question: "제로웨이스트 친환경 상점을 나는",
+			questionImgPath: "/assets/styleQuiz/문제10.png",
+			answer1: "0-2개 알고 있다.",
+			answer2: "3개 이상 알고 있다.",
+			weight1: [0, 0, 0, 1, 0, 1, 0, 0],
+			weight2: [0, 1, 0, 0, 0, 0, 0, 1],
+		},
 	];
 	const [index, setIndex] = useState(0);
 	const [score, setScore] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
 
 	function plusScore(props) {
+		setIndex(index + 1);
 		setScore(score.map((x, y) => x + props[y]));
 		console.log(score);
+
+		if (index === 9) {
+			navigate("./result");
+		}
 	}
 
 	return (
@@ -102,7 +150,6 @@ function Quiz() {
 				<BasicButton
 					style={{ marginBottom: "3vh", fontSize: "20px" }}
 					onClick={() => {
-						setIndex(index + 1);
 						plusScore(quizData[index].weight1);
 					}}
 				>
@@ -111,7 +158,6 @@ function Quiz() {
 				<BasicButton
 					style={{ fontSize: "20px" }}
 					onClick={() => {
-						setIndex(index + 1);
 						plusScore(quizData[index].weight2);
 					}}
 				>
