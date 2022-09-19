@@ -40,6 +40,10 @@ public class Member extends BaseTimeEntity{
         this.characterType = characterType;
     }
 
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

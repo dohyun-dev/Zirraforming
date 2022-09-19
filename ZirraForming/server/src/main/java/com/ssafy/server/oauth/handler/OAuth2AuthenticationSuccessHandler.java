@@ -66,7 +66,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         log.debug("createAccessToken : " + authentication.getName());
 
         OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
-        Long memberId = memberRepository.findByEmail(authToken.getPrincipal().getName()).getId();
+        Long memberId = memberRepository.findByEmail(authToken.getPrincipal().getName()).get().getId();
         AuthToken accessToken = tokenProvider.createAuthToken(
                 String.valueOf(memberId),
                 RoleType.USER.getCode(),
@@ -81,14 +81,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         log.debug("createRefreshToken : " + authentication.getName());
 
         OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
-        Long memberId = memberRepository.findByEmail(authToken.getPrincipal().getName()).getId();
+        Long memberId = memberRepository.findByEmail(authToken.getPrincipal().getName()).get().getId();
         AuthToken refreshToken = tokenProvider.createAuthToken(
                 String.valueOf(memberId),
                 RoleType.USER.getCode(),
                 new Date(new Date().getTime() + tokenProperties.getAuth().getRefreshTokenExpiry())
         );
 
-        saveRefreshToken(refreshToken, String.valueOf(memberId));
+        saveRefreshToken(refreshToken, "refreshToken:" + String.valueOf(memberId));
         cookieRefreshToken(request, response, refreshToken);
     }
 

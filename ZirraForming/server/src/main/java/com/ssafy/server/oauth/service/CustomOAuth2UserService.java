@@ -16,6 +16,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -45,15 +47,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
         log.debug("userInfo.email := [{}]", userInfo.getEmail());
 
-        Member savedUser = memberRepo.findByEmail(userInfo.getEmail());
-        if (savedUser == null) {
+        Optional<Member> savedUser = memberRepo.findByEmail(userInfo.getEmail());
+        if (savedUser.isEmpty()) {
             log.debug("Sign Up");
-            savedUser = createUser(userInfo);
+            savedUser = Optional.of(createUser(userInfo));
         }else{
             log.debug("Sign In");
         }
 
-        return UserPrincipal.create(savedUser, user.getAttributes());
+        return UserPrincipal.create(savedUser.get(), user.getAttributes());
     }
 
     private Member createUser(OAuth2UserInfo userInfo) {
