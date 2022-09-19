@@ -18,8 +18,8 @@ CREATE TABLE `character_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DROP TABLE IF EXISTS `member`;
-CREATE TABLE `member` (
+DROP TABLE IF EXISTS `members`;
+CREATE TABLE `members` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `email` varchar(45) NOT NULL,
   `nickname` varchar(45) NOT NULL,
@@ -30,8 +30,8 @@ CREATE TABLE `member` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `nickname_UNIQUE` (`nickname`),
-  KEY `member_fk_character_type_id_idx` (`character_type_id`),
-  CONSTRAINT `member_fk_character_type_id` FOREIGN KEY (`character_type_id`) REFERENCES `character_type` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  KEY `members_fk_character_type_id_idx` (`character_type_id`),
+  CONSTRAINT `members_fk_character_type_id` FOREIGN KEY (`character_type_id`) REFERENCES `character_type` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `badge`;
@@ -52,7 +52,7 @@ CREATE TABLE `member_badge` (
   KEY `member_badge_member_id_idx` (`member_id`),
   KEY `member_badge_badge_id_idx` (`badge_id`),
   CONSTRAINT `member_badge_fk_badge_id` FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `member_badge_fk_member_id` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `member_badge_fk_member_id` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `star`;
@@ -65,7 +65,7 @@ CREATE TABLE `star` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `star_fk_member_id_idx` (`member_id`),
-  CONSTRAINT `star_fk_member_id` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `star_fk_member_id` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `campaign`;
