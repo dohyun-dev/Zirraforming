@@ -11,6 +11,7 @@ function Router() {
 				<Route path="/" element={<Main />}></Route>
 				<Route path="/style" element={<Mbti />}></Route>
 				<Route path="/style/result" element={<MbtiResult />}></Route>
+				//<Route path="/quiz" element={<Quiz />}></Route>
 			</Routes>
 		</BrowserRouter>
 	);
