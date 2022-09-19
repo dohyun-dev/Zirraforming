@@ -5,8 +5,8 @@ import { ReactComponent as Up } from "../assets/svgs/up.svg";
 import { ReactComponent as Down } from "../assets/svgs/down.svg";
 
 const Wrapper = styled(motion.div)`
-  height: 150px;
-  width: 350px;
+  height: 120px;
+  width: 300px;
   margin: auto;
   display: flex;
   align-items: center;
@@ -32,7 +32,7 @@ const Wrapper = styled(motion.div)`
       display: flex;
       padding: 0px;
       align-items: flex-start;
-      font-size: 4rem;
+      font-size: 3rem;
       line-height: 3rem;
       padding-left: 5px;
     }

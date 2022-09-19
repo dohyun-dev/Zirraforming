@@ -53,7 +53,7 @@ const childrenVar = {
 
 function Summary() {
   return (
-    <Html center position={[-12, -270, 0]}>
+    <Html center position={[-12, -200, 0]}>
       <Wrapper variants={WrapVar} initial="start" animate="end">
         <SumCard
           color={"#FBC531"}

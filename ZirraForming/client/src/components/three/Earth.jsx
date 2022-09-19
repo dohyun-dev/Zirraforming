@@ -21,6 +21,9 @@ import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
 import Intro from "../main/Intro";
 import gsap from "gsap";
 import Spinner from "../main/Spinner";
+import GlobalTemperature from "../main/GlobalTemperature";
+import urls from "../../apis/urls";
+import { MainData } from "../../atoms";
 
 const gui = new dat.GUI();
 
@@ -30,6 +33,7 @@ function Earth(props) {
   //   TextureLoader,
   //   [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap]
   // );
+  // Recoil Data 불러오기
 
   const [colorMap, normalMap, specularMap, cloudsMap] = useTexture([
     EarthDayMap,
@@ -38,12 +42,17 @@ function Earth(props) {
     EarthCloudsMap,
   ]);
   // 애니메이션 조작
+  const [rotate, setRotate] = useState(true);
   const [firstAni, setFirstAni] = useState(true);
   const [secondAni, setSecondAni] = useState(false);
+  const [thridAni, setThirdAni] = useState(false);
 
   // HTML 조작
+  const [introPage, setIntroPage] = useState(false);
   const [summaryPage, setSummaryPage] = useState(false);
+  const [globalTem, setGlobalTem] = useState(false);
 
+  const cloud = useRef();
   const earth = useRef(); // 지구객체
   const pCamera = useRef(); // Perspective 카메라 객체
   const oCamera = useRef(); // Orthographic 카메라 객체
@@ -105,26 +114,46 @@ function Earth(props) {
     // 스크롤
     // console.log(scroll.scroll.current);
     // console.log(scroll);
-    const f1 = scroll.range(0, 1 / 4);
+
     // console.log(f1);
     //// Intro Trigger
     // console.log(oCamera.current.position);
 
     // 지구 회전
-    const elapsedTime = clock.getElapsedTime();
-    earth.current.rotation.y = elapsedTime / 12;
+
+    cloud.current.rotation.y -= delta / 50;
+
+    if (rotate) {
+      earth.current.rotation.y += delta / 8;
+    }
 
     // 1번째 페이지 무빙
     if (scroll.scroll.current === 0) {
-      setFirstAni(true);
+      setIntroPage(true);
       setSummaryPage(false);
+
+      setFirstAni(true);
       setSecondAni(false);
     }
 
-    if (Math.floor(scroll.scroll.current * 10) === 2) {
-      setSecondAni(true);
-      setFirstAni(false);
+    if (Math.floor(scroll.scroll.current * 100) === 6) {
       setSummaryPage(true);
+      setIntroPage(false);
+      setGlobalTem(false);
+
+      setFirstAni(false);
+      setThirdAni(false);
+      setSecondAni(true);
+    }
+
+    if (Math.floor(scroll.scroll.current * 100) === 12) {
+      setGlobalTem(true);
+      setSummaryPage(false);
+
+      setFirstAni(false);
+      setSecondAni(false);
+      setThirdAni(true);
+      setRotate(false);
     }
 
     // 애니메이션
@@ -132,13 +161,14 @@ function Earth(props) {
       gsap
         .to(earth.current.position, {
           y: -700,
+          x: 0,
         })
         .duration(3);
       gsap
         .to(earth.current.scale, {
-          x: 450,
-          y: 450,
-          z: 450,
+          x: Math.min(450, window.innerWidth - 50),
+          y: Math.min(450, window.innerWidth - 50),
+          z: Math.min(450, window.innerWidth - 50),
         })
         .duration(3);
     }
@@ -147,18 +177,42 @@ function Earth(props) {
       gsap
         .to(earth.current.position, {
           y: 150,
+          x: 0,
         })
         .duration(2);
 
       gsap
         .to(earth.current.scale, {
-          x: 300,
-          y: 300,
-          z: 300,
+          x: Math.min(300, window.innerWidth - 550),
+          y: Math.min(300, window.innerWidth - 550),
+          z: Math.min(300, window.innerWidth - 550),
+        })
+        .duration(2);
+      gsap.to(oCamera.current.position, {
+        x: 0,
+      });
+
+      setSummaryPage(true);
+    }
+
+    if (thridAni) {
+      gsap
+        .to(earth.current.scale, {
+          x: Math.min(300, window.innerWidth - 600),
+          y: Math.min(300, window.innerWidth - 600),
+          z: Math.min(300, window.innerWidth - 600),
+        })
+        .duration(2);
+      gsap
+        .to(earth.current.position, {
+          x: -120,
+          y: 30,
         })
         .duration(2);
 
-      setSummaryPage(true);
+      gsap.to(oCamera.current.position, {
+        x: 80,
+      });
     }
   });
 
@@ -169,13 +223,14 @@ function Earth(props) {
         makeDefault
         ref={oCamera}
         zoom={1}
-        left={-(window.innerWidth / window.innerHeight)}
-        right={window.innerWidth / window.innerHeight}
-        top={1}
-        bottom={-1}
-        near={0.01}
-        far={1000}
+        // left={-(window.innerWidth / window.innerHeight)}
+        // right={window.innerWidth / window.innerHeight}
+        // top={1}
+        // bottom={-1}
+        // near={0.01}
+        // far={1000}
         position={[0, 0, 10]}
+        // updateProjectionMatrix={true}
       />
 
       {/* <PerspectiveCamera
@@ -189,6 +244,7 @@ function Earth(props) {
           /> */}
 
       {/* 컨트롤 설정 */}
+
       {/* <OrbitControls /> */}
 
       {/* 조명설정 */}
@@ -196,33 +252,34 @@ function Earth(props) {
       <pointLight color="#f6f3ea" position={[0, 0, 0]} intensity={1} />
 
       {/* 오브젝트 */}
-      <Suspense fallback={<Spinner />}>
-        <group ref={earth} position={[0, 0, -500]} scale={300}>
-          <mesh>
-            <sphereGeometry args={[1.005, 32, 16]} />
-            <meshPhongMaterial
-              map={cloudsMap}
-              opacity={0.4}
-              depthWrite={true}
-              transparent={true}
-              side={THREE.DoubleSide}
-            />
-          </mesh>
-          <mesh>
-            <sphereGeometry args={[1, 32, 16]} />
-            <meshPhongMaterial specularMap={specularMap} />
-            <meshStandardMaterial
-              map={colorMap}
-              normalMap={normalMap}
-              metalness={0.4}
-              roughness={0.7}
-            />
-          </mesh>
-        </group>
-        {summaryPage ? <Summary /> : null}
-      </Suspense>
+      <group ref={earth} position={[0, 0, -500]}>
+        <mesh ref={cloud}>
+          <sphereGeometry args={[1.005, 32, 16]} />
+          <meshPhongMaterial
+            map={cloudsMap}
+            opacity={0.4}
+            // depthWrite={true}
+            transparent={true}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[1, 32, 16]} />
+          <meshPhongMaterial specularMap={specularMap} />
+          <meshStandardMaterial
+            map={colorMap}
+            normalMap={normalMap}
+            metalness={0.4}
+            roughness={0.7}
+          />
+        </mesh>
+      </group>
+      {summaryPage ? <Summary /> : null}
+
       <Scroll html>
-        <Intro />
+        {introPage ? <Intro /> : null}
+        {globalTem ? <GlobalTemperature /> : null}
+        {/* <GlobalTemperature /> */}
       </Scroll>
     </>
   );
