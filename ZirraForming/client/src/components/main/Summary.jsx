@@ -1,6 +1,9 @@
 import { Html } from "@react-three/drei";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { MainData, SummaryData } from "../../atoms";
 import SumCard from "../../items/SumCard";
 
 const Wrapper = styled(motion.div)`
@@ -52,6 +55,8 @@ const childrenVar = {
 };
 
 function Summary() {
+  const summaryData = useRecoilValue(SummaryData);
+  console.log(summaryData);
   return (
     <Html center position={[-12, -200, 0]}>
       <Wrapper variants={WrapVar} initial="start" animate="end">

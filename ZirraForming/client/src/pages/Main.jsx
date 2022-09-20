@@ -17,7 +17,7 @@ import {
   useSetRecoilState,
 } from "recoil";
 import { MainData } from "../atoms";
-import urls from "../apis/urls";
+import Urls from "../apis/Urls";
 
 const CanvasWrap = styled.div`
   width: 100vw;
@@ -34,8 +34,8 @@ function Main() {
   const [allData, setAllData] = useRecoilState(MainData);
 
   useEffect(() => {
-    axios.get(urls.data()).then(({ data }) => {
-      setAllData(data);
+    axios.get(Urls.data()).then(({ data }) => {
+      setAllData(data.data);
       // console.log(data);
     });
   }, []);
