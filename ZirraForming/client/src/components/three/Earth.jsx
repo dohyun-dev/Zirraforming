@@ -17,13 +17,15 @@ import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg";
 import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
 import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
+import CO2001 from "../../assets/textures/co2001.png";
 
 import Intro from "../main/Intro";
 import gsap from "gsap";
 import Spinner from "../main/Spinner";
 import GlobalTemperature from "../main/GlobalTemperature";
-import urls from "../../apis/urls";
-import { MainData } from "../../atoms";
+
+import { co2Images, MainData } from "../../atoms";
+import { useRecoilValue } from "recoil";
 
 const gui = new dat.GUI();
 
@@ -41,6 +43,12 @@ function Earth(props) {
     EarthSpecularMap,
     EarthCloudsMap,
   ]);
+
+  // const co2Texture = [];
+  // for (let i = 0; i++; i < co2ImageData.length) {
+  //   co2Texture.push(useTexture(co2ImageData[i]));
+  // }
+
   // 애니메이션 조작
   const [rotate, setRotate] = useState(true);
   const [firstAni, setFirstAni] = useState(true);
@@ -121,7 +129,7 @@ function Earth(props) {
 
     // 지구 회전
 
-    cloud.current.rotation.y -= delta / 50;
+    cloud.current.rotation.y -= delta / 20;
 
     if (rotate) {
       earth.current.rotation.y += delta / 8;
@@ -257,7 +265,7 @@ function Earth(props) {
           <sphereGeometry args={[1.005, 32, 16]} />
           <meshPhongMaterial
             map={cloudsMap}
-            opacity={0.4}
+            opacity={0.6}
             // depthWrite={true}
             transparent={true}
             side={THREE.DoubleSide}

@@ -112,7 +112,7 @@ const childrenVar = {
 function Intro() {
   return (
     <>
-      <Navbar />
+      <Navbar width={"100vw"} />
       <Wrapper variants={WrapVar} initial="start" animate="end">
         <Title variants={childrenVar}>당신의 지구는 안녕하십니까?</Title>
         <TitleWrap variants={childrenVar}>
