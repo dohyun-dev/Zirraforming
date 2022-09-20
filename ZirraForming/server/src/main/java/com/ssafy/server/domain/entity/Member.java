@@ -44,6 +44,10 @@ public class Member extends BaseTimeEntity{
         this.nickname = nickname;
     }
 
+    public void updateEnvScore(Integer score) {
+        this.envScore = score;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
