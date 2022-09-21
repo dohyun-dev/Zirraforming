@@ -117,3 +117,6 @@ logging:
       springframework:
         security: trace
     com.ssafy.server: debug
+
+file:
+  dir: C:/zirraforming/images/

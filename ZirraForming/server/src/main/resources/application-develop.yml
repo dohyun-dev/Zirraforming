@@ -9,10 +9,17 @@ spring:
 #    username: root
 #    password: admin1234
 
-  # Redis 설정
-#  redis:
-#    host: redis
-#    port: 6380
+   # Redis 설정
+  redis:
+    host: redis
+    port: 6380
+
+  # MongoDB 설정
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: zirraforming
 
   # JPA 설정
   jpa:
@@ -102,3 +109,6 @@ logging:
   level:
     org.springframework.security: trace
     com.ssafy.server: debug
+
+file:
+  dir: /images/zirraforming/images/
