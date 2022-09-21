@@ -4,6 +4,8 @@ import { BasicButton } from "../../items/quizButton";
 import { HomeButton } from "../../items/goHome";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router";
+import Share from "../common/Share";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -58,8 +60,8 @@ const Note = styled(motion.div)`
 
 function Result() {
 	const navigate = useNavigate();
-
-	const [start, setStart] = useState(true);
+	const { state } = useLocation();
+	console.log(state);
 	return (
 		<>
 			<Wrapper>
@@ -83,17 +85,17 @@ function Result() {
 						margin: "7vh 0px 0px 0px",
 					}}
 				>
-					<p style={{ color: "red" }}>7</p>/10
+					<p style={{ color: "red" }}>{state}</p>/10
 				</div>
 				<div
 					style={{
 						width: "80%",
 						height: "120px",
-						backgroundColor: "#3c9f58",
+						backgroundColor: "#ffffff",
 						margin: "3vh 0px 3vh 0px",
 					}}
 				>
-					이 결과 공유하기
+					<Share />
 				</div>
 
 				<BasicButton
