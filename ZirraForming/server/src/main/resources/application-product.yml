@@ -109,6 +109,8 @@ logging:
         security: trace
     com.ssafy.server: debug
 
+file:
+  dir: /home/ubuntu/front/build/images
 ---
 # 운영 DB
 spring:
