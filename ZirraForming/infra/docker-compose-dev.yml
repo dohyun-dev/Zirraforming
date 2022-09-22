@@ -1,0 +1,82 @@
+version: "3.7"
+
+services:
+  database_dev:
+    container_name: mysql_db_dev
+    image: mysql:8.0.29
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: zirraforming
+      MYSQL_USER: ssafy
+      MYSQL_PASSWORD: ssafywlfkvhald
+      MYSQL_ROOT_PASSWORD: ssafywlfkvhald
+      TZ: "Asia/Seoul"
+    ports:
+      - 3307:3306
+    volumes:
+      - "./db_dev/mysql/conf.d:/etc/mysql/conf.d"
+      - "./db_dev/mysql/mysql:/var/lib/mysql"
+      - "./db_dev/mysql/initdb.d:/docker-entrypoint-initdb.d"
+      - "./db_dev/mysql/data:/data"
+    command:
+      - "mysqld"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+      - "--lower_case_table_names=1"
+    networks:
+      - dev_network
+
+  redis_dev:
+    container_name: redis_dev
+    image: redis
+    ports:
+      - 6380:6379
+    volumes:
+      - "./db_dev/redis:/data"
+    command:
+      - "--appendonly yes"
+    networks:
+      - dev_network
+
+  mongodb_dev:
+    image: mongo
+    restart: always
+    container_name: mongodb_dev
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ssafy
+      MONGO_INITDB_ROOT_PASSWORD: ssafywlfkvhald
+      MONGO_INITDB_DATABASE: zirraforming
+      TZ: Asia/Seoul
+    volumes:
+      - "./db_dev/mongodb/data/db:/data/db"
+      - "./db_dev/mongodb/initdb.d:/docker-entrypoint-initdb.d"
+    networks:
+      - dev_network
+
+  application_dev:
+    container_name: spring-boot-dev
+    build:
+      context: ./
+      dockerfile: Dockerfile-dev
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db_dev:3306/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ssafywlfkvhald
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6380
+    volumes:
+      - /home/ubuntu/front/build/images:/images
+    depends_on:
+      - database_dev
+      - redis_dev
+      - mongodb_dev
+    networks:
+      - dev_network
+
+networks:
+  dev_network:

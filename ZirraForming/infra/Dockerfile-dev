@@ -1,0 +1,4 @@
+FROM openjdk:11-jdk
+ARG JAR_FILE=app/dev/server/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=development","-Duser.timezone=Asia/Seoul","-Dserver.port=8081","/app.jar"]

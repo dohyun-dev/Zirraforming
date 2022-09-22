@@ -4,7 +4,7 @@ spring:
       development:
         - common
         - development_database
-        - port_8080
+        - port_8081
       production-set1:
         - common
         - production_database
@@ -151,11 +151,11 @@ spring:
 spring:
   config:
     activate:
-      on-profile: production_database
+      on-profile: development_database
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?serverTimezone=Asia/Seoul
-    username: ssafy
+    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    username: root
     password: ssafywlfkvhald
     hikari:
       pool-name: jpa-hikari-pool
@@ -186,10 +186,10 @@ spring:
 spring:
   config:
     activate:
-      on-profile: port_8080
+      on-profile: port_8081
 
 server:
-  port: 8080
+  port: 8081
 
 ---
 
