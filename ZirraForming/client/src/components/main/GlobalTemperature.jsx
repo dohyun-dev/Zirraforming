@@ -1,18 +1,23 @@
 import { Html } from "@react-three/drei";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { globalTemperature } from "../../atoms";
+import OneLine from "./charts/OneLine";
 
 const Wrapper = styled.div`
-  position: absolute;
-  top: 200vh;
-  left: 40vw;
+  position: relative;
+  top: 250vh;
+  left: 50%;
 
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  width: 60vw;
+  line-break: normal;
+
+  transform: translate(50%, 0);
+  width: min(calc(50vw - 10px), 1000px);
 
   .title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     align-self: center;
     margin-bottom: 100vh;
   }
@@ -21,14 +26,14 @@ const Wrapper = styled.div`
     margin-bottom: 50vh;
   }
   .graph {
-    width: 300px;
-    height: 300px;
-    background-color: red;
+    width: 90%;
+
     align-self: center;
   }
 `;
 
 function GlobalTemperature() {
+  // const co2Datas = useRecoilValue(globalTemperature);
   return (
     <Wrapper>
       <div className="title">매년 상승하는 지구기온</div>
@@ -48,7 +53,13 @@ function GlobalTemperature() {
         있다. 2100년에 지구 전체의 인구가 100억명 정도에 도달할 것으로 예측되는
         것을 감안한다면, 5명 중 1명이 기후 유랑민이 되는 그림이다.
       </div>
-      <div className="graph"></div>
+      <div className="graph">
+        {/* <OneLine
+          title={"Global Temperature"}
+          xline={co2Datas?.year}
+          yline={co2Datas?.temperature}
+        /> */}
+      </div>
     </Wrapper>
   );
 }

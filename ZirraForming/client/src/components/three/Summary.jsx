@@ -54,11 +54,14 @@ const childrenVar = {
   },
 };
 
+console.log(window.innerWidth);
 function Summary() {
-  const summaryData = useRecoilValue(SummaryData);
-  console.log(summaryData);
+  // const summaryData = useRecoilValue(SummaryData);
   return (
-    <Html center position={[-12, -200, 0]}>
+    <Html
+      center
+      position={window.innerWidth < 1400 ? [-12, -260, 0] : [-12, -350, 0]}
+    >
       <Wrapper variants={WrapVar} initial="start" animate="end">
         <SumCard
           color={"#FBC531"}
