@@ -47,10 +47,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
         log.debug("userInfo.email := [{}]", userInfo.getEmail());
 
-        Optional<Member> savedUser = memberRepo.findByEmail(userInfo.getEmail());
+        Optional<Member> savedUser = memberRepo.findByEmail(providerType+"_"+userInfo.getEmail());
         if (savedUser.isEmpty()) {
             log.debug("Sign Up");
-            savedUser = Optional.of(createUser(userInfo));
+            savedUser = Optional.of(createUser(userInfo, providerType));
         }else{
             log.debug("Sign In");
         }
@@ -58,13 +58,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return UserPrincipal.create(savedUser.get(), user.getAttributes());
     }
 
-    private Member createUser(OAuth2UserInfo userInfo) {
-        Long index = memberRepo.count();
+    private Member createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         Member member = new Member(
-                userInfo.getEmail(),
-                "user"+index
+                providerType+"_"+userInfo.getEmail(),
+                "providerType"+0
         );
+        memberRepo.saveAndFlush(member);
 
-        return memberRepo.save(member);
+        Optional<Member> findMember = memberRepo.findByEmail(providerType+"_"+userInfo.getEmail());
+        System.out.println(findMember.get().getId());
+        findMember.get().updateNickname(providerType+String.valueOf(findMember.get().getId()));
+
+        return memberRepo.save(findMember.get());
     }
 }

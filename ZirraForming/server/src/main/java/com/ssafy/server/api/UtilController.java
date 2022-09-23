@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/utils")
+@RequestMapping("/utils")
 public class UtilController {
 
     private final Environment env;

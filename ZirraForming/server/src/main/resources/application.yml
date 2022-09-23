@@ -1,39 +1,37 @@
 spring:
   profiles:
-    active: local
-  # 데이터 소스 설정
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/zirraforming?serverTimezone=Asia/Seoul
-    username: root
-    password: admin1234
-    hikari:
-      pool-name: jpa-hikari-pool
-      maximum-pool-size: 5
-      jdbc-url: ${spring.datasource.url}
-      username: ${spring.datasource.username}
-      password: ${spring.datasource.password}
-      driver-class-name: ${spring.datasource.driver-class-name}
-      data-source-properties:
-        rewriteBatchedStatements: true
+    group:
+      local:
+        - common
+        - local_database
+        - port_8080
+      development:
+        - common
+        - development_database
+        - port_8080
+      production-set1:
+        - common
+        - production_database
+        - port_9001
+      production-set2:
+        - common
+        - production_database
+        - port_9002
+---
+# 스프링 서버 공통 설정
+server:
+  servlet:
+    context-path: /api
 
-  # Redis 설정
-  redis:
-    host: localhost
-    port: 6380
-
-  # MongoDB 설정
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: zirraforming
-
+spring:
+  profiles:
+    active:
+      on-profile: common
   # JPA 설정
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -93,7 +91,7 @@ spring:
 
 # cors 설정
 cors:
-  allowed-origins: 'http://localhost:3000'
+  allowed-origins: 'http://j7d107.p.ssafy.io:3000'
   allowed-methods: GET,POST,PUT,DELETE,OPTIONS
   allowed-headers: '*'
   max-age: 3600
@@ -108,8 +106,7 @@ app:
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
   oauth2:
-    authorizedRedirectUris:
-      - http://localhost:3000/oauth/redirect
+    authorizedRedirectUris: http://j7d107.p.ssafy.io/api/oauth/redirect
 
 logging:
   level:
@@ -117,3 +114,121 @@ logging:
       springframework:
         security: trace
     com.ssafy.server: debug
+
+file:
+  dir: /images/
+---
+# 운영 DB
+spring:
+  config:
+    activate:
+      on-profile: production_database
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ssafy
+    password: ssafywlfkvhald
+    hikari:
+      pool-name: jpa-hikari-pool
+      maximum-pool-size: 5
+      jdbc-url: ${spring.datasource.url}
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      driver-class-name: ${spring.datasource.driver-class-name}
+      data-source-properties:
+        rewriteBatchedsStatements: true
+
+  # Redis 설정
+  redis:
+    host: j7d107.p.ssafy.io
+    port: 6379
+
+  # mongodb 설정
+  mongodb:
+    host: j7d107.p.ssafy.io
+    port: 27017
+    database: zirraforming
+    username: ssafy
+    password: ssafywlfkvhald
+    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/admin
+
+---
+# 개발 DB
+spring:
+  config:
+    activate:
+      on-profile: development_database
+  datasource:
+#    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ssafywlfkvhald
+
+  # Redis 설정
+  redis:
+    host: j7d107.p.ssafy.io
+    port: 6380
+
+  # mongodb 설정
+  mongodb:
+    host: j7d107.p.ssafy.io
+    port: 27018
+    database: zirraforming
+    username: root
+    password: ssafywlfkvhald
+    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
+
+---
+# 로컬 DB
+spring:
+  config:
+    activate:
+      on-profile: local_database
+  datasource:
+    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ssafywlfkvhald
+
+  # Redis 설정
+  redis:
+    host: j7d107.p.ssafy.io
+    port: 6380
+
+  # mongodb 설정
+  mongodb:
+    host: j7d107.p.ssafy.io
+    port: 27018
+    database: zirraforming
+    username: root
+    password: ssafywlfkvhald
+    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: port_8080
+
+server:
+  port: 8080
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: port_9001
+
+server:
+  port: 9001
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: port_9002
+
+server:
+  port: 9002

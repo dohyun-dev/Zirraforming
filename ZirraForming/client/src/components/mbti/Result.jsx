@@ -26,7 +26,6 @@ const Wrapper = styled(motion.div)`
 function Result() {
 	const navigate = useNavigate();
 
-	const [start, setStart] = useState(true);
 	return (
 		<>
 			<Wrapper>
