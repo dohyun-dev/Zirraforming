@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  react:
+    build:
+      context: ./client
+      dockerfile: Dockerfile-react
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    networks:
+      - dev_network
+
+networks:
+  dev_network:
+  infra:
