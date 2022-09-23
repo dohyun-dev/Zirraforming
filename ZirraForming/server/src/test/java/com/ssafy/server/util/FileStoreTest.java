@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-@ActiveProfiles("local")
+@ActiveProfiles("development")
 @DisplayName("이미지 저장 & 조회 테스트")
 class FileStoreTest {
 

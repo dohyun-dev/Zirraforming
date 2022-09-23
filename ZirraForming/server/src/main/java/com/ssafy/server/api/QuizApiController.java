@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
 public class QuizApiController {
     private final QuizService quizService;
     private final AuthenticationUtil authenticationUtil;

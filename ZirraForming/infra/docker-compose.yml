@@ -25,8 +25,6 @@ services:
       - ./front/build:/usr/share/nginx/html
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-    depends_on:
-      - application
     networks:
       - infra
 
