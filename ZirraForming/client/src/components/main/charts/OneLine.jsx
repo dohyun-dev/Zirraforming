@@ -1,9 +1,9 @@
-import ApexChart from "react-apexcharts";
+// import ApexChart from "react-apexcharts";
 
 function OneLine({ xline, yline, title }) {
-  return (
-    <>
-      <ApexChart
+	return (
+		<>
+			{/* <ApexChart
         type="line"
         series={[
           {
@@ -62,9 +62,9 @@ function OneLine({ xline, yline, title }) {
             theme: "dark",
           },
         }}
-      />
-    </>
-  );
+      /> */}
+		</>
+	);
 }
 
 export default OneLine;
