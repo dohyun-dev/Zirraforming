@@ -3,7 +3,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { globalTemperatureImages } from "../../atoms";
+import { globalTemperature, globalTemperatureImages } from "../../atoms";
+
+import { MySlider } from "../../items/Slider";
 
 const Wrapper = styled.div`
   position: relative;
@@ -23,15 +25,23 @@ const Wrapper = styled.div`
     }
     .current {
       visibility: visible;
-      position: absolute;
+      position: relative;
     }
   }
 
   .progress {
-    background-color: red;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 100px 1fr 100px;
     width: 100%;
-    height: 40px;
     position: relative;
+
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+    }
   }
 `;
 
@@ -42,17 +52,18 @@ const ImgGraph = styled.image`
 `;
 
 function TemperatureImage() {
-  // const images = useRecoilValue(globalTemperatureImages);
-
+  const co2Datas = useRecoilValue(globalTemperature);
+  const images = useRecoilValue(globalTemperatureImages);
+  const maxImages = images.length - 1;
   const [now, setNow] = useState(0);
-
   return (
     <Html center>
       <Wrapper>
+        <div className="title">야호</div>
         <div className="imgWrap">
-          {/* {images.map((image, idx) => {
+          {images.map((image, idx) => {
             return (
-              <div key={idx} className={idx == now ? "image" : "image current"}>
+              <div key={idx} className={idx == now ? "image current" : "image"}>
                 <img
                   src={image}
                   style={{
@@ -62,9 +73,18 @@ function TemperatureImage() {
                 />
               </div>
             );
-          })} */}
+          })}
         </div>
-        <div className="progress"></div>
+        <div className="progress">
+          <p>{co2Datas.year[0]}</p>
+          <MySlider
+            value={now}
+            color={"#FBC531"}
+            setNow={setNow}
+            count={maxImages}
+          />
+          <p>{co2Datas.year.slice(-1)[0]}</p>
+        </div>
       </Wrapper>
     </Html>
   );

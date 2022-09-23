@@ -33,7 +33,7 @@ const Wrapper = styled.div`
 `;
 
 function GlobalTemperature() {
-  // const co2Datas = useRecoilValue(globalTemperature);
+  const co2Datas = useRecoilValue(globalTemperature);
   return (
     <Wrapper>
       <div className="title">매년 상승하는 지구기온</div>
@@ -54,11 +54,11 @@ function GlobalTemperature() {
         것을 감안한다면, 5명 중 1명이 기후 유랑민이 되는 그림이다.
       </div>
       <div className="graph">
-        {/* <OneLine
+        <OneLine
           title={"Global Temperature"}
           xline={co2Datas?.year}
           yline={co2Datas?.temperature}
-        /> */}
+        />
       </div>
     </Wrapper>
   );

@@ -31,14 +31,14 @@ const CanvasWrap = styled.div`
 `;
 function Main() {
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
-  // const [allData, setAllData] = useRecoilState(MainData);
+  const [allData, setAllData] = useRecoilState(MainData);
 
-  // useEffect(() => {
-  //   axios.get(Urls.data()).then(({ data }) => {
-  //     setAllData(data.data);
-  //   });
-  // }, []);
-  // console.log(allData);
+  useEffect(() => {
+    axios.get(Urls.data()).then(({ data }) => {
+      setAllData(data.data);
+    });
+  }, []);
+  console.log(allData);
   return (
     <CanvasWrap>
       <Canvas

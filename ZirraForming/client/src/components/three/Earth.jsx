@@ -61,12 +61,14 @@ function Earth(props) {
   const [firstAni, setFirstAni] = useState(true);
   const [secondAni, setSecondAni] = useState(false);
   const [thridAni, setThirdAni] = useState(false);
+  const [forthAni, setForthAni] = useState(false);
 
   // HTML 조작
   const [introPage, setIntroPage] = useState(false);
   const [summaryPage, setSummaryPage] = useState(false);
   const [globalTem, setGlobalTem] = useState(false);
   const [temImage, setTemImage] = useState(false);
+  const [co2Page, setCo2Page] = useState(false);
 
   const test = useRef();
   const test2 = useRef();
@@ -77,60 +79,9 @@ function Earth(props) {
 
   const scroll = useScroll();
 
-  // 지구 GUI Earth 파일명 변경확인
-  // useEffect(() => {
-  //   gui
-  //     .add(earth.current.position, "x")
-  //     .min(-100)
-  //     .max(100)
-  //     .step(10)
-  //     .name("지구의 x위치");
-  //   gui
-  //     .add(earth.current.position, "y")
-  //     .min(-150)
-  //     .max(150)
-  //     .step(10)
-  //     .name("지구의 y위치");
-  //   gui
-  //     .add(earth.current.position, "z")
-  //     .min(-10)
-  //     .max(10)
-  //     .step(1)
-  //     .name("지구의 z위치");
-
-  //   gui
-  //     .add(earth.current.scale, "x")
-  //     .min(-10)
-  //     .max(10)
-  //     .step(1)
-  //     .name("지구의 크기");
-  // }, [earth]);
-
-  // // Orthographic GUI
-  // useEffect(() => {
-  //   gui
-  //     .add(oCamera.current.position, "x")
-  //     .min(-100)
-  //     .max(100)
-  //     .step(10)
-  //     .name("직교카메라의 x위치");
-  //   gui
-  //     .add(oCamera.current.position, "y")
-  //     .min(-300)
-  //     .max(500)
-  //     .step(10)
-  //     .name("직교카메라의 y위치");
-  //   gui
-  //     .add(oCamera.current.position, "z")
-  //     .min(100)
-  //     .max(200)
-  //     .step(1)
-  //     .name("직교카메라의 z위치");
-  // }, [oCamera]);
-
   useFrame(({ clock }, delta) => {
     cloud.current.rotation.y -= delta / 20;
-
+    // console.log(scroll.scroll.current);
     if (rotate) {
       earth.current.rotation.y += delta / 8;
     }
@@ -153,6 +104,7 @@ function Earth(props) {
       setFirstAni(false);
       setThirdAni(false);
       setSecondAni(true);
+      setForthAni(false);
     }
 
     if (Math.floor(scroll.scroll.current * 100) === 12) {
@@ -163,11 +115,22 @@ function Earth(props) {
       setFirstAni(false);
       setSecondAni(false);
       setThirdAni(true);
+      setForthAni(false);
       setRotate(false);
     }
 
-    // 애니메이션
+    if (Math.floor(scroll.scroll.current * 100) === 40) {
+      setGlobalTem(false);
+      setTemImage(false);
+      setSummaryPage(false);
+
+      setFirstAni(false);
+      setSecondAni(false);
+      setThirdAni(false);
+      setRotate(false);
+    }
     if (firstAni) {
+      // 애니메이션
       gsap
         .to(earth.current.position, {
           y: -650,
