@@ -1,10 +1,14 @@
 spring:
   profiles:
     group:
+      local:
+        - common
+        - local_database
+        - port_8080
       development:
         - common
         - development_database
-        - port_8081
+        - port_8080
       production-set1:
         - common
         - production_database
@@ -15,6 +19,10 @@ spring:
         - port_9002
 ---
 # 스프링 서버 공통 설정
+server:
+  servlet:
+    context-path: /api
+
 spring:
   profiles:
     active:
@@ -98,8 +106,7 @@ app:
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
   oauth2:
-    authorizedRedirectUris:
-      - http://j7d107.p.ssafy.io:3000/oauth/redirect
+    authorizedRedirectUris: http://j7d107.p.ssafy.io/api/oauth/redirect
 
 logging:
   level:
@@ -118,7 +125,6 @@ spring:
       on-profile: production_database
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://j7d107.p.ssafy.io:3306/zirraforming?serverTimezone=Asia/Seoul
     username: ssafy
     password: ssafywlfkvhald
     hikari:
@@ -152,6 +158,7 @@ spring:
     activate:
       on-profile: development_database
   datasource:
+#    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ssafywlfkvhald
@@ -166,19 +173,45 @@ spring:
     host: j7d107.p.ssafy.io
     port: 27018
     database: zirraforming
-    username: ssafy
+    username: root
     password: ssafywlfkvhald
-    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/admin
+    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
+
+---
+# 로컬 DB
+spring:
+  config:
+    activate:
+      on-profile: local_database
+  datasource:
+    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ssafywlfkvhald
+
+  # Redis 설정
+  redis:
+    host: j7d107.p.ssafy.io
+    port: 6380
+
+  # mongodb 설정
+  mongodb:
+    host: j7d107.p.ssafy.io
+    port: 27018
+    database: zirraforming
+    username: root
+    password: ssafywlfkvhald
+    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
 
 ---
 
 spring:
   config:
     activate:
-      on-profile: port_8081
+      on-profile: port_8080
 
 server:
-  port: 8081
+  port: 8080
 
 ---
 

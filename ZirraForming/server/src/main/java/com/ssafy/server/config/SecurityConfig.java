@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthTokenProvider tokenProvider;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final MemberRepository memberRepository;
+    private final RedisTemplate<String, String> redisTemplate;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -102,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * */
     @Bean
     public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
-        return new OAuth2AuthenticationSuccessHandler(tokenProvider, tokenProperties, memberRepository);
+        return new OAuth2AuthenticationSuccessHandler(tokenProvider, tokenProperties, memberRepository, redisTemplate);
     }
 
     /*

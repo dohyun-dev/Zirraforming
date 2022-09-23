@@ -45,9 +45,11 @@ services:
     ports:
       - 27018:27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ssafy
+      MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: ssafywlfkvhald
       MONGO_INITDB_DATABASE: zirraforming
+      MONGO_USERNAME: ssafy
+      MONGO_PASSWORD: ssafywlfkvhald
       TZ: Asia/Seoul
     volumes:
       - "./db_dev/mongodb/data/db:/data/db"
@@ -62,7 +64,7 @@ services:
       dockerfile: Dockerfile-dev
     restart: always
     ports:
-      - 8081:8081
+      - 8080:8080
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db_dev:3306/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
       SPRING_DATASOURCE_USERNAME: root
@@ -77,6 +79,20 @@ services:
       - mongodb_dev
     networks:
       - dev_network
+      - infra
+
+  react:
+    build:
+      context: ./
+      dockerfile: Dockerfile-react
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    networks:
+      - dev_network
+      - infra
 
 networks:
   dev_network:
+  infra:

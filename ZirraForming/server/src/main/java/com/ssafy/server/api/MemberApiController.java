@@ -19,7 +19,6 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
 public class MemberApiController {
 
     private final MemberService memberService;
