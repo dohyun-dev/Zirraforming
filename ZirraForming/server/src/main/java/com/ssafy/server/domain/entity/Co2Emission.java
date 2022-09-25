@@ -18,4 +18,8 @@ public class Co2Emission {
     private Short month;
 
     private Double emission;
+
+    public String makeDate() {
+        return year.toString() + "-" + month.toString();
+    }
 }
