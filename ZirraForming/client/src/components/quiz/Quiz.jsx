@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { BasicButton } from "../../items/quizButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import correct from "../../assets/quiz/correct.gif";
 import incorrect from "../../assets/quiz/incorrect.gif";
+import axios from "axios";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -21,6 +22,7 @@ const Wrapper = styled(motion.div)`
 	h2 {
 		font-size: 100;
 		color: black;
+		margin-top: 20px;
 	}
 	h3 {
 		color: black;
@@ -38,6 +40,18 @@ const Wrapper = styled(motion.div)`
 
 function Quiz() {
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		console.log("퀴즈");
+		axios.get("http://j7d107.p.ssafy.io/api/quiz").then((response) => {
+			if (response.status == 200) {
+				console.log(response);
+			} else {
+				console.log("퀴즈를 받아오는데 실패했습니다.");
+			}
+		});
+	});
+
 	const quizData = [
 		{
 			question: "이 중 실제로 지정되어 있는 환경 기념일이 아닌 것은?",

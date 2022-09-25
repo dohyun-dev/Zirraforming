@@ -16,9 +16,10 @@ export const BasicButton = styled.button`
 	cursor: pointer;
 
 	@media screen and (${(props) => props.theme.tablet}) {
-		width: 65vw;
+		width: 55vw;
 	}
 	@media screen and (${(props) => props.theme.mobile}) {
 		width: 45vw;
+		min-width: 260px;
 	}
 `;

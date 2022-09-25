@@ -16,7 +16,7 @@ const Wrapper = styled(motion.div)`
 	background-color: white;
 	opacity: 1;
 	border-radius: 5vh;
-	width: 32vw;
+	width: 500px;
 	height: auto;
 	margin-bottom: 20vh;
 
@@ -24,10 +24,11 @@ const Wrapper = styled(motion.div)`
 		color: black;
 	}
 	@media screen and (${(props) => props.theme.tablet}) {
-		width: 70vw;
+		width: 60vw;
 	}
 	@media screen and (${(props) => props.theme.mobile}) {
-		width: 80vw;
+		width: 300px;
+		min-width: 300px;
 	}
 `;
 
@@ -47,13 +48,14 @@ const Note = styled(motion.div)`
 	cursor: pointer;
 
 	@media screen and (${(props) => props.theme.tablet}) {
-		width: 70vw;
+		width: 55vw;
 		height: 27vh;
 		font-size: 30px;
 	}
 	@media screen and (${(props) => props.theme.mobile}) {
-		width: 70vw;
+		width: 45vw;
 		height: 25vh;
+		min-width: 260px;
 		font-size: 18px;
 	}
 `;
@@ -120,7 +122,11 @@ function Result() {
 						marginTop: "2vh",
 					}}
 				>
-					<img src="/assets/homebanner.png" style={{ width: "100%" }} alt="" />
+					<img
+						src="/assets/homebanner.png"
+						style={{ width: "100%", height: "100%" }}
+						alt=""
+					/>
 					<HomeButton
 						style={{
 							backgroundColor: "#575757",

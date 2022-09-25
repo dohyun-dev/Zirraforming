@@ -15,13 +15,14 @@ export const HomeButton = styled.div`
 	cursor: pointer;
 
 	@media screen and (${(props) => props.theme.tablet}) {
-		width: 70vw;
-		height: 27vh;
+		width: 55vw;
+		height: 25%;
 		font-size: 30px;
 	}
 	@media screen and (${(props) => props.theme.mobile}) {
-		width: 70vw;
-		height: 25vh;
+		width: 45vw;
+		height: 20%;
 		font-size: 18px;
+		min-width: 260px;
 	}
 `;

@@ -14,4 +14,12 @@ export const BasicButton = styled.button`
 	font-weight: 300;
 	font-family: "Black Han Sans";
 	cursor: pointer;
+
+	@media screen and (${(props) => props.theme.tablet}) {
+		width: 55vw;
+	}
+	@media screen and (${(props) => props.theme.mobile}) {
+		width: 45vw;
+		min-width: 260px;
+	}
 `;
