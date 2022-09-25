@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class MemberApiController {
 

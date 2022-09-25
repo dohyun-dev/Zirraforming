@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@RequestMapping("/api")
 @RestController
 public class SurveyApiController {
 
