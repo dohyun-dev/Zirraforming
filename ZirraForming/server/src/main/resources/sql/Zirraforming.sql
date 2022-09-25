@@ -174,6 +174,7 @@ DROP TABLE IF EXISTS `ice_sheets`;
 CREATE TABLE `ice_sheets` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `year` smallint NOT NULL,
+  `month` smallint NOT NULL,
   `mass` double NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
