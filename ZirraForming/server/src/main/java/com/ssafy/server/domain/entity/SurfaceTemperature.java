@@ -14,7 +14,7 @@ public class SurfaceTemperature {
 
     private Double temperature;
 
-    private Double emission;
+    private Double lowess;
 
     @Column(name = "img_url")
     private String imgUrl;

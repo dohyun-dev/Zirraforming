@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,23 +16,11 @@ public class Co2EmissionService {
     private final Co2EmissionRepository co2EmissionRepository;
     private final Co2EmissionImgRepository co2EmissionImgRepository;
 
-    public List<String> getCo2Date(){
-        List<Co2Emission> co2EmissionList = co2EmissionRepository.findAll();
-        return co2EmissionList.stream().map(Co2Emission::getDate).collect(Collectors.toList());
+    public List<Co2Emission> getCo2(){
+        return co2EmissionRepository.findAll();
     }
 
-    public List<Double> getCo2Emission(){
-        List<Co2Emission> co2EmissionList = co2EmissionRepository.findAll();
-        return co2EmissionList.stream().map(Co2Emission::getEmission).collect(Collectors.toList());
-    }
-
-    public List<String> getCo2ImgDate(){
-        List<Co2EmissionImg> co2EmissionImgList = co2EmissionImgRepository.findAll();
-        return co2EmissionImgList.stream().map(Co2EmissionImg::getDate).collect(Collectors.toList());
-    }
-
-    public List<String> getCo2Img(){
-        List<Co2EmissionImg> co2EmissionImgList = co2EmissionImgRepository.findAll();
-        return co2EmissionImgList.stream().map(Co2EmissionImg::getImgUrl).collect(Collectors.toList());
+    public List<Co2EmissionImg> getCo2Img(){
+        return co2EmissionImgRepository.findAll();
     }
 }

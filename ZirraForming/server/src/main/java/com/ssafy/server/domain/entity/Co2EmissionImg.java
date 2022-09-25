@@ -20,5 +20,7 @@ public class Co2EmissionImg {
     @Column(name = "img_url")
     private String imgUrl;
 
-    private String date = String.valueOf(year) + "-" + String.valueOf(month);
+    public String makeDate() {
+        return year.toString() + "-" + month.toString();
+    }
 }
