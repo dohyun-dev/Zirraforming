@@ -19,10 +19,6 @@ spring:
         - port_9002
 ---
 # 스프링 서버 공통 설정
-server:
-  servlet:
-    context-path: /api
-
 spring:
   profiles:
     active:
@@ -106,7 +102,7 @@ app:
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
   oauth2:
-    authorizedRedirectUris: http://j7d107.p.ssafy.io/api/oauth/redirect
+    authorizedRedirectUris: http://j7d107.p.ssafy.io
 
 logging:
   level:
@@ -117,6 +113,7 @@ logging:
 
 file:
   dir: /images/
+
 ---
 # 운영 DB
 spring:
