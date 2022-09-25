@@ -3,23 +3,32 @@ import styled from "styled-components";
 import { BasicButton } from "../../items/styleButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { HomeButton } from "../../items/goHome";
+import StyleShare from "../common/StyleShare";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
-	top: 15vh;
+	top: 2vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	background-color: white;
 	opacity: 1;
 	border-radius: 5vh;
-	width: 32vw;
-	height: 200vh;
+	width: 500px;
+	height: auto;
 	margin-bottom: 20vh;
 
 	h2 {
 		font-size: 100;
 		color: black;
+	}
+	@media screen and (${(props) => props.theme.tablet}) {
+		width: 60vw;
+	}
+	@media screen and (${(props) => props.theme.mobile}) {
+		width: 300px;
+		min-width: 300px;
 	}
 `;
 
@@ -45,6 +54,31 @@ function Result() {
 					alt=""
 				/>
 				<BasicButton
+					style={{
+						backgroundColor: "#DBDFFD",
+						height: "200px",
+						margin: "30px 0 30px 0",
+					}}
+				>
+					<p style={{ fontSize: "14px" }}>
+						이 캐릭터는 ~~~~ 캐릭터는 이제 환경을 지키고 <br />
+						이 캐릭터는 ~~~~ 캐릭터는 이제 환경을 지키고 <br />
+						이 캐릭터는 ~~~~ 캐릭터는 이제 환경을 지키고 <br />이 캐릭터는 ~~~~
+						캐릭터는 이제 환경을 지키고
+					</p>
+				</BasicButton>
+				<div
+					style={{
+						width: "80%",
+						height: "120px",
+						backgroundColor: "#ffffff",
+						margin: "3vh 0px 3vh 0px",
+					}}
+				>
+					<StyleShare />
+				</div>
+
+				<BasicButton
 					onClick={() => {
 						navigate("../style");
 					}}
@@ -60,17 +94,45 @@ function Result() {
 				>
 					환경 상식 퀴즈 풀러가기
 				</BasicButton>
-				<BasicButton
+				<HomeButton
 					style={{
-						height: "230px",
-
-						backgroundColor: "#673f3f",
+						backgroundColor: "#9D9D9D",
 						marginTop: "2vh",
-						backgroundImage: "/assets/homeBanner.png",
-						backgroundPosition: "center center",
-						backgroundSize: "cover",
 					}}
-				></BasicButton>
+				>
+					<img src="/assets/homebanner.png" style={{ width: "100%" }} alt="" />
+					<HomeButton
+						style={{
+							backgroundColor: "#575757",
+							height: "50px",
+							justifyContent: "center",
+							alignItems: "center",
+							width: "width: 400px",
+							color: "white",
+						}}
+					>
+						지구의 이야기를 들으러 GO!
+					</HomeButton>
+				</HomeButton>
+				<HomeButton
+					style={{
+						backgroundColor: "#FBEBDC",
+						margin: "2vh 0 5vh 0",
+					}}
+				>
+					<HomeButton
+						style={{
+							backgroundColor: "#FFC792",
+							height: "50px",
+							justifyContent: "center",
+							alignItems: "center",
+							width: "width: 400px",
+							color: "white",
+						}}
+					>
+						나와 어울리는 환경 캠페인 참여하기
+					</HomeButton>
+				</HomeButton>
 			</Wrapper>
 		</>
 	);
