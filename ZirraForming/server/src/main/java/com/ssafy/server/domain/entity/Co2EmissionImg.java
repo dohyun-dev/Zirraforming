@@ -1,10 +1,13 @@
 package com.ssafy.server.domain.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "surface_temperature")
-public class SurfaceTemperature {
+@Getter
+@Table(name = "co2_emission_img")
+public class Co2EmissionImg {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,10 +15,10 @@ public class SurfaceTemperature {
 
     private Short year;
 
-    private Double temperature;
-
-    private Double emission;
+    private Short month;
 
     @Column(name = "img_url")
     private String imgUrl;
+
+    private String date = String.valueOf(year) + "-" + String.valueOf(month);
 }
