@@ -102,7 +102,7 @@ app:
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
   oauth2:
-    authorizedRedirectUris: http://j7d107.p.ssafy.io
+    authorizedRedirectUris: http://localhost:3000
 
 logging:
   level:
