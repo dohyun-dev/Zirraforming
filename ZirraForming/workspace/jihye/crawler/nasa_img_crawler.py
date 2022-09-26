@@ -28,6 +28,17 @@ def get_temperature():
     df["img_url"] = img_list
     df.to_csv(".\data\ssurface-temper-add-img.csv")
 
+def get_ice():
+    html = urlopen("https://climate.nasa.gov/vsoverlay-arctic-sea-ice/?layout=empty&override_preview=true")
+    soup = bs(html, "html.parser")
+    origin_file = ".\\data\\arcticdata1_preprocessing_result.csv"
+
+    df = pd.read_csv(origin_file)
+    img_list = list(map(lambda x: "https://climate.nasa.gov"+x.img['src'], soup.find_all(class_="image")))
+    df["img_url"] = img_list
+    df.to_csv(".\\data\\arcticdata1_preprocessing_result.csv")
+
 
 # get_co2()
-get_temperature()
+# get_temperature()
+get_ice()

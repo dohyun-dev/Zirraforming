@@ -19,6 +19,5 @@ public class Star extends BaseTimeEntity {
 
     private Double co2;
 
-    @Column(name = "img_url")
     private String imgUrl;
 }

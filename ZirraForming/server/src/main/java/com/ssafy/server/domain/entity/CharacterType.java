@@ -27,7 +27,6 @@ public class CharacterType {
 
     private String description;
 
-    @Column(name = "img_url")
     private String imgUrl;
 
     @OneToMany(mappedBy = "characterType")
