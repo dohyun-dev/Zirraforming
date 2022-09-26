@@ -17,7 +17,6 @@ public class Co2EmissionImg {
 
     private Short month;
 
-    @Column(name = "img_url")
     private String imgUrl;
 
     public String makeDate() {

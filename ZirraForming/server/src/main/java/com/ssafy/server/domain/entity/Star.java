@@ -1,8 +1,11 @@
 package com.ssafy.server.domain.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name = "star")
 public class Star extends BaseTimeEntity {
 
@@ -16,6 +19,5 @@ public class Star extends BaseTimeEntity {
 
     private Double co2;
 
-    @Column(name = "img_url")
     private String imgUrl;
 }

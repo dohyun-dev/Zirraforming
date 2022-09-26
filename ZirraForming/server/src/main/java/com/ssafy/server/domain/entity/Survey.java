@@ -29,7 +29,6 @@ public class Survey {
 
     private String weight2;
 
-    @Column(name = "img_url")
     private String imgUrl;
 
     public Survey(String question, String answer1, String answer2, String weight1, String weight2, String imgUrl) {

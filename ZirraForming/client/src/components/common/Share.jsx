@@ -58,20 +58,20 @@ const handleKakaoButton = () => {
 	window.Kakao.Link.sendDefault({
 		objectType: "feed",
 		content: {
-			title: "환경지킴이 짱구",
+			title: "환경 상식 테스트",
 			description: "나의 환경 점수는 몇점일까?",
 			imageUrl: "http://j7d107.p.ssafy.io/images/zzang.jpeg",
 			link: {
-				webUrl: "http://j7d107.p.ssafy.io",
-				mobileWebUrl: "http://j7d107.p.ssafy.io",
+				webUrl: "http://j7d107.p.ssafy.io/quiz",
+				mobileWebUrl: "http://j7d107.p.ssafy.io/quiz",
 			},
 		},
 		buttons: [
 			{
-				title: "환경스타일 검사하러가기",
+				title: "환경 상식퀴즈 풀러가기",
 				link: {
-					webUrl: "http://j7d107.p.ssafy.io",
-					mobileWebUrl: "http://j7d107.p.ssafy.io",
+					webUrl: "http://j7d107.p.ssafy.io/quiz",
+					mobileWebUrl: "http://j7d107.p.ssafy.io/quiz",
 				},
 			},
 		],
@@ -83,16 +83,16 @@ function Share() {
 		<FlexContainer>
 			<h3 style={{ color: "black" }}>이 결과 공유하기</h3>
 			<GridContainer>
-				<FacebookShareButton url="http://localhost:3000/quiz">
+				<FacebookShareButton url="http://j7d107.p.ssafy.io/quiz">
 					<FacebookIcon size={48} round={true} borderRadius={24}></FacebookIcon>
 				</FacebookShareButton>
-				<TwitterShareButton url="http://localhost:3000/quiz">
+				<TwitterShareButton url="http://j7d107.p.ssafy.io/quiz">
 					<TwitterIcon size={48} round={true} borderRadius={24}></TwitterIcon>
 				</TwitterShareButton>
 
 				<URLShareButton
 					onClick={() => {
-						navigator.clipboard.writeText("http://localhost:3000/quiz");
+						navigator.clipboard.writeText("http://j7d107.p.ssafy.io/quiz");
 						alert("링크가 복사되었습니다!");
 					}}
 				>

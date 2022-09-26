@@ -82,6 +82,7 @@ public class MemberService {
         String refreshToken = tokenProvider.createAuthToken(
                 String.valueOf(memberId),
                 RoleType.USER.getCode(),
+                null,
                 new Date(new Date().getTime() + tokenProperties.getAuth().getRefreshTokenExpiry())
         ).getToken();
         setOperations.add(key, refreshToken);
@@ -90,9 +91,11 @@ public class MemberService {
     }
 
     public String createAccessToken(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFountException(memberId));
         return tokenProvider.createAuthToken(
                 String.valueOf(memberId),
                 RoleType.USER.getCode(),
+                member.getEmail(),
                 new Date(new Date().getTime() + tokenProperties.getAuth().getTokenExpiry())
         ).getToken();
     }

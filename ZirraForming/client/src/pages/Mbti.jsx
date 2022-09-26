@@ -13,6 +13,14 @@ const CanvasWrap = styled.div`
 	font-family: "Black Han Sans";
 	display: flex;
 	justify-content: center;
+	@media screen and (${(props) => props.theme.tablet}) {
+		width: 98%;
+		height: 100vh;
+	}
+	@media screen and (${(props) => props.theme.mobile}) {
+		width: 98%;
+		height: 100vh;
+	}
 `;
 function Mbti() {
 	return (
