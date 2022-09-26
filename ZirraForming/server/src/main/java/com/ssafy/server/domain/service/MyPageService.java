@@ -1,6 +1,6 @@
 package com.ssafy.server.domain.service;
 
-import com.ssafy.server.api.dto.StarDto;
+import com.ssafy.server.api.dto.star.StarDto;
 import com.ssafy.server.domain.entity.Member;
 import com.ssafy.server.domain.entity.MemberBadge;
 import com.ssafy.server.domain.entity.Star;
