@@ -2,7 +2,25 @@ import { atom, selector } from "recoil";
 
 export const MainData = atom({
   key: "MainData",
-  default: {},
+  default: {
+    co2: {
+      co2: [],
+      images: [],
+      imgYear: [],
+      year: [],
+    },
+    temperature: {
+      images: [],
+      lowess: [],
+      year: [],
+      temperature: [],
+    },
+    iceArea: {
+      extent: [],
+      images: [],
+      year: [],
+    },
+  },
 });
 
 // data 조작
@@ -13,7 +31,7 @@ export const SummaryData = selector({
     const datas = get(MainData);
 
     const Summary = {
-      global: datas?.global.temperature.slice(-1)[0],
+      temperature: datas?.temperature.temperature.slice(-1)[0],
       co2: datas?.co2.co2.slice(-1)[0],
       iceArea: datas?.iceArea.extent.slice(-1)[0],
       iceWeight: datas?.iceWeight.extent.slice(-1)[0],
@@ -27,26 +45,22 @@ export const globalTemperature = selector({
   get: ({ get }) => {
     const datas = get(MainData);
 
-    return datas?.global;
+    return datas?.temperature;
   },
 });
 
-export const globalTemperatureImages = selector({
-  key: "globalTemperatureImages",
+export const co2 = selector({
+  key: "co2",
   get: ({ get }) => {
     const datas = get(MainData);
-
-    // return datas?.global.images;
-    return datas?.co2.images;
+    return datas?.co2;
   },
 });
 
-//
-export const co2Images = selector({
-  key: "co2Images",
+export const iceArea = selector({
+  key: "iceArea",
   get: ({ get }) => {
     const datas = get(MainData);
-
-    return datas?.co2.images;
+    return datas?.iceArea;
   },
 });

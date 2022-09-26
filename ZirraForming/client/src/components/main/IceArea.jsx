@@ -1,15 +1,42 @@
 import { Html } from "@react-three/drei";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { globalTemperature } from "../../atoms";
-import { Wrapper } from "../../items/MainWrapper";
+import { globalTemperature, iceArea } from "../../atoms";
 import OneLine from "./charts/OneLine";
 
-function GlobalTemperature() {
-  const co2Datas = useRecoilValue(globalTemperature);
+const Wrapper = styled.div`
+  position: relative;
+  top: 950vh;
+  left: 50%;
+
+  display: flex;
+  flex-direction: column;
+  line-break: normal;
+
+  transform: translate(0, 0);
+  width: min(calc(50vw - 20px), 1000px);
+
+  .title {
+    font-size: 2rem;
+    align-self: center;
+    margin-bottom: 100vh;
+  }
+
+  .content {
+    margin-bottom: 50vh;
+  }
+  .graph {
+    width: 90%;
+
+    align-self: center;
+  }
+`;
+
+function IceArea() {
+  const co2Datas = useRecoilValue(iceArea);
   return (
     <Wrapper>
-      <div className="title">매년 상승하는 지구기온</div>
+      <div className="title">줄어드는 지구빙하</div>
       <div className="content">
         세계 인구의 최대 밀집 지역이라고 할 중국, 동남아시아, 인도 사람들의 삶은
         황허강, 양쯔강, 메콩강, 갠지스강, 인더스강이라는 다섯 개의 큰 강에
@@ -27,19 +54,14 @@ function GlobalTemperature() {
         것을 감안한다면, 5명 중 1명이 기후 유랑민이 되는 그림이다.
       </div>
       <div className="graph">
-        <OneLine
-          title={
-            "Data source: NASA's Goddard Institute for Space Studies (GISS). Credit: NASA/GISS"
-          }
+        {/* <OneLine
+          title={"Global Temperature"}
           xline={co2Datas?.year}
           yline={co2Datas?.temperature}
-          name={"Temperature"}
-          color={"#FBC531"}
-          format={"°C"}
-        />
+        /> */}
       </div>
     </Wrapper>
   );
 }
 
-export default GlobalTemperature;
+export default IceArea;

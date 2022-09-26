@@ -1,18 +1,17 @@
-import { Html } from "@react-three/drei";
-import { useEffect } from "react";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { globalTemperature, globalTemperatureImages } from "../../atoms";
+import { co2, globalTemperature, globalTemperatureImages } from "../../atoms";
 
 import { MySlider } from "../../items/Slider";
 
 const Wrapper = styled.div`
   position: fixed;
   top: 50%;
-  left: 25%;
-  transform: translate(-50%, -50%);
+  left: 75%;
   width: min(45vw, 700px);
+
+  transform: translate(-50%, -50%);
   /* height: min(calc(50vw * 0.8), 400px); */
   .title {
     display: grid;
@@ -51,7 +50,6 @@ const Wrapper = styled.div`
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 100px 1fr 100px;
-    margin-top: 10px;
     width: 100%;
     position: relative;
 
@@ -59,7 +57,8 @@ const Wrapper = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 32px;
+      font-size: 20px;
+      margin-top: 10px;
     }
   }
 `;
@@ -70,19 +69,19 @@ const ImgGraph = styled.image`
   height: 100%;
 `;
 
-function TemperatureImage() {
-  const Temper = useRecoilValue(globalTemperature);
-  const maxImages = Temper.images.length - 1;
+function Co2Image() {
+  const co2Data = useRecoilValue(co2);
+  const maxImages = co2Data?.images.length - 1;
   const [now, setNow] = useState(0);
   return (
     <Wrapper>
       <div className="title">
-        <div className="top">Global Temperature</div>
-        <div className="bottom_left">GLOBAL LAND-OCEAN TEMPERATURE INDEX</div>
-        <div className="bottom_right">{Temper.year[now]}</div>
+        <div className="top">CO2</div>
+        <div className="bottom_left">DIRECT MEASUREMENTS: 2005-PRESENT</div>
+        <div className="bottom_right">{co2Data.year[now]}</div>
       </div>
       <div className="imgWrap">
-        {Temper.images.map((image, idx) => {
+        {co2Data.images.map((image, idx) => {
           return (
             <div key={idx} className={idx == now ? "image current" : "image"}>
               <img
@@ -97,17 +96,17 @@ function TemperatureImage() {
         })}
       </div>
       <div className="progress">
-        <p>{Temper.year[0]}</p>
+        <p>{co2Data.year[0]}</p>
         <MySlider
           value={now}
-          color={"#FBC531"}
+          color={"#E84118"}
           setNow={setNow}
           count={maxImages}
         />
-        <p>{Temper.year.slice(-1)[0]}</p>
+        <p>{co2Data.year.slice(-1)[0]}</p>
       </div>
     </Wrapper>
   );
 }
 
-export default TemperatureImage;
+export default Co2Image;
