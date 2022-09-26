@@ -30,3 +30,4 @@ public class ImageUploadController {
         return fileStore.getFullPath(filename);
     }
 }
+

@@ -64,3 +64,4 @@ export const iceArea = selector({
     return datas?.iceArea;
   },
 });
+

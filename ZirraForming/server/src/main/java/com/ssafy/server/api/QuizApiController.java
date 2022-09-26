@@ -33,3 +33,4 @@ public class QuizApiController {
         return ResponseEntity.ok(ResultDto.of("환경 상식 퀴즈 결과가 저장되었습니다."));
     }
 }
+

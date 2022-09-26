@@ -50,8 +50,8 @@ spring:
           scope:
             - email
         facebook:
-          clientId: '{페이스북 client-id}'
-          clientSecret: '{페이스북 client-secret}'
+          clientId: "{페이스북 client-id}"
+          clientSecret: "{페이스북 client-secret}"
           scope:
             - email
         naver:
@@ -155,7 +155,7 @@ spring:
     activate:
       on-profile: development_database
   datasource:
-#    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    #    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ssafywlfkvhald
@@ -201,7 +201,6 @@ spring:
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
 
 ---
-
 spring:
   config:
     activate:
@@ -211,7 +210,6 @@ server:
   port: 8080
 
 ---
-
 spring:
   config:
     activate:
@@ -221,7 +219,6 @@ server:
   port: 9001
 
 ---
-
 spring:
   config:
     activate:
