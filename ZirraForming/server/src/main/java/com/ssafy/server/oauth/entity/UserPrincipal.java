@@ -26,6 +26,7 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
     private final String password;
     private final RoleType roleType;
     private final Collection<GrantedAuthority> authorities;
+    private final Member member;
     private Map<String, Object> attributes;
 
     @Override
@@ -88,7 +89,8 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
                 member.getEmail(),
                 "",
                 RoleType.USER,
-                Collections.singletonList(new SimpleGrantedAuthority(RoleType.USER.getCode()))
+                Collections.singletonList(new SimpleGrantedAuthority(RoleType.USER.getCode())),
+                member
         );
     }
 

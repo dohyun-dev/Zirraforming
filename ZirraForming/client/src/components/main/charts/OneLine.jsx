@@ -1,13 +1,13 @@
-// import ApexChart from "react-apexcharts";
+import ApexChart from "react-apexcharts";
 
-function OneLine({ xline, yline, title }) {
-	return (
-		<>
-			{/* <ApexChart
+function OneLine({ xline, yline, title, name, color, format }) {
+  return (
+    <>
+      <ApexChart
         type="line"
         series={[
           {
-            name: "Price",
+            name: name,
             data: yline,
           },
         ]}
@@ -36,7 +36,7 @@ function OneLine({ xline, yline, title }) {
           grid: { show: false },
           stroke: {
             curve: "smooth",
-            width: 10,
+            width: 4,
           },
           yaxis: { show: true },
           xaxis: {
@@ -45,26 +45,26 @@ function OneLine({ xline, yline, title }) {
             axisTicks: { show: false },
             categories: xline,
 
-            // type: "datetime",
+            type: "datetime",
           },
           grid: {
             show: true,
           },
-          colors: ["#6650d3"],
+          colors: [color],
           fill: {
             type: ["gradient"],
-            gradient: { gradientToColors: ["#6c7592"], stops: [0, 100] },
+            gradient: { gradientToColors: ["#786c92"], stops: [0, 100] },
           },
           tooltip: {
             y: {
-              formatter: (value) => `$ ${value.toFixed(3)}`,
+              formatter: (value) => `${value} ${format}`,
             },
             theme: "dark",
           },
         }}
-      /> */}
-		</>
-	);
+      />
+    </>
+  );
 }
 
 export default OneLine;

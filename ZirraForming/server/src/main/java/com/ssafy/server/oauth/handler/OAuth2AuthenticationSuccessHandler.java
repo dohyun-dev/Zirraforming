@@ -2,14 +2,15 @@ package com.ssafy.server.oauth.handler;
 
 
 import com.ssafy.server.config.properties.TokenProperties;
+import com.ssafy.server.domain.entity.Member;
 import com.ssafy.server.domain.repository.MemberRepository;
 import com.ssafy.server.oauth.entity.RoleType;
+import com.ssafy.server.oauth.entity.UserPrincipal;
 import com.ssafy.server.oauth.token.AuthToken;
 import com.ssafy.server.oauth.token.AuthTokenProvider;
 import com.ssafy.server.oauth.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -53,25 +55,25 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         log.debug("determineTargetUrl : " + redirectUri);
 
+        UserPrincipal principal = (UserPrincipal) ((OAuth2AuthenticationToken) authentication).getPrincipal();
         // 엑세스 토큰
-        String accessToken = createAccessToken(authentication);
+        createAccessToken(request, response, principal.getMember());
 
         // 리프레시 토큰
-        createRefreshToken(request, response, authentication);
+        createRefreshToken(request, response, principal.getMember());
 
-        return UriComponentsBuilder.fromUriString(redirectUri)
-                .queryParam("accessToken", accessToken)
-                .build().toUriString();
+        return UriComponentsBuilder.fromUriString(redirectUri).build().toUriString();
     }
 
     protected String createAccessToken(Authentication authentication) {
         log.debug("createAccessToken : " + authentication.getName());
 
         OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
-        Long memberId = memberRepository.findByEmail(authToken.getPrincipal().getName()).get().getId();
+        Member member = memberRepository.findByEmail(authToken.getPrincipal().getName()).get();
         AuthToken accessToken = tokenProvider.createAuthToken(
-                String.valueOf(memberId),
+                String.valueOf(member.getId()),
                 RoleType.USER.getCode(),
+                member.getEmail(),
                 new Date(new Date().getTime() + tokenProperties.getAuth().getTokenExpiry())
         );
         log.debug((authToken.getPrincipal().toString()));
@@ -79,18 +81,27 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         return accessToken.getToken();
     }
 
-    protected void createRefreshToken(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        log.debug("createRefreshToken : " + authentication.getName());
-
-        OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
-        Long memberId = memberRepository.findByEmail(authToken.getPrincipal().getName()).get().getId();
-        AuthToken refreshToken = tokenProvider.createAuthToken(
-                String.valueOf(memberId),
+    protected void createAccessToken(HttpServletRequest request, HttpServletResponse response, Member member) {
+        log.debug("createAccessToken : " + member.getEmail());
+        AuthToken accessToken = tokenProvider.createAuthToken(
+                String.valueOf(member.getId()),
                 RoleType.USER.getCode(),
+                member.getEmail(),
+                new Date(new Date().getTime() + tokenProperties.getAuth().getTokenExpiry())
+        );
+        cookieAccessToken(request, response, accessToken);
+    }
+
+    protected void createRefreshToken(HttpServletRequest request, HttpServletResponse response, Member member) {
+        log.debug("createRefreshToken : " + member.getEmail());
+        AuthToken refreshToken = tokenProvider.createAuthToken(
+                String.valueOf(member.getId()),
+                RoleType.USER.getCode(),
+                null,
                 new Date(new Date().getTime() + tokenProperties.getAuth().getRefreshTokenExpiry())
         );
 
-        saveRefreshToken(refreshToken, "refreshToken:" + String.valueOf(memberId));
+        saveRefreshToken(refreshToken, "refreshToken:" + String.valueOf(member.getId()));
         cookieRefreshToken(request, response, refreshToken);
     }
 
@@ -99,6 +110,17 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         SetOperations<String, String> setOperations = redisTemplate.opsForSet();
         if(setOperations.size(key)!=0) setOperations.pop(key);
         setOperations.add(key, refreshToken.getToken());
+    }
+
+    protected void cookieAccessToken(HttpServletRequest request, HttpServletResponse response, AuthToken accessToken) {
+        // 리프레시 토큰 쿠키 저장
+        int cookieMaxAge = (int) tokenProperties.getAuth().getTokenExpiry() / 60;
+        CookieUtil.deleteCookie(request, response, "accessToken");
+        Cookie cookie = new Cookie("accessToken", accessToken.getToken());
+        cookie.setPath("/");
+        cookie.setHttpOnly(false);
+        cookie.setMaxAge(cookieMaxAge);
+        response.addCookie(cookie);
     }
 
     protected void cookieRefreshToken(HttpServletRequest request, HttpServletResponse response, AuthToken refreshToken) {
