@@ -7,8 +7,11 @@ public class HomeResponse {
     private Co2Dto co2;
     private SurfaceTemperatureDto temperature;
 
-    public HomeResponse(Co2Dto co2, SurfaceTemperatureDto surfaceTemperatureDto) {
+    private ArcticSeaIceDto arcticSeaIceDto;
+
+    public HomeResponse(Co2Dto co2, SurfaceTemperatureDto surfaceTemperatureDto, ArcticSeaIceDto arcticSeaIceDto) {
         this.co2 = co2;
         this.temperature = surfaceTemperatureDto;
+        this.arcticSeaIceDto = arcticSeaIceDto;
     }
 }
