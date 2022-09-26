@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import Logo from "../assets/logo/jirav1.svg";
 // import LogoPNG from "../assets/logo/jirav1.png";
 
 import LoginModal from "./LoginModal";
+import { useCookies } from "react-cookie";
+import jwt from "jwt-decode";
 
 const Nav = styled.div`
 	display: grid;
@@ -26,7 +27,7 @@ const Nav = styled.div`
 	}
 
 	.login {
-		grid-column: 3 / 4;
+		grid-column: 3 / 5;
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -37,10 +38,21 @@ const Nav = styled.div`
 
 function Navbar({ width }) {
 	const [modalOpen, setModalOpen] = useState(false);
-
+	const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+	const [user, setUser] = useState("");
 	const showModal = () => {
 		setModalOpen(true);
 	};
+
+	useEffect(() => {
+		if (cookies.accessToken) {
+			localStorage.setItem("accessToken", cookies.accessToken);
+			const userInfo = jwt(cookies.accessToken);
+			console.log(userInfo.nickname);
+			setUser(userInfo.nickname);
+			const memberId = userInfo.sub;
+		}
+	}, []);
 
 	return (
 		<Nav width={width}>
@@ -49,9 +61,27 @@ function Navbar({ width }) {
 					<img src={Logo} alt="" />
 				</a>
 			</div>
-			<div className="login" onClick={showModal}>
-				LOGIN
-			</div>
+			{localStorage.getItem("accessToken") ? (
+				<div
+					className="login"
+					onClick={() => {
+						// window.location.href = "../mypage";
+						//임시로 로그아웃 진행
+						localStorage.removeItem("accessToken");
+						// localStorage.clear();
+						// alert("토큰 없애기");
+						window.location.reload();
+					}}
+				>
+					<p style={{ fontSize: 16, color: "#3c9f58" }}>{user} </p>
+					<p style={{ fontSize: 13 }}> 님 안녕하세요</p>
+				</div>
+			) : (
+				<div className="login" onClick={showModal}>
+					LOGIN
+				</div>
+			)}
+
 			{modalOpen && <LoginModal setModalOpen={setModalOpen} />}
 		</Nav>
 	);
