@@ -61,6 +61,7 @@ public class MemberApiController {
         Long memberId = Long.valueOf(tokenProvider.getAuthentication(token).getName());
 
         CookieUtil.deleteCookie(request, response, "refreshToken");
+        CookieUtil.deleteCookie(request, response, "accessToken");
         CookieUtil.addCookie(response, "refreshToken", memberService.createRefreshToken(tokenStr, memberId), (int)tokenProperties.getAuth().getRefreshTokenExpiry());
         return ResponseEntity.ok(ReissueResponse.of(memberService.createAccessToken(memberId)));
     }
