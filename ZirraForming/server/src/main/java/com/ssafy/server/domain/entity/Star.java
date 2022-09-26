@@ -1,8 +1,11 @@
 package com.ssafy.server.domain.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name = "star")
 public class Star extends BaseTimeEntity {
 

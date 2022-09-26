@@ -1,8 +1,11 @@
 package com.ssafy.server.domain.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name = "member_badge")
 public class MemberBadge extends BaseTimeEntity {
 
