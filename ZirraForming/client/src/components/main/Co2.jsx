@@ -1,14 +1,15 @@
 import { Html } from "@react-three/drei";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { globalTemperature } from "../../atoms";
+import { co2, globalTemperature } from "../../atoms";
 import { Wrapper } from "../../items/MainWrapper";
 import OneLine from "./charts/OneLine";
 
-function GlobalTemperature() {
-  const co2Datas = useRecoilValue(globalTemperature);
+function Co2() {
+  const co2Datas = useRecoilValue(co2);
+  console.log(co2Datas);
   return (
-    <Wrapper>
+    <Wrapper top={"900vh"} left={"25vw"}>
       <div className="title">매년 상승하는 지구기온</div>
       <div className="content">
         세계 인구의 최대 밀집 지역이라고 할 중국, 동남아시아, 인도 사람들의 삶은
@@ -28,18 +29,16 @@ function GlobalTemperature() {
       </div>
       <div className="graph">
         <OneLine
-          title={
-            "Data source: NASA's Goddard Institute for Space Studies (GISS). Credit: NASA/GISS"
-          }
+          title={"Data source: Atmospheric Infrared Sounder (AIRS)."}
           xline={co2Datas?.year}
-          yline={co2Datas?.temperature}
-          name={"Temperature"}
-          color={"#FBC531"}
-          format={"°C"}
+          yline={co2Datas?.co2}
+          name={"CO2"}
+          format={"ppm"}
+          color={"#E84118"}
         />
       </div>
     </Wrapper>
   );
 }
 
-export default GlobalTemperature;
+export default Co2;

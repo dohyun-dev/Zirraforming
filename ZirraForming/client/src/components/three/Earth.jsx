@@ -31,11 +31,14 @@ import {
   useRecoilValue,
 } from "recoil";
 import TemperatureImage from "./TemperatureImage";
+import Co2 from "../main/Co2";
+import { CustomEase } from "gsap/all";
+import IceArea from "../main/IceArea";
 
-// const gui = new dat.GUI();
+const gui = new dat.GUI();
 
 // 지구 컴포넌트
-function Earth(props) {
+function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
   // const [colorMap, normalMap, specularMap, cloudsMap] = useLoader(
   //   TextureLoader,
   //   [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap]
@@ -54,6 +57,7 @@ function Earth(props) {
   // for (let i = 0; i++; i < co2ImageData.length) {
   //   co2Texture.push(useTexture(co2ImageData[i]));
   // }
+  // GUI
 
   // 애니메이션 조작
   const [Ortho, setOrtho] = useState(false);
@@ -62,13 +66,14 @@ function Earth(props) {
   const [secondAni, setSecondAni] = useState(false);
   const [thridAni, setThirdAni] = useState(false);
   const [forthAni, setForthAni] = useState(false);
+  const [fifthAni, setFifthAni] = useState(false);
 
   // HTML 조작
   const [introPage, setIntroPage] = useState(false);
   const [summaryPage, setSummaryPage] = useState(false);
   const [globalTem, setGlobalTem] = useState(false);
-  const [temImage, setTemImage] = useState(false);
   const [co2Page, setCo2Page] = useState(false);
+  const [iceAreaPage, setIceAreaPage] = useState(false);
 
   const test = useRef();
   const test2 = useRef();
@@ -90,6 +95,10 @@ function Earth(props) {
     if (scroll.scroll.current === 0) {
       setIntroPage(true);
       setSummaryPage(false);
+      setCo2Page(false);
+      setCo2Image(false);
+      setTemImage(false);
+      setIceAreaPage(false);
 
       setRotate(true);
       setFirstAni(true);
@@ -100,6 +109,9 @@ function Earth(props) {
       setSummaryPage(true);
       setIntroPage(false);
       setGlobalTem(false);
+      setCo2Image(false);
+      setTemImage(false);
+      setIceAreaPage(false);
 
       setFirstAni(false);
       setThirdAni(false);
@@ -107,26 +119,72 @@ function Earth(props) {
       setForthAni(false);
     }
 
-    if (Math.floor(scroll.scroll.current * 100) === 12) {
+    if (Math.floor(scroll.scroll.current * 100) === 13) {
       setGlobalTem(true);
-      setTemImage(true);
+      setTemImage(false);
+      setIceAreaPage(false);
+
+      setCo2Page(false);
+      setCo2Image(false);
+
       setSummaryPage(false);
 
       setFirstAni(false);
       setSecondAni(false);
-      setThirdAni(true);
+
       setForthAni(false);
       setRotate(false);
     }
 
-    if (Math.floor(scroll.scroll.current * 100) === 40) {
-      setGlobalTem(false);
+    if (
+      (Math.floor(scroll.scroll.current * 100) >= 13) &
+      (Math.floor(scroll.scroll.current * 100) <= 28)
+    ) {
+      setTemImage(true);
+      setCo2Image(false);
+      setCo2Page(false);
+
+      setThirdAni(true);
+      setForthAni(false);
+    }
+
+    if (
+      (Math.floor(scroll.scroll.current * 100) >= 31) &
+      Math.floor(scroll.scroll.current * 100 < 48)
+    ) {
+      // setGlobalTem(false);
       setTemImage(false);
       setSummaryPage(false);
+      setCo2Image(true);
+      setCo2Page(true);
+      setIceAreaPage(false);
+
+      setIceAreaImage(false);
+
+      setFirstAni(false);
+      setSecondAni(false);
+
+      setThirdAni(false);
+      setForthAni(true);
+      setFifthAni(false);
+
+      setRotate(false);
+    }
+
+    if (Math.floor(scroll.scroll.current * 100) >= 50) {
+      setTemImage(false);
+      setSummaryPage(false);
+      setCo2Image(false);
+      setCo2Page(false);
+      setIceAreaPage(true);
+      setIceAreaImage(true);
 
       setFirstAni(false);
       setSecondAni(false);
       setThirdAni(false);
+      setForthAni(false);
+      setFifthAni(true);
+
       setRotate(false);
     }
     if (firstAni) {
@@ -189,54 +247,93 @@ function Earth(props) {
     }
     // 세번째 에니메이션
     if (thridAni) {
-      gsap.to(pCamera.current.rotation, {
-        x: -1.55,
-        y: 0.1,
-        z: 1.48,
-        duration: 3,
-        ease: "sine",
-      });
-      // pCamera.current.lookAt(test.current.position);
+      if (pCamera.current.rotation.y < -0.1) {
+        gsap.to(pCamera.current.rotation, {
+          x: 0,
+          y: 0,
+          z: 0,
+          duration: 1,
+          ease: "slow",
+        });
+      } else {
+        gsap.to(pCamera.current.rotation, {
+          x: -1.5,
+          y: 1.5,
+          z: 0,
+          duration: 3,
+          ease: "slow",
+        });
+      }
       gsap
         .to(pCamera.current.position, {
-          x: 1000,
-          y: -40,
-          z: 10,
+          x: 0,
+          y: 0,
+          z: 1000,
         })
         .duration(3);
+    }
+    if (forthAni) {
+      //71
+      if (pCamera.current.rotation.y > 0.1) {
+        gsap.to(pCamera.current.rotation, {
+          x: 0,
+          y: 0,
+          z: 0,
+          duration: 3,
+          ease: "slow",
+        });
+      } else {
+        gsap.to(pCamera.current.rotation, {
+          x: -1.5,
+          y: -1.5,
+          z: 0,
+          duration: 3,
+          ease: "slow",
+        });
+      }
+      gsap
+        .to(pCamera.current.position, {
+          x: 0,
+          y: 0,
+          z: 1000,
+        })
+        .duration(3);
+    }
+    if (fifthAni) {
+      if (pCamera.current.rotation.x < -0.1) {
+        gsap.to(pCamera.current.rotation, {
+          x: 0,
+          y: 0,
+          z: 0,
+          duration: 3,
+          ease: "slow",
+        });
+      } else {
+        gsap.to(pCamera.current.rotation, {
+          x: 1.5,
+          y: -1.5,
+          z: 0,
+          duration: 3,
+          ease: "slow",
+        });
+      }
     }
   });
 
   return (
     <>
       {/* 카메라 설정 */}
-      {Ortho ? (
-        <OrthographicCamera
-          makeDefault
-          ref={oCamera}
-          zoom={1}
-          // left={-(window.innerWidth / window.innerHeight)}
-          // right={window.innerWidth / window.innerHeight}
-          // top={1}
-          // bottom={-1}
-          // near={0.01}
-          // far={1000}
-          position={[0, 0, 10]}
-          // updateProjectionMatrix={true}
-        />
-      ) : (
-        <>
-          <PerspectiveCamera
-            makeDefault
-            ref={pCamera}
-            position={props.position || [0, 0, 1000]}
-            fov={50}
-            near={1}
-            far={10000}
-          />
-          {/* <OrbitControls enableZoom={false} /> */}
-        </>
-      )}
+
+      <PerspectiveCamera
+        makeDefault
+        ref={pCamera}
+        position={props.position || [0, 0, 1000]}
+        fov={50}
+        near={1}
+        far={10000}
+        zoom={0.8}
+      />
+      {/* <OrbitControls enableZoom={false} /> */}
 
       {/* 컨트롤 설정 */}
 
@@ -269,15 +366,17 @@ function Earth(props) {
         </mesh>
       </group>
       {summaryPage ? <Summary /> : null}
-      {temImage ? (
-        <mesh ref={test} position={[900, -800, 1]}>
+      {/* {temImage ? (
+        <mesh position={[900, -800, 1]}>
           <TemperatureImage />
         </mesh>
-      ) : null}
+      ) : null} */}
       <Scroll html>
         <RecoilBridge>
           {introPage ? <Intro /> : null}
           {globalTem ? <GlobalTemperature /> : null}
+          {co2Page ? <Co2 /> : null}
+          {iceAreaPage ? <IceArea /> : null}
           {/* <GlobalTemperature /> */}
         </RecoilBridge>
       </Scroll>

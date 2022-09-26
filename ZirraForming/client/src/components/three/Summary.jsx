@@ -79,7 +79,7 @@ function Summary() {
         />
         <SumCard
           color={"#487EB0"}
-          title={"Carbon Dioxide"}
+          title={"IceArea"}
           content={"427"}
           dan={"percent per decade since 1979"}
           up={false}
