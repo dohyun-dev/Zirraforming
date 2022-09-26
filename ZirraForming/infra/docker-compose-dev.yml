@@ -69,8 +69,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db_dev:3306/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: ssafywlfkvhald
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6380
+      SPRING_REDIS_HOST: redis_dev
+      SPRING_REDIS_PORT: 6379
     volumes:
       - /home/ubuntu/front/build/images:/images
     depends_on:

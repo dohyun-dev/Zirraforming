@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class QuizApiController {
     private final QuizService quizService;
@@ -32,3 +33,4 @@ public class QuizApiController {
         return ResponseEntity.ok(ResultDto.of("환경 상식 퀴즈 결과가 저장되었습니다."));
     }
 }
+

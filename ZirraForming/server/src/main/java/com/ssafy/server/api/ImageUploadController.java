@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Slf4j
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/api/images")
 @RequiredArgsConstructor
 public class ImageUploadController {
 
@@ -30,3 +30,4 @@ public class ImageUploadController {
         return fileStore.getFullPath(filename);
     }
 }
+

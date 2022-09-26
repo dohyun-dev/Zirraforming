@@ -2,38 +2,11 @@ import { Html } from "@react-three/drei";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { globalTemperature } from "../../atoms";
+import { Wrapper } from "../../items/MainWrapper";
 import OneLine from "./charts/OneLine";
 
-const Wrapper = styled.div`
-  position: relative;
-  top: 250vh;
-  left: 50%;
-
-  display: flex;
-  flex-direction: column;
-  line-break: normal;
-
-  transform: translate(50%, 0);
-  width: min(calc(50vw - 10px), 1000px);
-
-  .title {
-    font-size: 2rem;
-    align-self: center;
-    margin-bottom: 100vh;
-  }
-
-  .content {
-    margin-bottom: 50vh;
-  }
-  .graph {
-    width: 90%;
-
-    align-self: center;
-  }
-`;
-
 function GlobalTemperature() {
-  // const co2Datas = useRecoilValue(globalTemperature);
+  const co2Datas = useRecoilValue(globalTemperature);
   return (
     <Wrapper>
       <div className="title">매년 상승하는 지구기온</div>
@@ -54,11 +27,16 @@ function GlobalTemperature() {
         것을 감안한다면, 5명 중 1명이 기후 유랑민이 되는 그림이다.
       </div>
       <div className="graph">
-        {/* <OneLine
-          title={"Global Temperature"}
+        <OneLine
+          title={
+            "Data source: NASA's Goddard Institute for Space Studies (GISS). Credit: NASA/GISS"
+          }
           xline={co2Datas?.year}
           yline={co2Datas?.temperature}
-        /> */}
+          name={"Temperature"}
+          color={"#FBC531"}
+          format={"°C"}
+        />
       </div>
     </Wrapper>
   );

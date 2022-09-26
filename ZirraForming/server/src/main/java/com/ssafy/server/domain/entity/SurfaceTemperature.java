@@ -1,8 +1,11 @@
 package com.ssafy.server.domain.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name = "surface_temperature")
 public class SurfaceTemperature {
 
@@ -13,6 +16,8 @@ public class SurfaceTemperature {
     private Short year;
 
     private Double temperature;
+
+    private Double lowess;
 
     @Column(name = "img_url")
     private String imgUrl;
