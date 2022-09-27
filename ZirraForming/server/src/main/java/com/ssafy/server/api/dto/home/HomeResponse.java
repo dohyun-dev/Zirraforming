@@ -1,5 +1,6 @@
 package com.ssafy.server.api.dto.home;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
@@ -13,15 +14,18 @@ public class HomeResponse {
     private SurfaceTemperatureDto temperature;
     private ArcticSeaIceDto arcticSeaIceDto;
     private IceSheetsDto iceSheetsDto;
+    private AirPollutionDto airPollution;
 
-    public HomeResponse(Co2Dto co2, SurfaceTemperatureDto surfaceTemperatureDto,
-                        ArcticSeaIceDto arcticSeaIceDto, IceSheetsDto iceSheetsDto) {
+    @Builder
+    public HomeResponse(Co2Dto co2Dto, SurfaceTemperatureDto surfaceTemperatureDto,
+                        ArcticSeaIceDto arcticSeaIceDto, IceSheetsDto iceSheetsDto, AirPollutionDto airPollutionDto) {
 
-        this.summary = Stream.of(co2.getSummaryCo2(), surfaceTemperatureDto.getSummaryTemp(),
+        this.summary = Stream.of(co2Dto.getSummaryCo2(), surfaceTemperatureDto.getSummaryTemp(),
                 arcticSeaIceDto.getSummaryArctic(), iceSheetsDto.getSummaryIceSheets()).collect(Collectors.toList());
-        this.co2 = co2;
+        this.co2 = co2Dto;
         this.temperature = surfaceTemperatureDto;
         this.arcticSeaIceDto = arcticSeaIceDto;
         this.iceSheetsDto = iceSheetsDto;
+        this.airPollution = airPollutionDto;
     }
 }

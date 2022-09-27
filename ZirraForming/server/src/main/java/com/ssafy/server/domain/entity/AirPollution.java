@@ -1,9 +1,11 @@
 package com.ssafy.server.domain.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
-@Entity
-@Table(name = "air_pollution")
+@Getter
+@Entity @Table(name = "air_pollution")
 public class AirPollution {
 
     @Id
@@ -12,7 +14,10 @@ public class AirPollution {
 
     private Short year;
 
-    private String kind;
+    private Double no;
 
-    private Double emission;
+    private Double co2;
+
+    private Double ch4;
 }
+

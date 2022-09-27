@@ -4,9 +4,9 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @Table(name = "ice_sheets")
+@Entity
 public class IceSheets{
 
     @Id
