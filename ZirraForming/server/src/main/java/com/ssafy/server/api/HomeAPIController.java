@@ -1,11 +1,9 @@
 package com.ssafy.server.api;
 
-import com.ssafy.server.api.dto.home.ArcticSeaIceDto;
-import com.ssafy.server.api.dto.home.Co2Dto;
-import com.ssafy.server.api.dto.home.HomeResponse;
-import com.ssafy.server.api.dto.home.SurfaceTemperatureDto;
+import com.ssafy.server.api.dto.home.*;
 import com.ssafy.server.domain.service.ArcticSeaIceService;
 import com.ssafy.server.domain.service.Co2EmissionService;
+import com.ssafy.server.domain.service.IceSheetsService;
 import com.ssafy.server.domain.service.SurfaceTemperatureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -21,8 +19,8 @@ public class HomeAPIController {
 
     private final Co2EmissionService co2EmissionService;
     private final SurfaceTemperatureService surfaceTemperatureService;
-
     private final ArcticSeaIceService arcticSeaIceService;
+    private final IceSheetsService iceSheetsService;
 
     @GetMapping(value = "/co2", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Co2Dto> getCo2() {
@@ -42,12 +40,19 @@ public class HomeAPIController {
         return ResponseEntity.ok(arcticSeaIceDto);
     }
 
+    @GetMapping(value = "/icesheets", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<IceSheetsDto> getIceSheets() {
+        IceSheetsDto iceSheetsDto = new IceSheetsDto(iceSheetsService.getIceSheets());
+        return ResponseEntity.ok(iceSheetsDto);
+    }
+
     @GetMapping(value = "/total", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HomeResponse> getTotalData() {
         Co2Dto co2Dto = new Co2Dto(co2EmissionService.getCo2(), co2EmissionService.getCo2Img());
         SurfaceTemperatureDto surfaceTemperatureDto = new SurfaceTemperatureDto(surfaceTemperatureService.getTemp());
         ArcticSeaIceDto arcticSeaIceDto = new ArcticSeaIceDto(arcticSeaIceService.getArctic());
-        HomeResponse result = new HomeResponse(co2Dto, surfaceTemperatureDto, arcticSeaIceDto);
+        IceSheetsDto iceSheetsDto = new IceSheetsDto(iceSheetsService.getIceSheets());
+        HomeResponse result = new HomeResponse(co2Dto, surfaceTemperatureDto, arcticSeaIceDto, iceSheetsDto);
         return ResponseEntity.ok(result);
     }
 }
