@@ -22,6 +22,7 @@ import { MainData } from "../atoms";
 import Urls from "../apis/Urls";
 import TemperatureImage from "../components/three/TemperatureImage";
 import IceAreaImage from "../components/three/IceAreaImage";
+import Summary from "../components/three/Summary";
 
 const CanvasWrap = styled.div`
   width: 100vw;
@@ -33,10 +34,12 @@ const CanvasWrap = styled.div`
   color: ${(props) => props.theme.lightWhite};
   font-family: "Black Han Sans";
 `;
+
 function Main() {
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
   const [allData, setAllData] = useRecoilState(MainData);
 
+  const [summaryPage, setSummaryPage] = useState(false);
   const [temImage, setTemImage] = useState(false);
   const [co2Image, setCo2Image] = useState(false);
   const [iceAreaImage, setIceAreaImage] = useState(false);
@@ -73,20 +76,13 @@ function Main() {
         }}
       >
         <RecoilBridge>
-          <Stars
-            saturation={3000}
-            radius={1200}
-            count={20000}
-            factor={1}
-            fade={true}
-            speed={1}
-          />
           <Suspense fallback={<Spinner />}>
             <ScrollControls pages={25}>
               <Earth
                 setIceAreaImage={setIceAreaImage}
                 setTemImage={setTemImage}
                 setCo2Image={setCo2Image}
+                setSummaryPage={setSummaryPage}
               />
             </ScrollControls>
           </Suspense>
@@ -95,6 +91,7 @@ function Main() {
       {temImage ? <TemperatureImage /> : null}
       {co2Image ? <Co2Image /> : null}
       {iceAreaImage ? <IceAreaImage /> : null}
+      {summaryPage ? <Summary /> : null}
     </CanvasWrap>
   );
 }

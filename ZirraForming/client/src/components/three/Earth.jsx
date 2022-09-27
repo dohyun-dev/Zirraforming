@@ -21,7 +21,7 @@ import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
 import CO2001 from "../../assets/textures/co2001.png";
 
 import Intro from "../main/Intro";
-import gsap from "gsap";
+import gsap, { Power0, Power1 } from "gsap";
 import Spinner from "../main/Spinner";
 import GlobalTemperature from "../main/GlobalTemperature";
 
@@ -34,11 +34,15 @@ import TemperatureImage from "./TemperatureImage";
 import Co2 from "../main/Co2";
 import { CustomEase } from "gsap/all";
 import IceArea from "../main/IceArea";
+import IceSheet from "../main/IceSheet";
+import Banner from "../main/Banner";
 
 const gui = new dat.GUI();
-
 // 지구 컴포넌트
-function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
+function Earth(
+  { setCo2Image, setTemImage, setIceAreaImage, setSummaryPage },
+  props
+) {
   // const [colorMap, normalMap, specularMap, cloudsMap] = useLoader(
   //   TextureLoader,
   //   [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap]
@@ -67,10 +71,12 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
   const [thridAni, setThirdAni] = useState(false);
   const [forthAni, setForthAni] = useState(false);
   const [fifthAni, setFifthAni] = useState(false);
+  const [sixthAni, setsixthAni] = useState(false);
+  const [sevenAni, setSevenAni] = useState(false);
 
   // HTML 조작
   const [introPage, setIntroPage] = useState(false);
-  const [summaryPage, setSummaryPage] = useState(false);
+
   const [globalTem, setGlobalTem] = useState(false);
   const [co2Page, setCo2Page] = useState(false);
   const [iceAreaPage, setIceAreaPage] = useState(false);
@@ -81,6 +87,7 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
   const earth = useRef(); // 지구객체
   const pCamera = useRef(); // Perspective 카메라 객체
   const oCamera = useRef(); // Orthographic 카메라 객체
+  const stars = useRef();
 
   const scroll = useScroll();
 
@@ -117,12 +124,15 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
       setThirdAni(false);
       setSecondAni(true);
       setForthAni(false);
+      setFirstAni(false);
+      setsixthAni(false);
     }
 
     if (Math.floor(scroll.scroll.current * 100) === 13) {
       setGlobalTem(true);
       setTemImage(false);
       setIceAreaPage(false);
+      setSummaryPage(false);
 
       setCo2Page(false);
       setCo2Image(false);
@@ -133,6 +143,8 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
       setSecondAni(false);
 
       setForthAni(false);
+      setsixthAni(false);
+
       setRotate(false);
     }
 
@@ -143,9 +155,11 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
       setTemImage(true);
       setCo2Image(false);
       setCo2Page(false);
+      setSummaryPage(false);
 
       setThirdAni(true);
       setForthAni(false);
+      setsixthAni(false);
     }
 
     if (
@@ -158,6 +172,7 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
       setCo2Image(true);
       setCo2Page(true);
       setIceAreaPage(false);
+      setSummaryPage(false);
 
       setIceAreaImage(false);
 
@@ -167,6 +182,7 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
       setThirdAni(false);
       setForthAni(true);
       setFifthAni(false);
+      setsixthAni(false);
 
       setRotate(false);
     }
@@ -178,145 +194,240 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
       setCo2Page(false);
       setIceAreaPage(true);
       setIceAreaImage(true);
+      setSummaryPage(false);
 
       setFirstAni(false);
       setSecondAni(false);
       setThirdAni(false);
       setForthAni(false);
       setFifthAni(true);
+      setsixthAni(false);
 
       setRotate(false);
     }
+    if (Math.floor(scroll.scroll.current * 100) >= 70) {
+      setTemImage(false);
+      setSummaryPage(false);
+      setCo2Image(false);
+      setCo2Page(false);
+      setIceAreaPage(true);
+      setIceAreaImage(true);
+      setSummaryPage(false);
+
+      setFirstAni(false);
+      setSecondAni(false);
+      setThirdAni(false);
+      setForthAni(false);
+      setFifthAni(false);
+      setsixthAni(true);
+      setIceAreaImage(false);
+      setSevenAni(false);
+
+      setRotate(false);
+    }
+    if (Math.floor(scroll.scroll.current * 100) >= 81) {
+      setTemImage(false);
+      setSummaryPage(false);
+      setCo2Image(false);
+      setCo2Page(false);
+      setIceAreaPage(false);
+      setIceAreaImage(false);
+      setSummaryPage(false);
+
+      setFirstAni(false);
+      setSecondAni(false);
+      setThirdAni(false);
+      setForthAni(false);
+      setFifthAni(false);
+      setsixthAni(false);
+      setSevenAni(true);
+      setIceAreaImage(false);
+
+      setRotate(false);
+    }
+
+    // console.log(scroll.scroll.current); //81 83
     if (firstAni) {
       // 애니메이션
-      gsap
-        .to(earth.current.position, {
-          y: -650,
-          x: 0,
-        })
-        .duration(3);
-      gsap
-        .to(earth.current.scale, {
-          x: Math.min(450, window.innerWidth - 50),
-          y: Math.min(450, window.innerWidth - 50),
-          z: Math.min(450, window.innerWidth - 50),
-        })
-        .duration(3);
+
       gsap
         .to(pCamera.current.rotation, {
+          x: 0.2,
           y: 0,
-          x: 0,
           z: 0,
+          ease: Power0,
         })
         .duration(2);
+      gsap.to(pCamera.current.position, {
+        x: 0,
+        y: 1,
+        z: 3,
+        duration: 3,
+        ease: Power0,
+      });
     }
     // 두번째 애니메이션
     if (secondAni) {
-      gsap
-        .to(earth.current.position, {
-          y: 150,
-          x: 0,
-        })
-        .duration(2);
-      gsap
-        .to(pCamera.current.rotation, {
-          y: 0,
-          x: 0,
-          z: 0,
-        })
-        .duration(2);
+      gsap.to(earth.current.position, {
+        y: 0,
+        x: 0,
+        z: 0,
+        duration: 2,
+        ease: Power0,
+      });
 
-      gsap
-        .to(earth.current.scale, {
-          x: Math.min(500, window.innerWidth - 100),
-          y: Math.min(500, window.innerWidth - 100),
-          z: Math.min(500, window.innerWidth - 100),
-        })
-        .duration(2);
-
-      gsap
-        .to(pCamera.current.position, {
-          x: 0,
-          y: 0,
-          z: 1000,
-          duration: 3,
-          ease: "sine",
-        })
-        .duration(3);
-      setSummaryPage(true);
+      gsap.to(pCamera.current.rotation, {
+        x: -1,
+        y: 0,
+        z: 0,
+        duration: 3,
+        ease: Power0,
+      });
+      gsap.to(earth.current.scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        ease: Power0,
+        duration: 5,
+      });
+      gsap.to(pCamera.current.position, {
+        x: 0,
+        y: 3,
+        z: 2.5,
+        duration: 3,
+        ease: Power0,
+      });
     }
     // 세번째 에니메이션
     if (thridAni) {
-      if (pCamera.current.rotation.y < -0.1) {
-        gsap.to(pCamera.current.rotation, {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 1,
-          ease: "slow",
-        });
-      } else {
-        gsap.to(pCamera.current.rotation, {
-          x: -1.5,
-          y: 1.5,
-          z: 0,
-          duration: 3,
-          ease: "slow",
-        });
-      }
+      // console.log(stars.current);
       gsap
-        .to(pCamera.current.position, {
-          x: 0,
-          y: 0,
-          z: 1000,
+        .to(earth.current.scale, {
+          x: 30,
+          y: 30,
+          z: 30,
         })
         .duration(3);
+      gsap.to(pCamera.current.rotation, {
+        x: 0.3,
+        y: -0.2,
+        z: 0,
+        duration: 5,
+      });
+      gsap
+        .to(pCamera.current.position, {
+          x: -200,
+          y: -100,
+          z: 250,
+        })
+        .duration(5);
+
+      gsap.to(earth.current.position, {
+        x: 0,
+        y: 0,
+        z: 0,
+      });
     }
     if (forthAni) {
       //71
-      if (pCamera.current.rotation.y > 0.1) {
-        gsap.to(pCamera.current.rotation, {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 3,
-          ease: "slow",
-        });
-      } else {
-        gsap.to(pCamera.current.rotation, {
-          x: -1.5,
-          y: -1.5,
-          z: 0,
-          duration: 3,
-          ease: "slow",
-        });
-      }
-      gsap
-        .to(pCamera.current.position, {
-          x: 0,
-          y: 0,
-          z: 1000,
-        })
-        .duration(3);
+      gsap.to(earth.current.scale, {
+        x: 30,
+        y: 30,
+        z: 30,
+        duration: 5,
+        ease: Power0,
+      });
+
+      gsap.to(pCamera.current.rotation, {
+        x: -0.3,
+        y: 0.85,
+        z: 0.2,
+        duration: 5,
+        ease: Power0,
+      });
+      gsap.to(pCamera.current.position, {
+        x: 200,
+        y: 100,
+        z: 10,
+        duration: 5,
+        ease: Power0,
+      });
+
+      gsap.to(earth.current.position, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 5,
+        ease: Power0,
+      });
     }
     if (fifthAni) {
-      if (pCamera.current.rotation.x < -0.1) {
-        gsap.to(pCamera.current.rotation, {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 3,
-          ease: "slow",
-        });
-      } else {
-        gsap.to(pCamera.current.rotation, {
-          x: 1.5,
-          y: -1.5,
-          z: 0,
-          duration: 3,
-          ease: "slow",
-        });
-      }
+      gsap.to(earth.current.scale, {
+        x: 50,
+        y: 50,
+        z: 50,
+        duration: 5,
+        ease: Power0,
+      });
+      gsap.to(pCamera.current.rotation, {
+        x: -0.2,
+        y: 1.56,
+        z: 0,
+        duration: 5,
+        ease: Power0,
+      });
+      gsap.to(pCamera.current.position, {
+        x: 70,
+        y: 10,
+        z: -30,
+        duration: 5,
+        ease: Power0,
+      });
+
+      gsap.to(earth.current.position, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 5,
+        ease: Power0,
+      });
+    }
+    if (sixthAni) {
+      gsap.to(earth.current.scale, {
+        x: 50,
+        y: 50,
+        z: 50,
+        duration: 5,
+        ease: Power0,
+      });
+      gsap.to(pCamera.current.rotation, {
+        x: 0,
+        y: 3.12,
+        z: 0,
+        duration: 5,
+        ease: Power0,
+      });
+      gsap.to(pCamera.current.position, {
+        x: 13,
+        y: 10,
+        z: -250,
+        duration: 5,
+        ease: Power0,
+      });
+
+      gsap.to(earth.current.position, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 5,
+        ease: Power0,
+      });
+    }
+    if (sevenAni) {
+      // console.log(scroll.range(1, 1 / 20));
+      console.log(Math.floor(scroll.scroll.current * 100) - 81);
+      pCamera.current.position.z =
+        -250 - (Math.floor(scroll.scroll.current * 100) - 81) * 10;
     }
   });
 
@@ -327,23 +438,34 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
       <PerspectiveCamera
         makeDefault
         ref={pCamera}
-        position={props.position || [0, 0, 1000]}
+        position={[0, 0, 30]}
         fov={50}
-        near={1}
-        far={10000}
-        zoom={0.8}
       />
-      {/* <OrbitControls enableZoom={false} /> */}
+      {/* <OrbitControls enableZoom={true} /> */}
 
       {/* 컨트롤 설정 */}
 
       {/* 조명설정 */}
-      <ambientLight intensity={1} color="white" />
+
+      <ambientLight
+        intensity={
+          firstAni || secondAni ? 1 : fifthAni || sixthAni || sevenAni ? 1 : 3
+        }
+        color={firstAni || secondAni ? "white" : "gray"}
+      />
       <pointLight color="#f6f3ea" position={[0, 0, 0]} intensity={1} />
 
       {/* 오브젝트 */}
-
-      <group ref={earth} position={[0, 0, -500]}>
+      <Stars
+        ref={stars}
+        radius={40}
+        count={2500}
+        factor={firstAni || secondAni ? 5 : 8}
+        fade={true}
+        speed={2}
+        saturation={50}
+      />
+      <group ref={earth} position={[0, 0, 0]}>
         <mesh ref={cloud}>
           <sphereGeometry args={[1.005, 32, 16]} />
           <meshPhongMaterial
@@ -365,19 +487,15 @@ function Earth({ setCo2Image, setTemImage, setIceAreaImage }, props) {
           />
         </mesh>
       </group>
-      {summaryPage ? <Summary /> : null}
-      {/* {temImage ? (
-        <mesh position={[900, -800, 1]}>
-          <TemperatureImage />
-        </mesh>
-      ) : null} */}
+
       <Scroll html>
         <RecoilBridge>
           {introPage ? <Intro /> : null}
           {globalTem ? <GlobalTemperature /> : null}
-          {co2Page ? <Co2 /> : null}
-          {iceAreaPage ? <IceArea /> : null}
-          {/* <GlobalTemperature /> */}
+          <Co2 />
+          <IceArea />
+          <IceSheet />
+          <Banner />
         </RecoilBridge>
       </Scroll>
     </>

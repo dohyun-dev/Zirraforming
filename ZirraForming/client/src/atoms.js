@@ -15,7 +15,7 @@ export const MainData = atom({
       year: [],
       temperature: [],
     },
-    iceArea: {
+    arcticSeaIceDto: {
       extent: [],
       images: [],
       year: [],
@@ -58,10 +58,10 @@ export const co2 = selector({
 });
 
 export const iceArea = selector({
-  key: "iceArea",
+  key: "arcticSeaIceDto",
   get: ({ get }) => {
     const datas = get(MainData);
-    return datas?.iceArea;
+    return datas?.arcticSeaIceDto;
   },
 });
 

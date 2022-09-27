@@ -2,40 +2,13 @@ import { Html } from "@react-three/drei";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { globalTemperature, iceArea } from "../../atoms";
+import { Wrapper } from "../../items/MainWrapper";
 import OneLine from "./charts/OneLine";
 
-const Wrapper = styled.div`
-  position: relative;
-  top: 950vh;
-  left: 50%;
-
-  display: flex;
-  flex-direction: column;
-  line-break: normal;
-
-  transform: translate(0, 0);
-  width: min(calc(50vw - 20px), 1000px);
-
-  .title {
-    font-size: 2rem;
-    align-self: center;
-    margin-bottom: 100vh;
-  }
-
-  .content {
-    margin-bottom: 50vh;
-  }
-  .graph {
-    width: 90%;
-
-    align-self: center;
-  }
-`;
-
 function IceArea() {
-  const co2Datas = useRecoilValue(iceArea);
+  const areaData = useRecoilValue(iceArea);
   return (
-    <Wrapper>
+    <Wrapper top={"1350vh"} left={"50vw"} transform={"translate(-50%,50%)"}>
       <div className="title">줄어드는 지구빙하</div>
       <div className="content">
         세계 인구의 최대 밀집 지역이라고 할 중국, 동남아시아, 인도 사람들의 삶은
@@ -54,11 +27,14 @@ function IceArea() {
         것을 감안한다면, 5명 중 1명이 기후 유랑민이 되는 그림이다.
       </div>
       <div className="graph">
-        {/* <OneLine
-          title={"Global Temperature"}
-          xline={co2Datas?.year}
-          yline={co2Datas?.temperature}
-        /> */}
+        <OneLine
+          title={" ANNUAL SEPTEMBER MINIMUM EXTENT"}
+          xline={areaData?.year}
+          yline={areaData?.extent}
+          name={"Arctic Sea Ice Extent"}
+          color={"#487EB0"}
+          format={"million sq km"}
+        />
       </div>
     </Wrapper>
   );
