@@ -16,8 +16,11 @@ public class SurfaceTemperatureDto {
     private List<Double> temperature;
     private List<Double> lowess;
     private List<String> images;
+    private Double summaryTemp;
 
     public SurfaceTemperatureDto(List<SurfaceTemperature> surfaceTemperatures) {
+        this.summaryTemp = surfaceTemperatures.get(surfaceTemperatures.size()-1).getTemperature()
+                - surfaceTemperatures.get(0).getTemperature();
         this.year = surfaceTemperatures.stream().map(s -> String.valueOf(s.getYear())).collect(Collectors.toList());
         this.temperature = surfaceTemperatures.stream().map(SurfaceTemperature::getTemperature).collect(Collectors.toList());
         this.lowess = surfaceTemperatures.stream().map(SurfaceTemperature::getLowess).collect(Collectors.toList());

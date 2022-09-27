@@ -7,19 +7,13 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Table(name = "co2_emission")
-public class Co2Emission {
-
+public class Co2Emission{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Short year;
-
-    private Short month;
-
     private Double emission;
 
-    public String makeDate() {
-        return year.toString() + "-" + month.toString();
-    }
+    @Embedded
+    private DateInfo dateInfo;
 }
