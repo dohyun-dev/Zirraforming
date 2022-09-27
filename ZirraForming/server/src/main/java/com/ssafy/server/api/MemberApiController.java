@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -28,7 +29,11 @@ public class MemberApiController {
 
     @PostMapping("/logout")
     public ResponseEntity<ResultDto> logout(HttpServletRequest request, HttpServletResponse response){
-        CookieUtil.deleteCookie(request, response, "refreshToken");
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
         return ResponseEntity.ok(ResultDto.of("로그아웃이 완료되었습니다."));
     }
 
