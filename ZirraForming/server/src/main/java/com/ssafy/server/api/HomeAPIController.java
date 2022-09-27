@@ -1,10 +1,8 @@
 package com.ssafy.server.api;
 
 import com.ssafy.server.api.dto.home.*;
-import com.ssafy.server.domain.service.ArcticSeaIceService;
-import com.ssafy.server.domain.service.Co2EmissionService;
-import com.ssafy.server.domain.service.IceSheetsService;
-import com.ssafy.server.domain.service.SurfaceTemperatureService;
+import com.ssafy.server.domain.entity.AirPollution;
+import com.ssafy.server.domain.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +19,7 @@ public class HomeAPIController {
     private final SurfaceTemperatureService surfaceTemperatureService;
     private final ArcticSeaIceService arcticSeaIceService;
     private final IceSheetsService iceSheetsService;
+    private final AirPollutionService airPollutionService;
 
     @GetMapping(value = "/co2", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Co2Dto> getCo2() {
@@ -46,13 +45,21 @@ public class HomeAPIController {
         return ResponseEntity.ok(iceSheetsDto);
     }
 
+    @GetMapping(value = "/airpollution", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AirPollutionDto> getAirPollution(){
+        AirPollutionDto airPollution = new AirPollutionDto(airPollutionService.getAirPollution());
+        return ResponseEntity.ok(airPollution);
+    }
+
     @GetMapping(value = "/total", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HomeResponse> getTotalData() {
         Co2Dto co2Dto = new Co2Dto(co2EmissionService.getCo2(), co2EmissionService.getCo2Img());
         SurfaceTemperatureDto surfaceTemperatureDto = new SurfaceTemperatureDto(surfaceTemperatureService.getTemp());
         ArcticSeaIceDto arcticSeaIceDto = new ArcticSeaIceDto(arcticSeaIceService.getArctic());
         IceSheetsDto iceSheetsDto = new IceSheetsDto(iceSheetsService.getIceSheets());
-        HomeResponse result = new HomeResponse(co2Dto, surfaceTemperatureDto, arcticSeaIceDto, iceSheetsDto);
+        AirPollutionDto airPollutionDto = new AirPollutionDto(airPollutionService.getAirPollution());
+        HomeResponse result = HomeResponse.builder().co2Dto(co2Dto).surfaceTemperatureDto(surfaceTemperatureDto)
+                .arcticSeaIceDto(arcticSeaIceDto).iceSheetsDto(iceSheetsDto).airPollutionDto(airPollutionDto).build();
         return ResponseEntity.ok(result);
     }
 }
