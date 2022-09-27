@@ -1,19 +1,20 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
+  padding: 10px;
   position: absolute;
-  top: ${(props) => props.top || "500vh"};
-  left: ${(props) => props.left || "75vw"};
-
+  top: ${(props) => props.top};
+  left: ${(props) => props.left};
+  right: ${(props) => props.right};
+  transform: ${(props) => props.transform};
   display: flex;
   flex-direction: column;
   line-break: normal;
 
-  transform: translate(-50%, -50%);
-  width: min(calc(50vw - 10px), 800px);
+  width: min(30vw, 700px);
 
   .title {
-    font-size: min(100px, 3vw);
+    font-size: min(50px, 3vw);
     align-self: center;
     margin-bottom: 50vh;
   }
@@ -23,7 +24,7 @@ export const Wrapper = styled.div`
     font-size: 20px;
   }
   .graph {
-    width: 90%;
+    width: min(100%, 70vw);
 
     align-self: center;
   }

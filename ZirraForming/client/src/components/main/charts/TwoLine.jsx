@@ -1,14 +1,19 @@
 import ApexChart from "react-apexcharts";
 
-function OneLine({ xline, yline, title, name, color, format }) {
+function TwoLine({ xline, yline, zline, title, name, color, format }) {
   return (
     <>
       <ApexChart
-        type="line"
         series={[
           {
-            name: name,
+            name: "Lowess smoothing",
             data: yline,
+            type: "line",
+          },
+          {
+            name: "Annual mean",
+            data: zline,
+            type: "line",
           },
         ]}
         options={{
@@ -36,7 +41,7 @@ function OneLine({ xline, yline, title, name, color, format }) {
           grid: { show: false },
           stroke: {
             curve: "smooth",
-            width: 4,
+            width: [6, 2],
           },
           yaxis: { show: true },
           xaxis: {
@@ -44,15 +49,15 @@ function OneLine({ xline, yline, title, name, color, format }) {
             labels: { show: true },
             axisTicks: { show: false },
             categories: xline,
+
             type: "datetime",
           },
           grid: {
             show: true,
           },
-          colors: [color],
+          colors: [color, "#dcdde1"],
           fill: {
-            type: ["gradient"],
-            gradient: { gradientToColors: ["#786c92"], stops: [0, 100] },
+            colors: [color, color],
           },
           tooltip: {
             y: {
@@ -60,10 +65,14 @@ function OneLine({ xline, yline, title, name, color, format }) {
             },
             theme: "dark",
           },
+          markers: {
+            size: [0, 3],
+            colors: [, color],
+          },
         }}
       />
     </>
   );
 }
 
-export default OneLine;
+export default TwoLine;

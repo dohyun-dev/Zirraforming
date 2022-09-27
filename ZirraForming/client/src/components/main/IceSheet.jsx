@@ -1,19 +1,15 @@
+import { Html } from "@react-three/drei";
 import { useRecoilValue } from "recoil";
-import { co2, globalTemperature } from "../../atoms";
+import styled from "styled-components";
+import { globalTemperature, iceArea } from "../../atoms";
 import { Wrapper } from "../../items/MainWrapper";
 import OneLine from "./charts/OneLine";
 
-function Co2() {
-  const co2Datas = useRecoilValue(co2);
-  const yearType = co2Datas.year.map((data) => {
-    const temp = data.split("-");
-    const newDate = temp[0] + "-" + temp[1] + "-" + 1;
-    return newDate;
-  });
-
+function IceSheet() {
+  const areaData = useRecoilValue(iceArea);
   return (
-    <Wrapper top={"900vh"} left={"25vw"}>
-      <div className="title">매년 상승하는 이산화탄소</div>
+    <Wrapper top={"1700vh"} left={"50vw"} transform={"translate(-50%,50%)"}>
+      <div className="title">사라지는 남극</div>
       <div className="content">
         세계 인구의 최대 밀집 지역이라고 할 중국, 동남아시아, 인도 사람들의 삶은
         황허강, 양쯔강, 메콩강, 갠지스강, 인더스강이라는 다섯 개의 큰 강에
@@ -32,16 +28,16 @@ function Co2() {
       </div>
       <div className="graph">
         <OneLine
-          title={"Data source: Atmospheric Infrared Sounder (AIRS)."}
-          xline={yearType}
-          yline={co2Datas?.co2}
-          name={"CO2"}
-          format={"ppm"}
-          color={"#E84118"}
+          title={" ANNUAL SEPTEMBER MINIMUM EXTENT"}
+          xline={areaData?.year}
+          yline={areaData?.extent}
+          name={"Arctic Sea Ice Extent"}
+          color={"#487EB0"}
+          format={"million sq km"}
         />
       </div>
     </Wrapper>
   );
 }
 
-export default Co2;
+export default IceSheet;

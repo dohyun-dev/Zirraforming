@@ -6,20 +6,36 @@ import styled from "styled-components";
 import { MainData, SummaryData } from "../../atoms";
 import SumCard from "../../items/SumCard";
 
+const FixWrapper = styled.div`
+  position: fixed;
+  display: flex;
+  bottom: 0px;
+  left: 50%;
+  width: 95vw;
+  min-width: 700px;
+  max-width: 1600px;
+  transform: translate(-50%, 0);
+  height: 300px;
+  align-items: center;
+
+  @media screen and (max-width: 1400px) {
+    max-width: 1100px;
+    align-items: center;
+  }
+`;
+
 const Wrapper = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr;
 
-  width: 95vw;
-  min-width: 700px;
-  max-width: 1600px;
-  height: 300px;
+  width: 100%;
 
   @media screen and (max-width: 1400px) {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr 1fr;
-    max-width: 1100px;
+
+    transform: translate(-50%, -50%);
   }
 `;
 const WrapVar = {
@@ -54,14 +70,10 @@ const childrenVar = {
   },
 };
 
-console.log(window.innerWidth);
 function Summary() {
   // const summaryData = useRecoilValue(SummaryData);
   return (
-    <Html
-      center
-      position={window.innerWidth < 1400 ? [-12, -260, 0] : [-12, -350, 0]}
-    >
+    <FixWrapper>
       <Wrapper variants={WrapVar} initial="start" animate="end">
         <SumCard
           color={"#FBC531"}
@@ -92,7 +104,7 @@ function Summary() {
           up={false}
         />
       </Wrapper>
-    </Html>
+    </FixWrapper>
   );
 }
 

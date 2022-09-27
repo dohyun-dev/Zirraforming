@@ -4,11 +4,12 @@ import styled from "styled-components";
 import { globalTemperature } from "../../atoms";
 import { Wrapper } from "../../items/MainWrapper";
 import OneLine from "./charts/OneLine";
+import TwoLine from "./charts/TwoLine";
 
 function GlobalTemperature() {
-  const co2Datas = useRecoilValue(globalTemperature);
+  const globalTemp = useRecoilValue(globalTemperature);
   return (
-    <Wrapper>
+    <Wrapper top={"500vh"} left={"55vw"}>
       <div className="title">매년 상승하는 지구기온</div>
       <div className="content">
         세계 인구의 최대 밀집 지역이라고 할 중국, 동남아시아, 인도 사람들의 삶은
@@ -27,12 +28,13 @@ function GlobalTemperature() {
         것을 감안한다면, 5명 중 1명이 기후 유랑민이 되는 그림이다.
       </div>
       <div className="graph">
-        <OneLine
+        <TwoLine
           title={
             "Data source: NASA's Goddard Institute for Space Studies (GISS). Credit: NASA/GISS"
           }
-          xline={co2Datas?.year}
-          yline={co2Datas?.temperature}
+          xline={globalTemp?.year}
+          yline={globalTemp?.lowess}
+          zline={globalTemp?.temperature}
           name={"Temperature"}
           color={"#FBC531"}
           format={"°C"}
