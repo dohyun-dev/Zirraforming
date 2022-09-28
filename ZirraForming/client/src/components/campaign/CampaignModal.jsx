@@ -1,8 +1,12 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BasicButton } from "../../items/styleButton";
 import upload from "../../assets/campaign/upload.png";
+import { MemberData } from "../../atoms";
+import { useRecoilValue } from "recoil";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 const Modal = styled.div`
 	position: fixed;
@@ -55,6 +59,9 @@ const Modal = styled.div`
 		justify-content: center;
 		align-items: center;
 	}
+	section > main > img {
+		position: relative !important;
+	}
 
 	@keyframes modal-bg-show {
 		from {
@@ -67,11 +74,65 @@ const Modal = styled.div`
 `;
 
 function CampaignModal({ setModalOpen }) {
+	const [file, setFile] = useState("");
+	const [imageSrc, setImageSrc] = useState("");
+	const memberId = useRecoilValue(MemberData);
+	const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+
+	const accessToken = localStorage.getItem("accessToken", cookies.accessToken);
+	console.log(memberId.member.Id);
+
 	const closeModal = () => {
 		setModalOpen(false);
 	};
 
 	const modalRef = useRef();
+	const imageInput = useRef();
+
+	const onLoadFile = (e) => {
+		console.log(e.target.files[0]);
+		setFile(e.target.files[0]);
+		showImage(e.target.files[0]);
+	};
+
+	const showImage = (fileBlob) => {
+		const reader = new FileReader();
+
+		reader.readAsDataURL(fileBlob);
+
+		return new Promise((resolve) => {
+			reader.onload = () => {
+				setImageSrc(reader.result);
+
+				resolve();
+			};
+		});
+	};
+
+	const submit = () => {
+		const formdata = new FormData();
+		formdata.append("file", file);
+		formdata.append("memberId", memberId);
+		console.log(file);
+		console.log(formdata);
+		const config = {
+			Headers: {
+				"content-type": "multipart/form-data",
+				Authorization: "Bearer " + accessToken,
+			},
+		};
+
+		axios
+			.post("http://j7d107.p.ssafy.io/api/images/upload", formdata, config)
+			.then((response) => {
+				console.log("성공");
+				console.log(response);
+			});
+	};
+
+	const uploadImage = () => {
+		imageInput.current.click();
+	};
 
 	useEffect(() => {
 		const handler = (e) => {
@@ -115,15 +176,37 @@ function CampaignModal({ setModalOpen }) {
 						>
 							오늘 주운 쓰레기 등록
 						</p>
-						<img
-							src={upload}
-							style={{ width: "160px", marginBottom: "20px" }}
-							onClick={() => {}}
-							alt=""
+						{!file ? (
+							<img
+								src={upload}
+								style={{
+									width: "160px",
+
+									marginBottom: "20px",
+								}}
+								onClick={uploadImage}
+								alt=""
+							/>
+						) : (
+							<img
+								src={imageSrc}
+								style={{
+									width: "160px",
+									height: "150px",
+									marginBottom: "20px",
+								}}
+							/>
+						)}
+						<input
+							type="file"
+							style={{ display: "none" }}
+							ref={imageInput}
+							onChange={onLoadFile}
 						/>
+
 						<BasicButton
-							style={{ width: "80%", height: "50px" }}
-							onClick={() => {}}
+							style={{ width: "80%", height: "50px", marginTop: "20px" }}
+							onClick={submit}
 						>
 							등록하기
 						</BasicButton>

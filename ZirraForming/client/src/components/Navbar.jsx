@@ -7,6 +7,8 @@ import Logo from "../assets/logo/jirav1.svg";
 import LoginModal from "./LoginModal";
 import { useCookies } from "react-cookie";
 import jwt from "jwt-decode";
+import { useRecoilState } from "recoil";
+import { MemberData } from "../atoms";
 
 const Nav = styled.div`
 	display: grid;
@@ -40,6 +42,7 @@ function Navbar({ width }) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 	const [user, setUser] = useState("");
+	const [member, setMember] = useRecoilState(MemberData);
 	const showModal = () => {
 		setModalOpen(true);
 	};
@@ -51,6 +54,11 @@ function Navbar({ width }) {
 			console.log(userInfo.nickname);
 			setUser(userInfo.nickname);
 			const memberId = userInfo.sub;
+			setMember({
+				member: {
+					Id: memberId,
+				},
+			});
 		}
 	}, []);
 
