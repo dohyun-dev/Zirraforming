@@ -50,7 +50,7 @@ const KakaoIcon = styled.img`
 	border-radius: 24px;
 `;
 
-const handleKakaoButton = () => {
+const handleKakaoButton = (props) => {
 	// window.Kakao.Link.sendScrap({
 	// 	requestUrl: "http://j7d107.p.ssafy.io",
 	// });
@@ -58,9 +58,9 @@ const handleKakaoButton = () => {
 	window.Kakao.Link.sendDefault({
 		objectType: "feed",
 		content: {
-			title: "환경지킴이 짱구",
+			title: `${props.characterName}`,
 			description: "나는 어떤 유형의 스타일일까?",
-			imageUrl: "http://j7d107.p.ssafy.io/images/zzang.jpeg",
+			imageUrl: `http://j7d107.p.ssafy.io/images/${props.characterId}.jpg`,
 			link: {
 				webUrl: "http://j7d107.p.ssafy.io/style",
 				mobileWebUrl: "http://j7d107.p.ssafy.io/style",
@@ -78,7 +78,7 @@ const handleKakaoButton = () => {
 	});
 };
 
-function StyleShare() {
+function StyleShare({ characterId, characterName }) {
 	return (
 		<FlexContainer>
 			<h3 style={{ color: "black" }}>이 결과 공유하기</h3>
@@ -99,7 +99,11 @@ function StyleShare() {
 					URL
 				</URLShareButton>
 
-				<KakaoShareButton onClick={handleKakaoButton}>
+				<KakaoShareButton
+					onClick={() => {
+						handleKakaoButton({ characterId, characterName });
+					}}
+				>
 					<KakaoIcon src={kakaoLogo}></KakaoIcon>
 				</KakaoShareButton>
 			</GridContainer>
