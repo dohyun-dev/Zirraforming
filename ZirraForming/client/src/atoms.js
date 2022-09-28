@@ -75,3 +75,11 @@ export const iceArea = selector({
     return datas?.arcticSeaIceDto;
   },
 });
+
+// user정보
+
+export const userInfo = atom({
+  key: "info",
+  default: {},
+});
+

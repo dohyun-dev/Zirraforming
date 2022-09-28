@@ -425,9 +425,16 @@ function Earth(
     }
     if (sevenAni) {
       // console.log(scroll.range(1, 1 / 20));
-      console.log(Math.floor(scroll.scroll.current * 100) - 81);
+      // console.log(Math.floor(scroll.scroll.current * 100) - 81);
       pCamera.current.position.z =
         -250 - (Math.floor(scroll.scroll.current * 100) - 81) * 10;
+      // gsap.to(pCamera.current.position, {
+      //   x: 13,
+      //   y: 10,
+      //   z: -100,
+      //   duration: 5,
+      //   ease: Power0,
+      // });
     }
   });
 

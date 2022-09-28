@@ -7,21 +7,23 @@ import Quiz from "./pages/Quiz";
 import QuizResult from "./pages/QuizResult";
 import Campaign from "./pages/Campaign";
 import CampaignResult from "./pages/CampaignResult";
+import MyPage from "./pages/MyPage";
 
 function Router() {
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<Main />}></Route>
-				<Route path="/style" element={<Mbti />}></Route>
-				<Route path="/style/result" element={<MbtiResult />}></Route>
-				<Route path="/quiz" element={<Quiz />}></Route>
-				<Route path="/quiz/result" element={<QuizResult />}></Route>
-				<Route path="/campaign" element={<Campaign />}></Route>
-				<Route path="/campaign/result" element={<CampaignResult />}></Route>
-			</Routes>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main />}></Route>
+        <Route path="/style" element={<Mbti />}></Route>
+        <Route path="/style/result" element={<MbtiResult />}></Route>
+        <Route path="/quiz" element={<Quiz />}></Route>
+        <Route path="/quiz/result" element={<QuizResult />}></Route>
+        <Route path="/campaign" element={<Campaign />}></Route>
+        <Route path="/campaign/result" element={<CampaignResult />}></Route>
+        <Route path="/mypage" element={<MyPage />}></Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default Router;
