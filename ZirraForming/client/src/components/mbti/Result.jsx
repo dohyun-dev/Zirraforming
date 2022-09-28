@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { BasicButton } from "../../items/styleButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HomeButton } from "../../items/goHome";
 import StyleShare from "../common/StyleShare";
+import { useLocation } from "react-router";
+import axios from "axios";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -35,6 +37,20 @@ const Wrapper = styled(motion.div)`
 function Result() {
 	const navigate = useNavigate();
 
+	const { state } = useLocation();
+	const [result, setResult] = useState([]);
+	const characterId = state;
+	console.log(characterId);
+
+	useEffect(() => {
+		axios
+			.get(`http://j7d107.p.ssafy.io/api/charactor?characterId=${characterId}`)
+			.then((response) => {
+				console.log(response.data);
+				setResult(response.data);
+			});
+	}, []);
+
 	return (
 		<>
 			<Wrapper>
@@ -46,10 +62,10 @@ function Result() {
 						margin: "7vh 0px 3vh 0px",
 					}}
 				></div>
-				<h2>당신은 환경을 위한 실천을 하는</h2>
-				<h2>환경지킴이 주디 </h2>
+				<h2>{result.characterPrefix}</h2>
+				<h2 style={{ color: "#5271FF" }}>{result.characterName}</h2>
 				<img
-					src="/assets/styleResult/주디.png"
+					src={result.characterImgUrl}
 					style={{ width: "40%", margin: "3vh 0 2vh 0 " }}
 					alt=""
 				/>
@@ -58,14 +74,10 @@ function Result() {
 						backgroundColor: "#DBDFFD",
 						height: "200px",
 						margin: "30px 0 30px 0",
+						padding: "10px 20px 10px 20px",
 					}}
 				>
-					<p style={{ fontSize: "14px" }}>
-						이 캐릭터는 ~~~~ 캐릭터는 이제 환경을 지키고 <br />
-						이 캐릭터는 ~~~~ 캐릭터는 이제 환경을 지키고 <br />
-						이 캐릭터는 ~~~~ 캐릭터는 이제 환경을 지키고 <br />이 캐릭터는 ~~~~
-						캐릭터는 이제 환경을 지키고
-					</p>
+					<p style={{ fontSize: "14px" }}>{result.description}</p>
 				</BasicButton>
 				<div
 					style={{
@@ -75,7 +87,10 @@ function Result() {
 						margin: "3vh 0px 3vh 0px",
 					}}
 				>
-					<StyleShare />
+					<StyleShare
+						characterId={characterId}
+						characterName={result.characterName}
+					/>
 				</div>
 
 				<BasicButton

@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { BasicButton } from "../../items/styleButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Quiz from "./Quiz";
-
+import axios from "axios";
 const Wrapper = styled(motion.div)`
 	position: relative;
 	top: 2vh;
@@ -34,6 +34,14 @@ const Wrapper = styled(motion.div)`
 
 function Intro() {
 	const [start, setStart] = useState(true);
+	const [quizData, setQuizData] = useState([]);
+
+	useEffect(() => {
+		axios.get("http://j7d107.p.ssafy.io/api/survey").then((response) => {
+			setQuizData(response.data);
+			console.log(response.data);
+		});
+	}, []);
 	return (
 		<>
 			{start ? (
@@ -61,7 +69,7 @@ function Intro() {
 					</BasicButton>
 				</Wrapper>
 			) : (
-				<Quiz />
+				<Quiz quizData={quizData} />
 			)}
 		</>
 	);
