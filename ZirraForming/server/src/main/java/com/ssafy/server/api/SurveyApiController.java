@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
 public class SurveyApiController {
@@ -28,8 +29,8 @@ public class SurveyApiController {
     }
 
     @GetMapping(value = "/charactor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SurveyTestResultResponse> getSurveyTestResult(@RequestParam(value = "name") String name) {
-        SurveyTestResultResponse result = new SurveyTestResultResponse(surveyService.getSurveyTestResult(name));
+    public ResponseEntity<SurveyTestResultResponse> getSurveyTestResult(@RequestParam(value = "characterId") Long characterId) {
+        SurveyTestResultResponse result = new SurveyTestResultResponse(surveyService.getSurveyTestResult(characterId));
         return ResponseEntity.ok(result);
     }
 
