@@ -57,10 +57,10 @@ class SurveyServiceTest {
     void getSurveyTestResult() {
         // given
         CharacterType testData = CharacterType.of("짱구", "짱구", "설명", "이미지 url");
-        given(characterTypeRepository.findByName("짱구")).willReturn(Optional.of(testData));
+        given(characterTypeRepository.findById(1L)).willReturn(Optional.of(testData));
 
         // when
-        CharacterType result = surveyService.getSurveyTestResult("짱구");
+        CharacterType result = surveyService.getSurveyTestResult(1L);
 
         // then
         Assertions.assertThat(result).isEqualTo(testData);
