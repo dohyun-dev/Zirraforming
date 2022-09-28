@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { co2, globalTemperature } from "../../atoms";
 import { Wrapper } from "../../items/MainWrapper";
-import OneLine from "./charts/OneLine";
+import OneLine from "../charts/OneLine";
 
 function Co2() {
   const co2Datas = useRecoilValue(co2);

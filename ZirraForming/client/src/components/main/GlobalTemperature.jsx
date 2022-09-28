@@ -3,8 +3,8 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { globalTemperature } from "../../atoms";
 import { Wrapper } from "../../items/MainWrapper";
-import OneLine from "./charts/OneLine";
-import TwoLine from "./charts/TwoLine";
+import OneLine from "../charts/OneLine";
+import TwoLine from "../charts/TwoLine";
 
 function GlobalTemperature() {
   const globalTemp = useRecoilValue(globalTemperature);

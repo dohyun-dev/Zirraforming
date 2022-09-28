@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { globalTemperature, iceArea } from "../../atoms";
 import { Wrapper } from "../../items/MainWrapper";
-import OneLine from "./charts/OneLine";
+import OneLine from "../charts/OneLine";
 
 function IceSheet() {
   const areaData = useRecoilValue(iceArea);

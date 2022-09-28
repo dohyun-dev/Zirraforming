@@ -22,7 +22,7 @@ function IceAreaImage() {
       left={"50%"}
       transform={"translate(-50%, -100%)"}
       width={"min(30vw, 1000px)"}
-      bg={"black"}
+      // bg={"black"}
       style={{
         paddingBottom: "10px",
       }}

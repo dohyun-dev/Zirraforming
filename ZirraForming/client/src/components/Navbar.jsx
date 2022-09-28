@@ -11,31 +11,31 @@ import { useRecoilState } from "recoil";
 import { MemberData } from "../atoms";
 
 const Nav = styled.div`
-	display: grid;
-	padding: 10px 30px;
-	grid-template-columns: 200px 1fr 200px;
-	grid-template-rows: 80px;
-	width: ${(props) => props.width || "100%"};
-	height: 80px;
-	color: ${(props) => props.theme.lightWhite};
-	font-family: "Black Han Sans";
-	.logo {
-		width: 100%;
-		height: 100%;
-		img {
-			width: 100%;
-			height: 100%;
-		}
-	}
+  display: grid;
+  padding: 10px 30px;
+  grid-template-columns: 200px 1fr 200px;
+  grid-template-rows: 80px;
+  width: ${(props) => props.width || "100%"};
+  height: 80px;
+  color: ${(props) => props.theme.lightWhite};
+  font-family: "Black Han Sans";
+  .logo {
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 
-	.login {
-		grid-column: 3 / 5;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 30px;
-	}
+  .login {
+    grid-column: 3 / 5;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+  }
 `;
 
 function Navbar({ width }) {
@@ -62,37 +62,35 @@ function Navbar({ width }) {
 		}
 	}, []);
 
-	return (
-		<Nav width={width}>
-			<div className="logo">
-				<a href="/">
-					<img src={Logo} alt="" />
-				</a>
-			</div>
-			{localStorage.getItem("accessToken") ? (
-				<div
-					className="login"
-					onClick={() => {
-						// window.location.href = "../mypage";
-						//임시로 로그아웃 진행
-						localStorage.removeItem("accessToken");
-						// localStorage.clear();
-						// alert("토큰 없애기");
-						window.location.reload();
-					}}
-				>
-					<p style={{ fontSize: 16, color: "#3c9f58" }}>{user} </p>
-					<p style={{ fontSize: 13 }}> 님 안녕하세요</p>
-				</div>
-			) : (
-				<div className="login" onClick={showModal}>
-					LOGIN
-				</div>
-			)}
+  return (
+    <Nav width={width}>
+      <div className="logo">
+        <img src={Logo} alt="" />
+      </div>
+      {localStorage.getItem("accessToken") ? (
+        <div
+          className="login"
+          onClick={() => {
+            // window.location.href = "../mypage";
+            //임시로 로그아웃 진행
+            localStorage.removeItem("accessToken");
+            // localStorage.clear();
+            // alert("토큰 없애기");
+            window.location.reload();
+          }}
+        >
+          <p style={{ fontSize: 16, color: "#3c9f58" }}>{user} </p>
+          <p style={{ fontSize: 13 }}> 님 안녕하세요</p>
+        </div>
+      ) : (
+        <div className="login" onClick={showModal}>
+          LOGIN
+        </div>
+      )}
 
-			{modalOpen && <LoginModal setModalOpen={setModalOpen} />}
-		</Nav>
-	);
+      {modalOpen && <LoginModal setModalOpen={setModalOpen} />}
+    </Nav>
+  );
 }
 
 export default Navbar;

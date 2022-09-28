@@ -32,7 +32,7 @@ const CanvasWrap = styled.div`
   background-position: center center;
   background-size: cover;
   color: ${(props) => props.theme.lightWhite};
-  font-family: "Black Han Sans";
+  font-family: "SBAggroB";
 `;
 
 function Main() {
