@@ -10,12 +10,14 @@ import com.ssafy.server.domain.repository.MemberRepository;
 import com.ssafy.server.domain.repository.StarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -152,4 +154,19 @@ public class MyPageService {
 
         return result;
     }
+
+    public List<Star> findThisYearTotalStar(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFountException(memberId));
+        LocalDate now = LocalDate.now();
+        String start = String.format("%4d-%02d-%02dT00:00:00", now.getYear(), 1, 1);
+        String end = String.format("%4d-%02d-%02dT00:00:00", now.getYear(), now.getMonthValue(), now.getDayOfMonth());
+        LocalDateTime startDate = LocalDateTime.parse(start);
+        LocalDateTime endDate = LocalDateTime.parse(end);
+        System.out.println(startDate + " " + endDate);
+        List<Star> findStars = starRepository
+                .findByMemberAndCreatedAtBetweenOrderByCreatedAt(findMember, startDate, endDate);
+        return findStars;
+    }
+
 }

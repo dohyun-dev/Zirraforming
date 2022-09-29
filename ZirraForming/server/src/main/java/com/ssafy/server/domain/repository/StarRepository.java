@@ -25,4 +25,6 @@ public interface StarRepository extends JpaRepository<Star, Long> {
     List<Integer> findAllZirraformingCountById(@Param("member") Member member);
 
     List<Star> findAllByMemberAndCreatedAt(Member member, LocalDateTime createAt);
+
+    List<Star> findByMemberAndCreatedAtBetweenOrderByCreatedAt(Member member, LocalDateTime start, LocalDateTime end);
 }
