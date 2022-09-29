@@ -85,6 +85,8 @@ spring:
           userInfoUri: https://kapi.kakao.com/v2/user/me
           userNameAttribute: id
 
+ssafy.server.fastapi.url: http://j7d107.p.ssafy.io:8000
+
 # cors 설정
 cors:
   allowed-origin-patterns: '*'
@@ -174,6 +176,8 @@ spring:
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
 
+ssafy.server.url: http://j7d107.p.ssafy.io
+ssafy.server.fastapi.url: http://j7d107.p.ssafy.io:8000
 ---
 # 로컬 DB
 spring:
@@ -200,6 +204,7 @@ spring:
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
 
+ssafy.server.url: http://localhost
 ---
 spring:
   config:

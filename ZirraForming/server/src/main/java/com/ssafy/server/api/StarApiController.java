@@ -1,17 +1,16 @@
 package com.ssafy.server.api;
 
+import com.ssafy.server.api.dto.star.StarSaveResponse;
 import com.ssafy.server.domain.entity.Stars;
+import com.ssafy.server.domain.entity.Trash;
 import com.ssafy.server.domain.service.StarService;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +35,12 @@ public class StarApiController {
         result.changeRank(starService.getRankResult());
         result.changeCount(starService.getRankCount());
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping(value = "/stars", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StarSaveResponse> savaStar(@ModelAttribute StarSaveRequest request) throws IOException {
+        Trash result = starService.saveStar(request.memberId, request.getImage());
+        return ResponseEntity.ok().body(new StarSaveResponse(result));
     }
 
     @Getter
@@ -68,5 +73,11 @@ public class StarApiController {
         public void changeCount(List<Integer> count) {
             this.count = count;
         }
+    }
+
+    @Data
+    public static class StarSaveRequest {
+        private Long memberId;
+        private MultipartFile image;
     }
 }
