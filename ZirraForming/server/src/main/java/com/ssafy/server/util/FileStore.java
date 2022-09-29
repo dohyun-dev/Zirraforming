@@ -16,6 +16,8 @@ public class FileStore {
 
     @Value("${file.dir}")
     private String fileDir;
+    @Value("${ssafy.server.url}")
+    private String serverUrl;
 
     public String getFullPath(String filename){
         return fileDir + filename;
@@ -55,5 +57,9 @@ public class FileStore {
     private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
+    }
+
+    public String getServerFilePath(String saveFileUrl) {
+        return serverUrl + getFullPath(saveFileUrl);
     }
 }

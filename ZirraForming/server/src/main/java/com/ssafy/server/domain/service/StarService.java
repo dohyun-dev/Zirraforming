@@ -3,13 +3,18 @@ package com.ssafy.server.domain.service;
 import com.ssafy.server.api.dto.star.StarDto;
 import com.ssafy.server.domain.entity.Member;
 import com.ssafy.server.domain.entity.Stars;
+import com.ssafy.server.domain.entity.Trash;
 import com.ssafy.server.domain.exception.MemberNotFountException;
 import com.ssafy.server.domain.repository.MemberRepository;
+import com.ssafy.server.domain.repository.TrashRepository;
+import com.ssafy.server.util.FileStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -18,6 +23,9 @@ public class StarService {
 
     private final RedisTemplate<String, StarDto> redisTemplate;
     private final MemberRepository memberRepository;
+    private final FileStore fileStore;
+    private final RestTemplateService restTemplateService;
+    private final TrashRepository trashRepository;
 
     public List<Stars> getStarsResult() {
         // key = starList:{memberId}
@@ -124,5 +132,13 @@ public class StarService {
         }
 
         return rank;
+    }
+
+    public Trash saveStar(Long memberId, MultipartFile image) throws IOException {
+        String serverFilePath = fileStore.getServerFilePath(fileStore.saveFile(image));
+        String aiDetectionResult = restTemplateService.getAiDetectionResult(serverFilePath);
+        Trash trash = trashRepository.findByType(aiDetectionResult);
+        redisTemplate.opsForSet().add("starList:" + memberId.toString(), new StarDto(memberId, trash.getCo2(), trash.getIce(), serverFilePath));
+        return trash;
     }
 }
