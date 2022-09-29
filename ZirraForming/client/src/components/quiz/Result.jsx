@@ -97,7 +97,7 @@ function Result() {
 						margin: "3vh 0px 3vh 0px",
 					}}
 				>
-					<Share />
+					<Share state={state} />
 				</div>
 
 				<BasicButton
