@@ -27,6 +27,7 @@ CREATE TABLE `members` (
   `updated_at` datetime NOT NULL,
   `env_score` int DEFAULT NULL,
   `character_type_id` bigint DEFAULT NULL,
+  `continuity` int,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `nickname_UNIQUE` (`nickname`),
