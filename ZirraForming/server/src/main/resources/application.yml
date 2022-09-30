@@ -147,7 +147,7 @@ spring:
     host: j7d107.p.ssafy.io
     port: 27018
     database: zirraforming
-    username: ssafy
+    username: root
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
 
