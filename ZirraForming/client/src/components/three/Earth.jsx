@@ -37,10 +37,24 @@ import IceArea from "../main/IceArea";
 import IceSheet from "../main/IceSheet";
 import Banner from "../main/Banner";
 
-const gui = new dat.GUI();
+// const gui = new dat.GUI();
 // 지구 컴포넌트
 function Earth(
-  { setCo2Image, setTemImage, setIceAreaImage, setSummaryPage },
+  {
+    setCo2Image,
+    setTemImage,
+    setIceAreaImage,
+    setSummaryPage,
+    navigate,
+    setFirst,
+    setSecond,
+    setThird,
+    setForth,
+    setnFirst,
+    setnSecond,
+    setLast,
+    setLastName,
+  },
   props
 ) {
   // const [colorMap, normalMap, specularMap, cloudsMap] = useLoader(
@@ -110,6 +124,9 @@ function Earth(
       setRotate(true);
       setFirstAni(true);
       setSecondAni(false);
+
+      setnFirst(false);
+      setnSecond(false);
     }
 
     if (Math.floor(scroll.scroll.current * 100) === 6) {
@@ -126,6 +143,8 @@ function Earth(
       setForthAni(false);
       setFirstAni(false);
       setsixthAni(false);
+      setnFirst(false);
+      setnSecond(false);
     }
 
     if (Math.floor(scroll.scroll.current * 100) === 13) {
@@ -146,6 +165,8 @@ function Earth(
       setsixthAni(false);
 
       setRotate(false);
+      setnFirst(false);
+      setnSecond(false);
     }
 
     if (
@@ -160,6 +181,8 @@ function Earth(
       setThirdAni(true);
       setForthAni(false);
       setsixthAni(false);
+      setnFirst(false);
+      setnSecond(false);
     }
 
     if (
@@ -183,8 +206,10 @@ function Earth(
       setForthAni(true);
       setFifthAni(false);
       setsixthAni(false);
-
+      setFirst(false);
       setRotate(false);
+      setnFirst(false);
+      setnSecond(false);
     }
 
     if (Math.floor(scroll.scroll.current * 100) >= 50) {
@@ -202,10 +227,34 @@ function Earth(
       setForthAni(false);
       setFifthAni(true);
       setsixthAni(false);
-
       setRotate(false);
+      setFirst(true);
+      setSecond(false);
+      setnFirst(false);
+      setnSecond(false);
+      if (Math.floor(scroll.scroll.current * 100) >= 55) {
+        setFirst(false);
+        setSecond(true);
+        setThird(false);
+        setForth(false);
+      }
+      if (Math.floor(scroll.scroll.current * 100) >= 60) {
+        setFirst(false);
+        setSecond(false);
+        setThird(true);
+        setForth(false);
+      }
+      if (Math.floor(scroll.scroll.current * 100) >= 65) {
+        setFirst(false);
+        setSecond(false);
+        setThird(false);
+        setForth(true);
+        setnFirst(false);
+        setnSecond(false);
+      }
     }
     if (Math.floor(scroll.scroll.current * 100) >= 70) {
+      setForth(false);
       setTemImage(false);
       setSummaryPage(false);
       setCo2Image(false);
@@ -222,10 +271,11 @@ function Earth(
       setsixthAni(true);
       setIceAreaImage(false);
       setSevenAni(false);
-
       setRotate(false);
+
+      setnFirst(true);
     }
-    if (Math.floor(scroll.scroll.current * 100) >= 81) {
+    if (Math.floor(scroll.scroll.current * 100) >= 85) {
       setTemImage(false);
       setSummaryPage(false);
       setCo2Image(false);
@@ -242,8 +292,12 @@ function Earth(
       setsixthAni(false);
       setSevenAni(true);
       setIceAreaImage(false);
-
       setRotate(false);
+      setLast(true);
+      setLastName(false);
+      if (Math.floor(scroll.scroll.current * 100) >= 90) {
+        setLastName(true);
+      }
     }
 
     // console.log(scroll.scroll.current); //81 83
@@ -377,14 +431,22 @@ function Earth(
         ease: Power0,
       });
       gsap.to(pCamera.current.position, {
-        x: 70,
+        x: 100,
         y: 10,
-        z: -30,
-        duration: 5,
+        z: -20,
+        duration: 7,
         ease: Power0,
       });
 
       gsap.to(earth.current.position, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 5,
+        ease: Power0,
+      });
+
+      gsap.to(earth.current.rotation, {
         x: 0,
         y: 0,
         z: 0,
@@ -393,25 +455,27 @@ function Earth(
       });
     }
     if (sixthAni) {
+      // pCamera.current.lookAt(earth.current.position);
+
       gsap.to(earth.current.scale, {
-        x: 50,
-        y: 50,
-        z: 50,
+        x: 20,
+        y: 20,
+        z: 20,
         duration: 5,
         ease: Power0,
       });
       gsap.to(pCamera.current.rotation, {
         x: 0,
-        y: 3.12,
+        y: 0,
         z: 0,
-        duration: 5,
+        duration: 3,
         ease: Power0,
       });
       gsap.to(pCamera.current.position, {
-        x: 13,
-        y: 10,
-        z: -250,
-        duration: 5,
+        x: -20,
+        y: 0,
+        z: 60,
+        duration: 7,
         ease: Power0,
       });
 
@@ -422,12 +486,56 @@ function Earth(
         duration: 5,
         ease: Power0,
       });
+
+      gsap.to(earth.current.rotation, {
+        x: -1.6,
+        y: 0,
+        z: 0,
+        duration: 5,
+        ease: Power0,
+      });
     }
     if (sevenAni) {
+      gsap.to(earth.current.rotation, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 5,
+        ease: Power0,
+      });
+      gsap.to(earth.current.position, {
+        y: 0,
+        x: 0,
+        z: 0,
+        duration: 2,
+        ease: Power0,
+      });
+
+      gsap.to(pCamera.current.rotation, {
+        x: -0.5,
+        y: 0,
+        z: 0,
+        duration: 3,
+        ease: Power0,
+      });
+      gsap.to(earth.current.scale, {
+        x: 10,
+        y: 10,
+        z: 10,
+        ease: Power0,
+        duration: 5,
+      });
+      gsap.to(pCamera.current.position, {
+        x: 0,
+        y: 25,
+        z: 50,
+        duration: 3,
+        ease: Power0,
+      });
       // console.log(scroll.range(1, 1 / 20));
       // console.log(Math.floor(scroll.scroll.current * 100) - 81);
-      pCamera.current.position.z =
-        -250 - (Math.floor(scroll.scroll.current * 100) - 81) * 10;
+      // pCamera.current.position.z =
+      //   -250 - (Math.floor(scroll.scroll.current * 100) - 81) * 10;
       // gsap.to(pCamera.current.position, {
       //   x: 13,
       //   y: 10,
@@ -455,9 +563,7 @@ function Earth(
       {/* 조명설정 */}
 
       <ambientLight
-        intensity={
-          firstAni || secondAni ? 1 : fifthAni || sixthAni || sevenAni ? 1 : 3
-        }
+        intensity={firstAni || secondAni ? 1 : fifthAni || sixthAni ? 1 : 3}
         color={firstAni || secondAni ? "white" : "gray"}
       />
       <pointLight color="#f6f3ea" position={[0, 0, 0]} intensity={1} />
@@ -497,10 +603,9 @@ function Earth(
 
       <Scroll html>
         <RecoilBridge>
-          {introPage ? <Intro /> : null}
+          {introPage ? <Intro navigate={navigate} /> : null}
           {globalTem ? <GlobalTemperature /> : null}
           <Co2 />
-          <IceArea />
           <IceSheet />
           <Banner />
         </RecoilBridge>

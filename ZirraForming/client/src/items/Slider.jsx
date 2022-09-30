@@ -1,7 +1,8 @@
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
-import * as React from "react";
 import { styled } from "@mui/material/styles";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export function MySlider({ value, setNow, count, color }) {
   return (
@@ -11,12 +12,20 @@ export function MySlider({ value, setNow, count, color }) {
           color: color,
           height: 8,
           "& .MuiSlider-track": {
-            border: "none",
+            border: `3px solid ${color}`,
+            backgroundColor: "black",
+            borderRadius: "1px",
+          },
+          "& .MuiSlider-rail": {
+            border: `3px solid ${color}`,
+            backgroundColor: "black",
+            borderRadius: "1px",
           },
           "& .MuiSlider-thumb": {
-            height: 24,
-            width: 24,
-            border: "2px solid #fff",
+            height: 20,
+            width: 20,
+            border: `3px solid ${color}`,
+            backgroundColor: "black",
             "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
               boxShadow: "inherit",
             },
@@ -48,6 +57,7 @@ export function MySlider({ value, setNow, count, color }) {
         min={0}
         max={count}
         onChange={(e, v) => setNow(v)}
+        value={value}
       />
     </Box>
   );

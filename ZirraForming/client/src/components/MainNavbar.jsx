@@ -25,6 +25,7 @@ const Nav = styled.div`
     img {
       width: 100%;
       height: 100%;
+      cursor: pointer;
     }
   }
 
@@ -38,7 +39,7 @@ const Nav = styled.div`
   }
 `;
 
-function Navbar({ width }) {
+function MainNavbar({ width, navigate }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
   const [user, setUser] = useState("");
@@ -65,9 +66,13 @@ function Navbar({ width }) {
   return (
     <Nav width={width}>
       <div className="logo">
-        <Link to={"/"}>
-          <img src={Logo} alt="" />
-        </Link>
+        <img
+          onClick={() => {
+            navigate("/");
+          }}
+          src={Logo}
+          alt=""
+        />
       </div>
       {localStorage.getItem("accessToken") ? (
         <div
@@ -95,4 +100,4 @@ function Navbar({ width }) {
   );
 }
 
-export default Navbar;
+export default MainNavbar;

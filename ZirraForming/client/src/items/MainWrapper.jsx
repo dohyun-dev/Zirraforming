@@ -10,8 +10,9 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   line-break: normal;
+  font-family: "GmarketSansMedium";
 
-  width: min(30vw, 700px);
+  width: min(40vw, 800px);
 
   .title {
     font-size: min(50px, 3vw);
