@@ -111,8 +111,9 @@ function CampaignModal({ setModalOpen }) {
 
 	const submit = () => {
 		const formdata = new FormData();
-		formdata.append("file", file);
-		formdata.append("memberId", memberId);
+		formdata.append("image", file);
+
+		formdata.append("memberId", memberId.member.Id);
 		console.log(file);
 		console.log(formdata);
 		const config = {
@@ -123,7 +124,7 @@ function CampaignModal({ setModalOpen }) {
 		};
 
 		axios
-			.post("http://j7d107.p.ssafy.io/api/images/upload", formdata, config)
+			.post("http://j7d107.p.ssafy.io/api/stars", formdata, config)
 			.then((response) => {
 				console.log("성공");
 				console.log(response);
