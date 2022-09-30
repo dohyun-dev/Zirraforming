@@ -48,12 +48,11 @@ const WrapVar = {
     y: 0,
     transition: {
       duration: 1,
-      delayChildren: 2,
+      delayChildren: 0,
       staggerChildren: 1,
     },
   },
 };
-
 const childrenVar = {
   start: {
     opacity: 0,

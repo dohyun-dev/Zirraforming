@@ -12,7 +12,7 @@ function Co2() {
   });
 
   return (
-    <Wrapper top={"900vh"} left={"25vw"}>
+    <Wrapper top={"900vh"} left={"5vw"}>
       <div className="title">매년 상승하는 이산화탄소</div>
       <div className="content">
         세계 인구의 최대 밀집 지역이라고 할 중국, 동남아시아, 인도 사람들의 삶은

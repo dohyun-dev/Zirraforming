@@ -9,8 +9,7 @@ import TwoLine from "../charts/TwoLine";
 function GlobalTemperature() {
   const globalTemp = useRecoilValue(globalTemperature);
   return (
-    <Wrapper top={"500vh"} left={"55vw"}>
-      <div className="title">매년 상승하는 지구기온</div>
+    <Wrapper top={"450vh"} left={"55vw"}>
       <div className="content">
         세계 인구의 최대 밀집 지역이라고 할 중국, 동남아시아, 인도 사람들의 삶은
         황허강, 양쯔강, 메콩강, 갠지스강, 인더스강이라는 다섯 개의 큰 강에

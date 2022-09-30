@@ -8,21 +8,27 @@ import QuizResult from "./pages/QuizResult";
 import Campaign from "./pages/Campaign";
 import CampaignResult from "./pages/CampaignResult";
 import MyPage from "./pages/MyPage";
+import Navbar from "./components/Navbar";
 
 function Router() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Main />}></Route>
-        <Route path="/style" element={<Mbti />}></Route>
-        <Route path="/style/result" element={<MbtiResult />}></Route>
-        <Route path="/quiz" element={<Quiz />}></Route>
-        <Route path="/quiz/result" element={<QuizResult />}></Route>
-        <Route path="/campaign" element={<Campaign />}></Route>
-        <Route path="/campaign/result" element={<CampaignResult />}></Route>
-        <Route path="/mypage" element={<MyPage />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />}></Route>
+        </Routes>
+
+        <Routes>
+          <Route path="/style" element={<Mbti />}></Route>
+          <Route path="/style/result" element={<MbtiResult />}></Route>
+          <Route path="/quiz" element={<Quiz />}></Route>
+          <Route path="/quiz/result" element={<QuizResult />}></Route>
+          <Route path="/campaign" element={<Campaign />}></Route>
+          <Route path="/campaign/result" element={<CampaignResult />}></Route>
+          <Route path="/mypage" element={<MyPage />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

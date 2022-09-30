@@ -26,8 +26,6 @@ function OneLine({ xline, yline, title, name, color, format }) {
             mode: "dark",
           },
           chart: {
-            height: 500,
-            width: 500,
             toolbar: {
               show: false,
             },

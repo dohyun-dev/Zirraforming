@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import {
@@ -10,12 +10,20 @@ import {
 import { FixWrapper, ImgWrapper } from "../../items/ImageWrapper";
 
 import { MySlider } from "../../items/Slider";
-import { WrapVar } from "../../items/TransitionAni";
+import { WrapVar } from "../../items/Animation";
+import { useInterval } from "../../hooks";
+
+import { ReactComponent as Play } from "../../assets/svgs/play.svg";
+import { ReactComponent as Stop } from "../../assets/svgs/stop.svg";
 
 function IceAreaImage() {
   const ArcticImage = useRecoilValue(iceArea);
   const maxImages = ArcticImage?.images.length - 1;
-  const [now, setNow] = useState(0);
+
+  const { now, setNow, start, stop, play, setPlay } = useInterval(maxImages);
+  useEffect(() => {
+    start();
+  }, []);
   return (
     <FixWrapper
       id="IceAreaDescription"
@@ -28,6 +36,7 @@ function IceAreaImage() {
       }}
     >
       <ImgWrapper
+        color={"#487EB0"}
         width={"100%"}
         variants={WrapVar}
         initial="start"
@@ -56,6 +65,31 @@ function IceAreaImage() {
           })}
         </div>
         <div className="progress" style={{}}>
+          {play ? (
+            <Stop
+              onClick={() => {
+                stop();
+              }}
+              width={"100%"}
+              height={"100%"}
+              fill={"#487EB0"}
+              style={{
+                paddingBottom: "10px",
+              }}
+            />
+          ) : (
+            <Play
+              onClick={() => {
+                start();
+              }}
+              width={"100%"}
+              height={"100%"}
+              fill={"#487EB0"}
+              style={{
+                paddingBottom: "5px",
+              }}
+            />
+          )}
           <p>{ArcticImage.year[0]}</p>
           <MySlider
             value={now}

@@ -1,14 +1,30 @@
 import { Html } from "@react-three/drei";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { globalTemperature, iceArea } from "../../atoms";
+import { iceSheet } from "../../atoms";
 import { Wrapper } from "../../items/MainWrapper";
 import OneLine from "../charts/OneLine";
 
 function IceSheet() {
-  const areaData = useRecoilValue(iceArea);
+  const IceSheetData = useRecoilValue(iceSheet);
+  const DataType = IceSheetData.mass.map((data) => {
+    return Math.floor(data);
+  });
+  const yearType = IceSheetData.year.map((data) => {
+    const temp = data.split("-");
+    const newDate = temp[0] + "-" + temp[1] + "-" + 1;
+    return newDate;
+  });
   return (
-    <Wrapper top={"1700vh"} left={"50vw"} transform={"translate(-50%,50%)"}>
+    <Wrapper
+      top={"1750vh"}
+      left={"50vw"}
+      transform="translate(-50%, 0%)"
+      style={{
+        width: "50vw",
+        maxWidth: "800px",
+      }}
+    >
       <div className="title">사라지는 남극</div>
       <div className="content">
         세계 인구의 최대 밀집 지역이라고 할 중국, 동남아시아, 인도 사람들의 삶은
@@ -28,12 +44,12 @@ function IceSheet() {
       </div>
       <div className="graph">
         <OneLine
-          title={" ANNUAL SEPTEMBER MINIMUM EXTENT"}
-          xline={areaData?.year}
-          yline={areaData?.extent}
-          name={"Arctic Sea Ice Extent"}
-          color={"#487EB0"}
-          format={"million sq km"}
+          title={"Data source: Atmospheric Infrared Sounder (AIRS)."}
+          xline={yearType}
+          yline={DataType}
+          name={"CO2"}
+          format={"Gt"}
+          color={"#9C88FF"}
         />
       </div>
     </Wrapper>

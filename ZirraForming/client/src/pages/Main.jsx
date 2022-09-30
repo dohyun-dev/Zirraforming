@@ -23,6 +23,11 @@ import Urls from "../apis/Urls";
 import TemperatureImage from "../components/three/TemperatureImage";
 import IceAreaImage from "../components/three/IceAreaImage";
 import Summary from "../components/three/Summary";
+import { useNavigate } from "react-router-dom";
+import IceArea from "../components/main/IceArea";
+import IceSheet from "../components/main/IceSheet";
+import IceSheetImage from "../components/three/IceSheetImage";
+import Last from "../components/main/Last";
 
 const CanvasWrap = styled.div`
   width: 100vw;
@@ -37,25 +42,36 @@ const CanvasWrap = styled.div`
 
 function Main() {
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
+
   const [allData, setAllData] = useRecoilState(MainData);
 
   const [summaryPage, setSummaryPage] = useState(false);
   const [temImage, setTemImage] = useState(false);
   const [co2Image, setCo2Image] = useState(false);
   const [iceAreaImage, setIceAreaImage] = useState(false);
+
+  // 빙하페이지 조작
+  const [first, setFirst] = useState(false);
+  const [second, setSecond] = useState(false);
+  const [third, setThird] = useState(false);
+  const [forth, setForth] = useState(false);
+
+  // 남극페이지 조작
+  const [nfirst, setnFirst] = useState(false);
+  const [nsecond, setnSecond] = useState(false);
+  const [nthird, setnThird] = useState(false);
+
+  // 마지막페이지
+  const [last, setLast] = useState(false);
+  const [lastName, setLastName] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios
       .get(Urls.total())
       .then(({ data }) => {
         console.log(data);
-        setAllData({
-          iceArea: {
-            extent: [],
-            images: [],
-            year: [],
-          },
-          ...data,
-        });
+        setAllData(data);
       })
       .catch((err) => {
         console.log(err);
@@ -77,12 +93,28 @@ function Main() {
       >
         <RecoilBridge>
           <Suspense fallback={<Spinner />}>
-            <ScrollControls pages={25}>
+            <ScrollControls
+              pages={25}
+              style={
+                {
+                  // left: "20px",
+                }
+              }
+            >
               <Earth
+                navigate={navigate}
                 setIceAreaImage={setIceAreaImage}
                 setTemImage={setTemImage}
                 setCo2Image={setCo2Image}
                 setSummaryPage={setSummaryPage}
+                setFirst={setFirst}
+                setSecond={setSecond}
+                setThird={setThird}
+                setForth={setForth}
+                setnFirst={setnFirst}
+                setnSecond={setnSecond}
+                setLast={setLast}
+                setLastName={setLastName}
               />
             </ScrollControls>
           </Suspense>
@@ -92,6 +124,11 @@ function Main() {
       {co2Image ? <Co2Image /> : null}
       {iceAreaImage ? <IceAreaImage /> : null}
       {summaryPage ? <Summary /> : null}
+      <IceArea first={first} second={second} third={third} forth={forth} />
+      {/* {nfirst || nsecond ? (
+        <IceSheetImage first={nfirst} second={nsecond} third={nthird} />
+      ) : null} */}
+      <Last last={last} first={lastName} />
     </CanvasWrap>
   );
 }

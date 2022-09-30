@@ -5,12 +5,14 @@ import { BasicButton } from "../../items/Button";
 import MouseSVG from "../../assets/svgs/whitemouse.svg";
 import { Html } from "@react-three/drei";
 import Navbar from "../Navbar";
+import { useNavigate } from "react-router-dom";
+import MainNavbar from "../MainNavbar";
 
 const Wrapper = styled(motion.div)`
   position: fixed;
   left: 10vw;
   /* top: 10vh; */
-  top: 100px;
+  top: 130px;
 
   display: grid;
   grid-template-rows: 1fr 4fr 2fr 2fr 1px;
@@ -22,7 +24,7 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Title = styled(motion.h1)`
-  font-size: min(7vw, 60px);
+  font-size: min(5vw, 60px);
   text-align: center;
   font-weight: 400;
   white-space: nowrap;
@@ -35,6 +37,7 @@ const TitleWrap = styled(motion.div)`
   width: 100%;
   height: 100%;
   padding: 40px 30px 5px;
+  margin-bottom: min(3vh, 80px);
 
   .title__top {
     font-size: min(3vw, 30px);
@@ -47,13 +50,13 @@ const TitleWrap = styled(motion.div)`
     align-self: start;
     color: #3c9f58;
     text-align: center;
-    line-height: min(15vw, 130px);
-    font-size: min(15vw, 130px);
+    line-height: min(12.5vw, 138px);
+    font-size: min(12vw, 130px);
   }
 `;
 
 const Content = styled(motion.div)`
-  font-size: min(3vw, 30px);
+  font-size: min(2.5vw, 30px);
   text-align: center;
   word-break: keep-all;
 `;
@@ -72,8 +75,8 @@ const SVG = styled(motion.img)`
   position: relative;
 
   top: 20px;
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  height: 80px;
   margin: auto auto;
 `;
 
@@ -86,9 +89,9 @@ const WrapVar = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
-      delayChildren: 1.5,
-      staggerChildren: 1.5,
+      duration: 0.2,
+      delayChildren: 1,
+      staggerChildren: 1,
     },
   },
 };
@@ -109,10 +112,10 @@ const childrenVar = {
   },
 };
 
-function Intro() {
+function Intro({ navigate }) {
   return (
     <>
-      <Navbar width={"100vw"} />
+      <MainNavbar width={"100vw"} navigate={navigate} />
       <Wrapper variants={WrapVar} initial="start" animate="end">
         <Title variants={childrenVar}>당신의 지구는 안녕하십니까?</Title>
         <TitleWrap variants={childrenVar}>
@@ -124,15 +127,32 @@ function Intro() {
           <br /> 행성을 생명이 살 수 있도록 만드는 작업을 의미한다
         </Content>
         <ButtonWrap variants={childrenVar}>
-          <a href="/style">
-            <BasicButton variants={childrenVar}>환경스타일 분석</BasicButton>
-          </a>
-          <a href="/campaign">
-            <BasicButton variants={childrenVar}>별보러 갈래?</BasicButton>
-          </a>
-          <a href="/quiz">
-            <BasicButton variants={childrenVar}>환경 퀴즈 풀기</BasicButton>
-          </a>
+          <BasicButton
+            onClick={() => {
+              navigate("/style");
+            }}
+            variants={childrenVar}
+          >
+            <p>환경스타일 분석</p>
+          </BasicButton>
+
+          <BasicButton
+            onClick={() => {
+              navigate("/campaign");
+            }}
+            variants={childrenVar}
+          >
+            <p>별보러 갈래?</p>
+          </BasicButton>
+
+          <BasicButton
+            onClick={() => {
+              navigate("/quiz");
+            }}
+            variants={childrenVar}
+          >
+            <p>환경 퀴즈 풀기</p>
+          </BasicButton>
         </ButtonWrap>
         <SVG src={MouseSVG} variants={childrenVar}></SVG>
       </Wrapper>
