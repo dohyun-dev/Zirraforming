@@ -85,8 +85,6 @@ spring:
           userInfoUri: https://kapi.kakao.com/v2/user/me
           userNameAttribute: id
 
-ssafy.server.fastapi.url: http://j7d107.p.ssafy.io:8000
-
 # cors 설정
 cors:
   allowed-origin-patterns: '*'
@@ -116,6 +114,9 @@ logging:
 file:
   dir: /images/
 
+ssafy.server.url: http://j7d107.p.ssafy.io
+ssafy.server.fastapi.url: http://j7d107.p.ssafy.io:8000
+
 ---
 # 운영 DB
 spring:
@@ -139,16 +140,16 @@ spring:
   # Redis 설정
   redis:
     host: j7d107.p.ssafy.io
-    port: 6379
+    port: 6380
 
   # mongodb 설정
   mongodb:
     host: j7d107.p.ssafy.io
-    port: 27017
+    port: 27018
     database: zirraforming
     username: ssafy
     password: ssafywlfkvhald
-    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/admin
+    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
 
 ---
 # 개발 DB
@@ -157,7 +158,7 @@ spring:
     activate:
       on-profile: development_database
   datasource:
-    #    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ssafywlfkvhald
@@ -175,9 +176,6 @@ spring:
     username: root
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
-
-ssafy.server.url: http://j7d107.p.ssafy.io
-ssafy.server.fastapi.url: http://j7d107.p.ssafy.io:8000
 ---
 # 로컬 DB
 spring:
@@ -203,8 +201,6 @@ spring:
     username: root
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
-
-ssafy.server.url: http://localhost
 ---
 spring:
   config:
