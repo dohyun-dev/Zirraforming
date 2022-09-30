@@ -34,10 +34,11 @@ const Wrapper = styled(motion.div)`
 
 const Note = styled(motion.div)`
 	background-color: #d9d9d9;
+	display: flex;
 	flex-direction: column;
-	justify-content: end;
+
 	width: 400px;
-	height: 230px;
+	height: 430px;
 	border-radius: 10px;
 	border: 0px;
 	color: black;
@@ -45,6 +46,8 @@ const Note = styled(motion.div)`
 	font-weight: 300;
 	font-family: "Black Han Sans";
 	margin: 3vh 0px 3vh 0px;
+	padding: 10px 10px 10px 10px;
+	overflow-y: scroll;
 	cursor: pointer;
 
 	@media screen and (${(props) => props.theme.tablet}) {
@@ -62,8 +65,7 @@ const Note = styled(motion.div)`
 
 function Result() {
 	const navigate = useNavigate();
-	const { state } = useLocation();
-	console.log(state);
+	const location = useLocation();
 	return (
 		<>
 			<Wrapper>
@@ -87,7 +89,7 @@ function Result() {
 						margin: "7vh 0px 0px 0px",
 					}}
 				>
-					<p style={{ color: "red" }}>{state}</p>/10
+					<p style={{ color: "red" }}>{location.state.score}</p>/10
 				</div>
 				<div
 					style={{
@@ -97,7 +99,7 @@ function Result() {
 						margin: "3vh 0px 3vh 0px",
 					}}
 				>
-					<Share state={state} />
+					<Share state={location.state.score} />
 				</div>
 
 				<BasicButton
@@ -140,7 +142,25 @@ function Result() {
 						지구의 이야기를 들으러 GO!
 					</HomeButton>
 				</HomeButton>
-				<Note>오답노트</Note>
+				<Note>
+					<p style={{ alignSelf: "center" }}>오답노트</p>
+					{location.state.solution.map((data, idx) => {
+						return (
+							<div key={idx} style={{ margin: "10px 0 10px 0" }}>
+								<p style={{ color: "#3c9f58" }}>{data.quizId}번</p>
+								<p style={{ fontSize: "18px" }}>
+									{data.solution.split("<br>").map((line) => {
+										return (
+											<>
+												{line} <br />
+											</>
+										);
+									})}
+								</p>
+							</div>
+						);
+					})}
+				</Note>
 			</Wrapper>
 		</>
 	);

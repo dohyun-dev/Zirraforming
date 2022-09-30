@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import correct from "../../assets/quiz/correct.gif";
 import incorrect from "../../assets/quiz/incorrect.gif";
 import axios from "axios";
+import { DEG2RAD } from "three/src/math/MathUtils";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -46,10 +47,16 @@ function Quiz(props) {
 	const [score, setScore] = useState(0);
 	const [isResult, setIsResult] = useState(false);
 	const [isCorrect, setIsCorrect] = useState(false);
+	const [solution, setSolution] = useState([]);
 
 	function plusScore() {
 		setScore(score + 1);
 		console.log(score);
+	}
+
+	function insertSolution(props) {
+		setSolution([...solution, { quizId: index + 1, solution: props }]);
+		console.log(solution);
 	}
 
 	return (
@@ -92,6 +99,7 @@ function Quiz(props) {
 										plusScore();
 									} else {
 										setIsCorrect(false);
+										insertSolution(quizData[index].solution);
 									}
 								}}
 							>
@@ -157,7 +165,13 @@ function Quiz(props) {
 						}}
 					>
 						<h2 style={{ alignSelf: "center", marginBottom: "10px" }}>풀이</h2>
-						{quizData[index - 1].solution}
+						{quizData[index - 1].solution.split("<br>").map((line) => {
+							return (
+								<>
+									{line} <br />
+								</>
+							);
+						})}
 					</div>
 					<div
 						style={{
@@ -173,7 +187,9 @@ function Quiz(props) {
 							setIsResult(!isResult);
 
 							if (index === 10) {
-								navigate("./result", { state: score });
+								navigate("./result", {
+									state: { score: score, solution: solution },
+								});
 							}
 						}}
 					>
