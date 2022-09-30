@@ -7,6 +7,7 @@ import { HomeButton } from "../../items/goHome";
 import StyleShare from "../common/StyleShare";
 import { useLocation } from "react-router";
 import axios from "axios";
+import homebanner from "../../assets/homeBanner.png";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -77,7 +78,15 @@ function Result() {
 						padding: "10px 20px 10px 20px",
 					}}
 				>
-					<p style={{ fontSize: "14px" }}>{result.description}</p>
+					<p style={{ fontSize: "14px" }}>
+						{result.description.split("<br>").map((line) => {
+							return (
+								<>
+									{line} <br />
+								</>
+							);
+						})}
+					</p>
 				</BasicButton>
 				<div
 					style={{
@@ -115,7 +124,7 @@ function Result() {
 						marginTop: "2vh",
 					}}
 				>
-					<img src="/assets/homebanner.png" style={{ width: "100%" }} alt="" />
+					<img src={homebanner} style={{ width: "100%" }} alt="" />
 					<HomeButton
 						style={{
 							backgroundColor: "#575757",

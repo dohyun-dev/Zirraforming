@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
 import Share from "../common/Share";
+import homebanner from "../../assets/homeBanner.png";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -125,7 +126,7 @@ function Result() {
 					}}
 				>
 					<img
-						src="/assets/homebanner.png"
+						src={homebanner}
 						style={{ width: "100%", height: "100%" }}
 						alt=""
 					/>

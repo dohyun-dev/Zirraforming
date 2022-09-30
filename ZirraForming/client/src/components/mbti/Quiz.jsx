@@ -75,7 +75,15 @@ function Quiz(props) {
 					}}
 					alt=""
 				/>
-				<h2>{quizData[index].question}</h2>
+				<h2>
+					{quizData[index].question.split("<br>").map((line) => {
+						return (
+							<>
+								{line} <br />
+							</>
+						);
+					})}
+				</h2>
 				<img
 					src={quizData[index].imgUrl}
 					style={{ width: "40%", margin: "3vh 0 2vh 0 " }}
@@ -87,7 +95,13 @@ function Quiz(props) {
 						plusScore(quizData[index].weight1);
 					}}
 				>
-					{quizData[index].answer1}
+					{quizData[index].answer1.split("<br>").map((line) => {
+						return (
+							<>
+								{line} <br />
+							</>
+						);
+					})}
 				</BasicButton>
 				<BasicButton
 					style={{ fontSize: "20px" }}
@@ -95,7 +109,13 @@ function Quiz(props) {
 						plusScore(quizData[index].weight2);
 					}}
 				>
-					{quizData[index].answer2}
+					{quizData[index].answer2.split("<br>").map((line) => {
+						return (
+							<>
+								{line} <br />
+							</>
+						);
+					})}
 				</BasicButton>
 			</Wrapper>
 		</>
