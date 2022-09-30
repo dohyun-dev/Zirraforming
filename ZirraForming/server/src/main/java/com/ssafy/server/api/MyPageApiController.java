@@ -58,8 +58,9 @@ public class MyPageApiController {
         List<Integer> badge = myPageService.getBadge(memberId);
         Map<LocalDate, List<String>> zirra = new ConcurrentHashMap<>();
 
-        LocalDate end = LocalDate.now();
-        LocalDate start = LocalDate.of(end.getYear(), 1, 1);
+        LocalDate current = LocalDate.now();
+        LocalDate end = LocalDate.of(current.getYear(), 12, 31);
+        LocalDate start = LocalDate.of(current.getYear(), 1, 1);
 
         // 초기화
         for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)){

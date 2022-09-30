@@ -27,6 +27,8 @@ public class Member extends BaseTimeEntity{
     @JoinColumn(name = "character_type_id")
     private CharacterType characterType;
 
+    private int continuity;
+
     public Member(String email, String nickname) {
         this.email = email;
         this.nickname = nickname;
@@ -46,6 +48,10 @@ public class Member extends BaseTimeEntity{
 
     public void updateEnvScore(Integer score) {
         this.envScore = score;
+    }
+
+    public void updateContinuity(int continuity){
+        this.continuity = continuity;
     }
 
     @Override
