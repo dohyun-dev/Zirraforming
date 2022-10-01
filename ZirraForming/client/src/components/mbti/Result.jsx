@@ -45,7 +45,7 @@ function Result() {
 
 	useEffect(() => {
 		axios
-			.get(`http://j7d107.p.ssafy.io/api/charactor?characterId=${characterId}`)
+			.get(`https://j7d107.p.ssafy.io/api/charactor?characterId=${characterId}`)
 			.then((response) => {
 				console.log(response.data);
 				setResult(response.data);

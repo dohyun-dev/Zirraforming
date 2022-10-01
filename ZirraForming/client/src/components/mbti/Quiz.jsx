@@ -76,11 +76,11 @@ function Quiz(props) {
 					alt=""
 				/>
 				<h2>
-					{quizData[index].question.split("<br>").map((line) => {
+					{quizData[index].question.split("<br>").map((line, idx) => {
 						return (
-							<>
+							<div key={idx}>
 								{line} <br />
-							</>
+							</div>
 						);
 					})}
 				</h2>
@@ -95,11 +95,11 @@ function Quiz(props) {
 						plusScore(quizData[index].weight1);
 					}}
 				>
-					{quizData[index].answer1.split("<br>").map((line) => {
+					{quizData[index].answer1.split("<br>").map((line, idx) => {
 						return (
-							<>
+							<div key={idx}>
 								{line} <br />
-							</>
+							</div>
 						);
 					})}
 				</BasicButton>
@@ -109,11 +109,11 @@ function Quiz(props) {
 						plusScore(quizData[index].weight2);
 					}}
 				>
-					{quizData[index].answer2.split("<br>").map((line) => {
+					{quizData[index].answer2.split("<br>").map((line, idx) => {
 						return (
-							<>
+							<div key={idx}>
 								{line} <br />
-							</>
+							</div>
 						);
 					})}
 				</BasicButton>

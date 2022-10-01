@@ -165,11 +165,11 @@ function Quiz(props) {
 						}}
 					>
 						<h2 style={{ alignSelf: "center", marginBottom: "10px" }}>풀이</h2>
-						{quizData[index - 1].solution.split("<br>").map((line) => {
+						{quizData[index - 1].solution.split("<br>").map((line, idx) => {
 							return (
-								<>
+								<div key={idx}>
 									{line} <br />
-								</>
+								</div>
 							);
 						})}
 					</div>
