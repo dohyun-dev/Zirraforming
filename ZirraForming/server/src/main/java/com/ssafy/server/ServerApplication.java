@@ -74,7 +74,7 @@ public class ServerApplication {
 				Iterator<StarDto> iter = starDtoList.iterator();
 				while(iter.hasNext()){
 					StarDto tmp = objectMapper().convertValue(iter.next(), new TypeReference<StarDto>() {});;
-					result.add(new StarDto(memberId, tmp.getCo2(), tmp.getIce(), tmp.getImgUrl()));
+					result.add(new StarDto(memberId, tmp.getCo2(), tmp.getIce(), tmp.getImgUrl(), tmp.getType()));
 				}
 				redisTemplate.delete(key);
 			}

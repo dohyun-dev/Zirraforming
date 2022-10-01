@@ -84,7 +84,10 @@ spring:
           tokenUri: https://kauth.kakao.com/oauth/token
           userInfoUri: https://kapi.kakao.com/v2/user/me
           userNameAttribute: id
-
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 # cors 설정
 cors:
   allowed-origin-patterns: '*'
@@ -114,7 +117,7 @@ logging:
 file:
   dir: /images/
 
-ssafy.server.url: http://j7d107.p.ssafy.io
+ssafy.server.url: https://j7d107.p.ssafy.io
 ssafy.server.fastapi.url: http://j7d107.p.ssafy.io:8000
 
 ---

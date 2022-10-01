@@ -1,6 +1,12 @@
 package com.ssafy.server.domain.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.server.api.dto.star.StarDto;
+import com.ssafy.server.domain.dto.PredictResultResponse;
 import com.ssafy.server.domain.entity.*;
 import com.ssafy.server.domain.exception.BadgeNotFountException;
 import com.ssafy.server.domain.exception.MemberNotFountException;
@@ -102,6 +108,7 @@ public class StarService {
         });
 
         List<String> rank = new ArrayList<>();
+
         int count = 0;
         for(int i=0; i<result.size(); i++){
             rank.add(result.get(i).getNickname());
@@ -146,7 +153,7 @@ public class StarService {
         String serverFilePath = fileStore.getServerFilePath(fileStore.saveFile(image));
         String aiDetectionResult = restTemplateService.getAiDetectionResult(serverFilePath);
         Trash trash = trashRepository.findByType(aiDetectionResult);
-        redisTemplate.opsForSet().add("starList:" + memberId.toString(), new StarDto(memberId, trash.getCo2(), trash.getIce(), serverFilePath));
+        redisTemplate.opsForSet().add("starList:" + memberId.toString(), new StarDto(memberId, trash.getCo2(), trash.getIce(), serverFilePath, aiDetectionResult));
         addBadge(memberId);
         return trash;
     }
@@ -201,10 +208,49 @@ public class StarService {
             Set<StarDto> starDtoList = starSetOperations.members(key);
 
             if(starDtoList.size()>=5){
-                Badge findBadge = badgeRepository.findById(BadgeId)
-                        .orElseThrow(()-> new BadgeNotFountException(BadgeId));
+                Badge findBadge = badgeRepository.findById(BadgeId).orElseThrow(()-> new BadgeNotFountException(BadgeId));
                 publisher.publishEvent(new MemberBadge(findMember, findBadge));
             }
         }
+    }
+
+    public Map<String, Object> getTodayResult() {
+        Map<String, Integer> trashCount = new HashMap<>();
+        double totalCo2 = makeTotalResult(trashCount);
+        PredictResultResponse predictResult = restTemplateService.getPredictResult(2, totalCo2);
+        return makeReturnMap(trashCount, predictResult);
+    }
+
+    private Map<String, Object> makeReturnMap(Map<String, Integer> trashCount, PredictResultResponse predictResult) {
+        Map<String, Object> totalResult = new HashMap<>();
+        totalResult.put("trashCount", trashCount);
+        totalResult.put("predictResult", predictResult);
+        return totalResult;
+    }
+
+    private double makeTotalResult(Map<String, Integer> trashCount) {
+        double totalCo2 = 0.0;
+        Set<String> keys = redisTemplate.keys("starList:*");
+        for (String key : keys) {
+            if(redisTemplate.type(key).code()=="set"){
+                Iterator<StarDto> iterator = redisTemplate.opsForSet().members(key).iterator();
+                while (iterator.hasNext()) {
+                    StarDto starDto = objectMapper().convertValue(iterator.next(), new TypeReference<StarDto>() {});;
+                    if (trashCount.containsKey(starDto.getType()))
+                        trashCount.put(starDto.getType(), trashCount.get(starDto.getType()) + 1);
+                    else
+                        trashCount.put(starDto.getType(), 1);
+                    totalCo2 += starDto.getCo2();
+                }
+            }
+        }
+        return totalCo2;
+    }
+
+    private ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
+        mapper.registerModules(new JavaTimeModule(), new Jdk8Module()); // LocalDateTime 매핑을 위해 모듈 활성화
+        return mapper;
     }
 }

@@ -12,4 +12,5 @@ public class StarDto {
     private double co2;
     private double ice;
     private String imgUrl;
+    private String type;
 }
