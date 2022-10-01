@@ -4,6 +4,7 @@ import com.ssafy.server.api.dto.common.ResultDto;
 import com.ssafy.server.api.dto.survey.SurveyDto;
 import com.ssafy.server.api.dto.survey.SurveyTestResultResponse;
 import com.ssafy.server.api.dto.survey.SurveyResultSaveRequest;
+import com.ssafy.server.domain.dto.CharacterTypeEnum;
 import com.ssafy.server.domain.service.SurveyService;
 import com.ssafy.server.util.AuthenticationUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,8 @@ public class SurveyApiController {
     }
 
     @GetMapping(value = "/charactor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SurveyTestResultResponse> getSurveyTestResult(@RequestParam(value = "characterId") Long characterId) {
-        SurveyTestResultResponse result = new SurveyTestResultResponse(surveyService.getSurveyTestResult(characterId));
+    public ResponseEntity<SurveyTestResultResponse> getSurveyTestResult(@RequestParam(value = "characterId") CharacterTypeEnum characterType) {
+        SurveyTestResultResponse result = new SurveyTestResultResponse(surveyService.getSurveyTestResult(characterType.getName()));
         return ResponseEntity.ok(result);
     }
 

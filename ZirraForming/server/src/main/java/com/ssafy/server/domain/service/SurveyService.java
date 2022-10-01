@@ -32,9 +32,8 @@ public class SurveyService {
         return surveyRepository.findAll();
     }
 
-    public CharacterType getSurveyTestResult(Long characterId) {
-        return characterTypeRepository.findById(characterId)
-                .orElseThrow(() -> new CharacterTypeNotFoundException());
+    public CharacterType getSurveyTestResult(String characterTypeName) {
+        return characterTypeRepository.findByName(characterTypeName).orElseThrow(() -> new CharacterTypeNotFoundException(characterTypeName));
     }
 
     @Transactional
