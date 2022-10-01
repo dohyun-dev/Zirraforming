@@ -1,5 +1,6 @@
 package com.ssafy.server.domain.service;
 
+import com.ssafy.server.domain.dto.PredictResultResponse;
 import com.ssafy.server.domain.dto.TrashResultResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
@@ -37,10 +38,35 @@ public class RestTemplateService {
                 .body(makeRequestBody(serverFilePath));
     }
 
-
     private Map<String, String> makeRequestBody(String serverFilePath) {
         Map<String, String> requestBody = new Hashtable<>();
         requestBody.put("imageUrl", serverFilePath);
+        return requestBody;
+    }
+
+    public PredictResultResponse getPredictResult(int case_number, double co2_number) {
+        URI uri = UriComponentsBuilder
+                .fromUriString(serverUrl)
+                .path("/fastapi/predict")
+                .encode()
+                .build()
+                .toUri();
+
+        makeRequestBody(case_number, co2_number);
+        ResponseEntity<PredictResultResponse> response = new RestTemplate().exchange(makeRequest(case_number, co2_number, uri), PredictResultResponse.class);
+        return response.getBody();
+    }
+
+    private RequestEntity<Map<String, Object>> makeRequest(int case_number, double co2_number, URI uri) {
+        return RequestEntity
+                .post(uri)
+                .body(makeRequestBody(case_number, co2_number));
+    }
+
+    private Map<String, Object> makeRequestBody(int case_number, double co2_number) {
+        Map<String, Object> requestBody = new Hashtable<>();
+        requestBody.put("case_number", case_number);
+        requestBody.put("co2_number", co2_number);
         return requestBody;
     }
 }

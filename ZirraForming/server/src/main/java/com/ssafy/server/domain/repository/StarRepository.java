@@ -27,4 +27,6 @@ public interface StarRepository extends JpaRepository<Star, Long> {
     List<Star> findAllByMemberAndCreatedAt(Member member, LocalDateTime createAt);
 
     List<Star> findByMemberAndCreatedAtBetweenOrderByCreatedAt(Member member, LocalDateTime start, LocalDateTime end);
+
+    List<Star> findAllByMember(Member findMember);
 }
