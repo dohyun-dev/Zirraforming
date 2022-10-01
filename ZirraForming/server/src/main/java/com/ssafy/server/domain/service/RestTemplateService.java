@@ -21,12 +21,11 @@ public class RestTemplateService {
     public String getAiDetectionResult(String serverFilePath) {
         URI uri = UriComponentsBuilder
                 .fromUriString(serverUrl)
-                .path("/fastapi/treshresult")
+                .path("/fastapi/trashresult")
                 .encode()
                 .build()
                 .toUri();
 
-        makeRequestBody(serverFilePath);
         ResponseEntity<TrashResultResponse> response = new RestTemplate().exchange(makeRequest(serverFilePath, uri), TrashResultResponse.class);
 
         return response.getBody().getResult();
