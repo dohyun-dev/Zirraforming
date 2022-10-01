@@ -123,10 +123,15 @@ function LoginModal({ setModalOpen }) {
 							SNS 계정으로 로그인
 						</p>
 						<SNSButton
-							style={{ backgroundColor: "#1EC800" }}
+							style={{
+								backgroundColor: "#1EC800",
+								cursor: "pointer",
+							}}
 							onClick={() => {
+								console.log("클릭");
 								window.location.href =
-									"http://localhost:8080/oauth2/authorization/naver";
+									"https://j7d107.p.ssafy.io/oauth2/authorization/naver";
+								// "http://localhost:8080/oauth2/authorization/naver";
 							}}
 						>
 							<img
@@ -140,10 +145,12 @@ function LoginModal({ setModalOpen }) {
 							style={{
 								backgroundColor: "#FFE812",
 								color: "#4A301C",
+								cursor: "pointer",
 							}}
 							onClick={() => {
 								window.location.href =
-									"http://localhost:8080/oauth2/authorization/kakao";
+									"https://j7d107.p.ssafy.io/oauth2/authorization/kakao";
+								// "http://localhost:8080/oauth2/authorization/kakao";
 							}}
 						>
 							<img
@@ -157,10 +164,12 @@ function LoginModal({ setModalOpen }) {
 							style={{
 								backgroundColor: "#ffffff",
 								color: "black",
+								cursor: "pointer",
 							}}
 							onClick={() => {
 								window.location.href =
-									"http://localhost:8080/oauth2/authorization/google";
+									"https://j7d107.p.ssafy.io/oauth2/authorization/google";
+								// "http://localhost:8080/oauth2/authorization/google";
 							}}
 						>
 							<img
