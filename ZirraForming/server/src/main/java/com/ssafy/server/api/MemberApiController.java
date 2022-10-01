@@ -29,11 +29,7 @@ public class MemberApiController {
 
     @PostMapping("/logout")
     public ResponseEntity<ResultDto> logout(HttpServletRequest request, HttpServletResponse response){
-        Cookie cookie = new Cookie("refreshToken", null);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-
-        response.addCookie(cookie);
+        CookieUtil.deleteCookie(request, response, "refreshToken");
         return ResponseEntity.ok(ResultDto.of("로그아웃이 완료되었습니다."));
     }
 
