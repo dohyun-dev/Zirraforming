@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="j7d107.p.ssafy.io" id="2561e248-a05c-4fe8-9508-63c75adadae2" keyPath="C:\Users\socia\Desktop\2학기 특화 자료\J7D107T.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>
