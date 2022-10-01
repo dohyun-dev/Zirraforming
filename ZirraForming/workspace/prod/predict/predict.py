@@ -108,10 +108,12 @@ def predict_run(case, number):
     answer_dict['ice_2030'] = round((data_2030.loc[10, 'ice_mass'] - data_2030.loc[10, 'ice_mass_predict'])/-data_2030.loc[10, 'ice_mass'],5) * 100
     if case == 1:
         answer_dict['co2_2030'] = round((number)/data_2030.loc[10, 'CO2'],5) * 100
+        answer_dict['year'] = [i for i in range(2020, 2031)]
         answer_dict['temperature'] = list(data_2030.loc[:, 'Temperature'])
         answer_dict['temperature_predict'] = list(data_2030.loc[:, 'temperature_predict'])
     else:
         answer_dict['co2_2030'] = round((number * 30)/data_2030.loc[10, 'CO2'],5) * 100
+        answer_dict['year'] = [i for i in range(2020, 2031)]
         answer_dict['ice_mass'] = list(data_2030.loc[:, 'ice_mass'])
         answer_dict['ice_mass_predict'] = list(data_2030.loc[:, 'ice_mass_predict'])
     return answer_dict
