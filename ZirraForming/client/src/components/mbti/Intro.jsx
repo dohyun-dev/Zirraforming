@@ -37,7 +37,7 @@ function Intro() {
 	const [quizData, setQuizData] = useState([]);
 
 	useEffect(() => {
-		axios.get("http://j7d107.p.ssafy.io/api/survey").then((response) => {
+		axios.get("https://j7d107.p.ssafy.io/api/survey").then((response) => {
 			setQuizData(response.data);
 			console.log(response.data);
 		});
