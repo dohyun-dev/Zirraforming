@@ -1,6 +1,7 @@
 package com.ssafy.server.api;
 
 import com.ssafy.server.api.dto.member.MyPageResponse;
+import com.ssafy.server.domain.dto.PredictResultResponse;
 import com.ssafy.server.domain.entity.Star;
 import com.ssafy.server.domain.service.MemberService;
 import com.ssafy.server.domain.service.MyPageService;
@@ -83,6 +84,11 @@ public class MyPageApiController {
         return ResponseEntity.ok(myPageResponse);
     }
 
+    @GetMapping(value = "/member/{memberId}/zirraformingresult")
+    public ResponseEntity<ZirraformingPredictResultResponse> getZirraformingResult(@PathVariable("memberId") Long memberId){
+        return ResponseEntity.ok(ZirraformingPredictResultResponse.of(myPageService.getZirraformingResult(memberId)));
+    }
+
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
@@ -132,6 +138,22 @@ public class MyPageApiController {
 
         public static ZirraformingImgResponse of(List<String> images) {
             return new ZirraformingImgResponse(images.size(), images);
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ZirraformingPredictResultResponse {
+        double temperature_2030;
+        double ice_2030;
+        double co2_2030;
+        List<Integer> year;
+        List<Double> temperature;
+        List<Double> temperature_predict;
+
+        public static ZirraformingPredictResultResponse of(PredictResultResponse predictResultResponse){
+            return new ZirraformingPredictResultResponse(predictResultResponse.getTemperature_2030(), predictResultResponse.getIce_2030(), predictResultResponse.getCo2_2030(), predictResultResponse.getYear() ,predictResultResponse.getTemperature(), predictResultResponse.getTemperature_predict());
         }
     }
 }
