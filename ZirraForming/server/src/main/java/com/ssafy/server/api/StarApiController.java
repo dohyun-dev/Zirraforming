@@ -1,6 +1,7 @@
 package com.ssafy.server.api;
 
 import com.ssafy.server.api.dto.star.StarSaveResponse;
+import com.ssafy.server.api.dto.star.StarTodayResultResponse;
 import com.ssafy.server.domain.entity.Stars;
 import com.ssafy.server.domain.entity.Trash;
 import com.ssafy.server.domain.service.StarService;
@@ -41,6 +42,11 @@ public class StarApiController {
     public ResponseEntity<StarSaveResponse> savaStar(@ModelAttribute StarSaveRequest request) throws IOException {
         Trash result = starService.saveStar(request.memberId, request.getImage());
         return ResponseEntity.ok().body(new StarSaveResponse(result));
+    }
+
+    @GetMapping(value = "/todayresult", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StarTodayResultResponse> savaStar() throws IOException {
+        return ResponseEntity.ok().body(new StarTodayResultResponse(starService.getTodayResult()));
     }
 
     @Getter
