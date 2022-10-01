@@ -13,7 +13,9 @@ public class Trash {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
+    private String name;
     private Double co2;
     private Double ice;
     private String comment;
+    private String imgUrl;
 }
