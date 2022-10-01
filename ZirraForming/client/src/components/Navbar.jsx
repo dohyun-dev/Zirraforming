@@ -40,7 +40,7 @@ const Nav = styled.div`
 	}
 `;
 
-function MainNavbar({ width, navigate }) {
+function Navbar({ width, navigate }) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 	const [user, setUser] = useState("");
@@ -81,9 +81,12 @@ function MainNavbar({ width, navigate }) {
 							},
 						};
 						axios
-							.post("https://j7d107.p.ssafy.io/api/logout", config)
+							.post("https://j7d107.p.ssafy.io/api/logout", config, {
+								withCredentials: true,
+							})
 							.then((response) => {
 								localStorage.removeItem("accessToken");
+								removeCookie("accessToken");
 								alert("로그아웃 되었습니다.");
 							});
 					}}
@@ -102,4 +105,4 @@ function MainNavbar({ width, navigate }) {
 	);
 }
 
-export default MainNavbar;
+export default Navbar;

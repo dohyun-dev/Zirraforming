@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { BasicButton } from "../../items/styleButton";
 import upload from "../../assets/campaign/upload.png";
@@ -19,19 +19,22 @@ const Modal = styled.div`
 	width: 100vw;
 	height: 100vh;
 	animation: modal-bg-show 0.3s;
+
 	button {
 		outline: none;
 		cursor: pointer;
 		border: 0;
 	}
 	section {
-		width: 20%;
+		width: 24%;
 		min-width: 300px;
-		margin: 150px auto;
-		height: 400px;
+		margin: 100px auto;
+		height: 550px;
 		border-radius: 1rem;
 		background-color: #c6d2e4;
 		overflow: hidden;
+		display: flex;
+		flex-direction: column;
 	}
 	section > header {
 		position: relative;
@@ -78,10 +81,12 @@ function CampaignModal({ setModalOpen }) {
 	const [imageSrc, setImageSrc] = useState("");
 	const memberId = useRecoilValue(MemberData);
 	const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+	const [result, setResult] = useState({});
+	const [isSubmit, setIsSubmit] = useState(false);
 
 	const accessToken = localStorage.getItem("accessToken", cookies.accessToken);
-	console.log(memberId.member.Id);
 
+	const navigate = useNavigate();
 	const closeModal = () => {
 		setModalOpen(false);
 	};
@@ -112,7 +117,7 @@ function CampaignModal({ setModalOpen }) {
 	const submit = () => {
 		const formdata = new FormData();
 		formdata.append("image", file);
-
+		console.log(memberId.member.Id);
 		formdata.append("memberId", memberId.member.Id);
 		console.log(file);
 		console.log(formdata);
@@ -128,6 +133,8 @@ function CampaignModal({ setModalOpen }) {
 			.then((response) => {
 				console.log("성공");
 				console.log(response);
+				setResult(response.data);
+				setIsSubmit(true);
 			});
 	};
 
@@ -167,51 +174,114 @@ function CampaignModal({ setModalOpen }) {
 							&times;
 						</button>
 					</header>
-					<main>
-						<p
-							style={{
-								color: "#49489B",
-								fontSize: "1.6rem",
-								margin: "2vh 0px 4vh 0px",
-							}}
-						>
-							오늘 주운 쓰레기 등록
-						</p>
-						{!file ? (
-							<img
-								src={upload}
+					{isSubmit ? (
+						<main>
+							<p
 								style={{
-									width: "160px",
-
-									marginBottom: "20px",
+									color: "#49489B",
+									fontSize: "1.9rem",
+									margin: "1vh 0px 1vh 0px",
 								}}
-								onClick={uploadImage}
+							>
+								오늘의 지라포밍
+							</p>
+							<p style={{ color: "#151457", fontSize: "2.4rem" }}>
+								{result.type}
+							</p>
+							<img
+								src={result.imgUrl}
+								style={{ width: "40%", margin: "1vh 0 1vh 0 " }}
 								alt=""
 							/>
-						) : (
-							<img
-								src={imageSrc}
+							<p
 								style={{
-									width: "160px",
-									height: "150px",
-									marginBottom: "20px",
+									color: "#49489B",
+									fontSize: "1rem",
 								}}
-							/>
-						)}
-						<input
-							type="file"
-							style={{ display: "none" }}
-							ref={imageInput}
-							onChange={onLoadFile}
-						/>
+							>
+								{result.comment}
+							</p>
+							<BasicButton
+								style={{
+									width: "80%",
+									height: "80px",
+									marginTop: "20px",
+									backgroundColor: "#9498BE",
+									color: "#49489B",
+									fontSize: "13px",
+									cursor: "default",
+									display: "flex",
+									flexDirection: "column",
+								}}
+							>
+								전 인구가 이 쓰레기를 잘 버린다면 <br />
+								<p
+									style={{
+										fontSize: "30px",
+										color: "#49489B",
+										marginLeft: "20px",
+									}}
+								>
+									빙하 {result.iceAmount}t{" "}
+									<strong style={{ color: "red" }}>↑</strong>
+								</p>
+							</BasicButton>
+							<BasicButton
+								style={{ width: "80%", height: "50px", marginTop: "20px" }}
+								onClick={() => {
+									navigate("./result");
+								}}
+							>
+								전체 결과보기
+							</BasicButton>
+						</main>
+					) : (
+						<main style={{ marginTop: "20px" }}>
+							<p
+								style={{
+									color: "#49489B",
+									fontSize: "1.6rem",
+									margin: "5vh 0px 4vh 0px",
+								}}
+							>
+								오늘 주운 쓰레기 등록
+							</p>
+							{!file ? (
+								<img
+									src={upload}
+									style={{
+										width: "160px",
 
-						<BasicButton
-							style={{ width: "80%", height: "50px", marginTop: "20px" }}
-							onClick={submit}
-						>
-							등록하기
-						</BasicButton>
-					</main>
+										marginBottom: "20px",
+									}}
+									onClick={uploadImage}
+									alt=""
+								/>
+							) : (
+								<img
+									src={imageSrc}
+									style={{
+										width: "160px",
+										height: "150px",
+										marginBottom: "20px",
+									}}
+								/>
+							)}
+							<input
+								type="file"
+								style={{ display: "none" }}
+								ref={imageInput}
+								onChange={onLoadFile}
+							/>
+
+							<BasicButton
+								style={{ width: "80%", height: "50px", marginTop: "20px" }}
+								onClick={submit}
+							>
+								등록하기
+							</BasicButton>
+						</main>
+					)}
 				</section>
 			) : null}
 		</Modal>
