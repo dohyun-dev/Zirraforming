@@ -9,11 +9,13 @@ public class StarSaveResponse {
     private String iceAmount;
     private String co2Amount;
     private String comment;
+    private String imgUrl;
 
     public StarSaveResponse(Trash trash) {
-        this.type = trash.getType();
+        this.type = trash.getName();
         this.iceAmount = String.format("%.1f", trash.getIce());
-        this.co2Amount = String.valueOf(Math.round(trash.getCo2()));
+        this.co2Amount = String.format("%.1f", trash.getCo2());
         this.comment = trash.getComment();
+        this.imgUrl = trash.getImgUrl();
     }
 }
