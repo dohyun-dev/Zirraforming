@@ -35,7 +35,7 @@ public class SurveyApiController {
         return ResponseEntity.ok(result);
     }
 
-    @PatchMapping(value = "/surveyresult", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/surveyresult", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResultDto> saveSurveyResult(@RequestBody SurveyResultSaveRequest request) {
         Long memberId = authenticationUtil.getLoginMemberId();
         surveyService.updateMemberCharacterType(memberId, request.getCharacterName());

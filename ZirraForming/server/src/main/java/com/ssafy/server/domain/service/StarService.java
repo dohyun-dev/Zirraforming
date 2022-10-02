@@ -32,6 +32,15 @@ import java.util.*;
 @RequiredArgsConstructor
 public class StarService {
 
+    private final Map<String, String> trashNamedict = Map.of(
+            "cardboard", "박스",
+            "glass", "유리",
+            "metal", "철",
+            "paper", "종이",
+            "plastic", "플라스틱",
+            "trash", "일반쓰레기",
+            "null", "인식불가"
+    );
     private final RedisTemplate<String, StarDto> redisTemplate;
     private final MemberRepository memberRepository;
     private final FileStore fileStore;
@@ -153,7 +162,7 @@ public class StarService {
         String serverFilePath = fileStore.getServerFilePath(fileStore.saveFile(image));
         String aiDetectionResult = restTemplateService.getAiDetectionResult(serverFilePath);
         Trash trash = trashRepository.findByType(aiDetectionResult);
-        redisTemplate.opsForSet().add("starList:" + memberId.toString(), new StarDto(memberId, trash.getCo2(), trash.getIce(), serverFilePath, aiDetectionResult));
+        redisTemplate.opsForSet().add("starList:" + memberId.toString(), new StarDto(memberId, trash.getCo2(), trash.getIce(), serverFilePath, trashNamedict.get(aiDetectionResult)));
         addBadge(memberId);
         return trash;
     }
