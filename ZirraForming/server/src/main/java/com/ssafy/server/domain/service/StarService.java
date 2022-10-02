@@ -186,18 +186,29 @@ public class StarService {
         LocalDateTime localDate = LocalDateTime.parse(date+" 00:00:00", formatter);
 
         List<Star> starList = starRepository.findAllByMemberAndCreatedAt(findMember, localDate);
-        if(starList.size()>=1){
-            findMember.updateContinuity(findMember.getContinuity()+1);
-            memberRepository.save(findMember);
-
-            if(findMember.getContinuity()==10){
-                Badge findBadge = badgeRepository.findById(BadgeId)
-                        .orElseThrow(()-> new BadgeNotFountException(BadgeId));
-                publisher.publishEvent(new MemberBadge(findMember, findBadge));
+        if(starList.size()>=1) {
+            // 어제 내역 있는 경우
+            String key = "starList:"+findMember.getId();
+            if(redisTemplate.type(key).code()=="set"){
+                SetOperations<String, StarDto> starSetOperations = redisTemplate.opsForSet();
+                Set<StarDto> starDtoList = starSetOperations.members(key);
+                if(starDtoList.size()==0){
+                    // 오늘 처음 지라포밍 등록해서 연속 지라포밍 +1
+                    // 오늘 이미 지라포밍 등록한 경우에는 업데이트가 되었기 때문에 건너뜀
+                    findMember.updateContinuity(findMember.getContinuity()+1);
+                    memberRepository.save(findMember);
+                }
             }
         }else{
+            // 어제 내역 없으므로 연속 지라포밍 1로 초기화
             findMember.updateContinuity(1);
             memberRepository.save(findMember);
+        }
+
+        if(findMember.getContinuity()==10){
+            Badge findBadge = badgeRepository.findById(BadgeId)
+                    .orElseThrow(()-> new BadgeNotFountException(BadgeId));
+            publisher.publishEvent(new MemberBadge(findMember, findBadge));
         }
     }
 
