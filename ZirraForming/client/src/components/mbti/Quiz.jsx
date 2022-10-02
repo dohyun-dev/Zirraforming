@@ -75,7 +75,14 @@ function Quiz(props) {
 					}}
 					alt=""
 				/>
-				<h2>
+				<h2
+					style={{
+						justifyContent: "center",
+						alignItems: "center",
+						display: "flex",
+						flexDirection: "column",
+					}}
+				>
 					{quizData[index].question.split("<br>").map((line, idx) => {
 						return (
 							<div key={idx}>
@@ -90,7 +97,12 @@ function Quiz(props) {
 					alt=""
 				/>
 				<BasicButton
-					style={{ marginBottom: "3vh", fontSize: "20px" }}
+					style={{
+						marginBottom: "3vh",
+						fontSize: "20px",
+						display: "flex",
+						flexDirection: "column",
+					}}
 					onClick={() => {
 						plusScore(quizData[index].weight1);
 					}}
@@ -104,7 +116,7 @@ function Quiz(props) {
 					})}
 				</BasicButton>
 				<BasicButton
-					style={{ fontSize: "20px" }}
+					style={{ fontSize: "20px", display: "flex", flexDirection: "column" }}
 					onClick={() => {
 						plusScore(quizData[index].weight2);
 					}}
