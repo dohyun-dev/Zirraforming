@@ -158,6 +158,28 @@ public class StarService {
         return rank;
     }
 
+    public List<Stars> getRankCountResponse() {
+        List<Stars> result = new ArrayList<>();
+        Set<String> keys = redisTemplate.keys("starList:*");
+
+        for (String key : keys) {
+            if(redisTemplate.type(key).code()=="set"){
+                SetOperations<String, StarDto> starSetOperations = redisTemplate.opsForSet();
+                Set<StarDto> starDtoList = starSetOperations.members(key);
+
+                Long memberId = Long.parseLong(key.substring(9));
+                Member findMember = memberRepository.findById(memberId)
+                        .orElseThrow(() -> new MemberNotFountException(memberId));
+
+                result.add(new Stars(findMember.getId(), findMember.getNickname(), starDtoList.size()));
+            }
+        }
+
+        Collections.sort(result, (a, b) -> b.getCount() - a.getCount());
+
+        return result;
+    }
+
     public Trash saveStar(Long memberId, MultipartFile image) throws IOException {
         String serverFilePath = fileStore.getServerFilePath(fileStore.saveFile(image));
         String aiDetectionResult = restTemplateService.getAiDetectionResult(serverFilePath);
