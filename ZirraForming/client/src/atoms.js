@@ -70,3 +70,21 @@ export const userInfo = atom({
   key: "info",
   default: {},
 });
+
+export const Token = atom({
+  key: "Token",
+  default: localStorage.getItem("token") || "",
+});
+
+export const member = atom({
+  key: "member",
+  default: {
+    nickName: "",
+    total: 0,
+    score: 0,
+    characterImgPath: "",
+    characterName: "",
+    badges: "",
+    zirraforming: {},
+  },
+});

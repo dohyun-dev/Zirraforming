@@ -8,7 +8,7 @@ import LoginModal from "./LoginModal";
 import { useCookies } from "react-cookie";
 import jwt from "jwt-decode";
 import { useRecoilState } from "recoil";
-import { MemberData } from "../atoms";
+import { MemberData, Token } from "../atoms";
 
 const Nav = styled.div`
   display: grid;
@@ -43,6 +43,7 @@ function MainNavbar({ width, navigate }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
   const [user, setUser] = useState("");
+  const [token, setToken] = useRecoilState(Token);
   const [member, setMember] = useRecoilState(MemberData);
   const showModal = () => {
     setModalOpen(true);
@@ -60,6 +61,7 @@ function MainNavbar({ width, navigate }) {
           Id: memberId,
         },
       });
+      setToken(cookies.accessToken);
     }
   }, []);
 
@@ -74,6 +76,15 @@ function MainNavbar({ width, navigate }) {
           alt=""
         />
       </div>
+
+      <div
+        onClick={() => {
+          navigate(`/mypage/${member.member.Id}`);
+        }}
+      >
+        마이페이지
+      </div>
+
       {localStorage.getItem("accessToken") ? (
         <div
           className="login"
