@@ -62,7 +62,6 @@ export const AnimatedCharacters = (props) => {
   });
 
   const Tag = tagMap[props.item.type];
-  console.log(Tag);
   return (
     <Tag>
       {words.map((word, index) => {

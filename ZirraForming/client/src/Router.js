@@ -25,7 +25,7 @@ function Router() {
           <Route path="/quiz/result" element={<QuizResult />}></Route>
           <Route path="/campaign" element={<Campaign />}></Route>
           <Route path="/campaign/result" element={<CampaignResult />}></Route>
-          <Route path="/mypage" element={<MyPage />}></Route>
+          <Route path="/mypage/:memberId" element={<MyPage />}></Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -124,11 +124,13 @@ function Main() {
       {co2Image ? <Co2Image /> : null}
       {iceAreaImage ? <IceAreaImage /> : null}
       {summaryPage ? <Summary /> : null}
-      <IceArea first={first} second={second} third={third} forth={forth} />
+      {first ? (
+        <IceArea first={first} second={second} third={third} forth={forth} />
+      ) : null}
       {/* {nfirst || nsecond ? (
         <IceSheetImage first={nfirst} second={nsecond} third={nthird} />
       ) : null} */}
-      <Last last={last} first={lastName} />
+      {last ? <Last last={last} first={lastName} /> : null}
     </CanvasWrap>
   );
 }
