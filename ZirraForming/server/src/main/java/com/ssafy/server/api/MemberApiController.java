@@ -2,7 +2,9 @@ package com.ssafy.server.api;
 
 import com.ssafy.server.api.dto.common.ResultDto;
 import com.ssafy.server.api.dto.member.DuplicatedCheckResultResponse;
+import com.ssafy.server.api.dto.member.NicknameChangeRequest;
 import com.ssafy.server.config.properties.TokenProperties;
+import com.ssafy.server.domain.exception.ValidationException;
 import com.ssafy.server.domain.service.MemberService;
 import com.ssafy.server.oauth.token.AuthToken;
 import com.ssafy.server.oauth.token.AuthTokenProvider;
@@ -11,12 +13,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -43,9 +45,12 @@ public class MemberApiController {
         }
     }
 
-    @PatchMapping("/member/{memberId}/changenickname")
-    public ResponseEntity<ResultDto> changeNickname(@PathVariable("memberId") Long memberId, @RequestBody Map<String,String> req){
-        memberService.changeNickname(memberId, req.get("nickname"));
+    @PutMapping("/member/{memberId}/changenickname")
+    public ResponseEntity<ResultDto> changeNickname(@PathVariable("memberId") Long memberId, @Valid @RequestBody NicknameChangeRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException(bindingResult);
+        }
+        memberService.changeNickname(memberId, request.getNickname());
         return ResponseEntity.ok(ResultDto.of("닉네임이 변경되었습니다."));
     }
 
