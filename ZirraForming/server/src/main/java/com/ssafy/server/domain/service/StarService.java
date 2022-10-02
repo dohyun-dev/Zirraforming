@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,8 +69,7 @@ public class StarService {
                 result.add(new Stars(findMember.getId(), findMember.getNickname(), starDtoList.size()));
             }
         }
-
-        return result;
+        return result.stream().sorted((a, b) -> b.getCount() - a.getCount()).limit(50).collect(Collectors.toList());
     }
 
     public int getStarsTotalCount() {
