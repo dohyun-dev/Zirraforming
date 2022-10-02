@@ -79,13 +79,14 @@ function Result() {
 					}}
 				>
 					<p style={{ fontSize: "14px" }}>
-						{result.description.split("<br>").map((line) => {
-							return (
-								<>
-									{line} <br />
-								</>
-							);
-						})}
+						{result.description &&
+							result.description.split("<br>").map((line) => {
+								return (
+									<>
+										{line} <br />
+									</>
+								);
+							})}
 					</p>
 				</BasicButton>
 				<div

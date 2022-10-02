@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Result from "../components/quiz/Result";
+import Result from "../components/campaign/Result";
 import Navbar from "../components/Navbar";
 
 const CanvasWrap = styled.div`
