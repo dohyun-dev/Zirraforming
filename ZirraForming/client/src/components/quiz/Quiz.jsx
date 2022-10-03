@@ -2,12 +2,15 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { BasicButton } from "../../items/quizButton";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import correct from "../../assets/quiz/correct.gif";
 import incorrect from "../../assets/quiz/incorrect.gif";
 import axios from "axios";
 import { DEG2RAD } from "three/src/math/MathUtils";
+import { useRecoilValue } from "recoil";
+import { useCookies } from "react-cookie";
+import { MemberData } from "../../atoms";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -49,6 +52,9 @@ function Quiz(props) {
 	const [isCorrect, setIsCorrect] = useState(false);
 	const [solution, setSolution] = useState([]);
 
+	const memberData = useRecoilValue(MemberData);
+	const [cookies] = useCookies(["accessToken"]);
+
 	function plusScore() {
 		setScore(score + 1);
 		console.log(score);
@@ -57,6 +63,30 @@ function Quiz(props) {
 	function insertSolution(props) {
 		setSolution([...solution, { quizId: index + 1, solution: props }]);
 		console.log(solution);
+	}
+
+	function saveScore(score) {
+		const config = {
+			Headers: {
+				Authorization: "Bearer " + cookies.accessToken,
+			},
+		};
+
+		const data = {
+			memberId: memberData.member.Id,
+			score: score
+		};
+
+		console.log(data)
+
+		if (data.memberId) {
+			axios.put("https://j7d107.p.ssafy.io/api/quiz", data, config)
+				.then((response) => {
+					console.log(response.data.message);
+				}).catch((err) => {
+					console.log(err.message);
+				});
+		}
 	}
 
 	return (
@@ -187,6 +217,7 @@ function Quiz(props) {
 							setIsResult(!isResult);
 
 							if (index === 10) {
+								saveScore(score);
 								navigate("./result", {
 									state: { score: score, solution: solution },
 								});

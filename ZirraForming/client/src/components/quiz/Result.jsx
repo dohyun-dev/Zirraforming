@@ -2,15 +2,10 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { BasicButton } from "../../items/quizButton";
 import { HomeButton } from "../../items/goHome";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
 import Share from "../common/Share";
 import homebanner from "../../assets/homeBanner.png";
-import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { MemberData } from "../../atoms";
-import { useCookies } from "react-cookie";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -71,29 +66,6 @@ const Note = styled(motion.div)`
 function Result() {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const memberData = useRecoilValue(MemberData);
-	const [ cookies ] = useCookies(["accessToken"]);
-
-	useEffect(() => { 
-		const config = {
-			Headers: {
-                Authorization: "Bearer " + cookies.accessToken,
-			},
-		};
-
-		const data = {
-			memberId: memberData.member.Id,
-			score: location.state.score
-		}
-		if (data.memberId) { 
-			axios.put("https://j7d107.p.ssafy.io/api/quiz", data, config)
-				.then((response) => {
-					alert(response.data.message)
-				}).catch((err) => { 
-					console.log(err.message)
-				})
-		}
-	}, [])
 
 	return (
 		<>
