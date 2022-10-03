@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public class SurveyApiController {
 
     private final SurveyService surveyService;
-    private final AuthenticationUtil authenticationUtil;
 
     @GetMapping(value = "/survey", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<SurveyDto>> getProblemList() {
@@ -37,8 +36,7 @@ public class SurveyApiController {
 
     @PutMapping(value = "/surveyresult", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResultDto> saveSurveyResult(@RequestBody SurveyResultSaveRequest request) {
-        Long memberId = authenticationUtil.getLoginMemberId();
-        surveyService.updateMemberCharacterType(memberId, request.getCharacterName());
+        surveyService.updateMemberCharacterType(request.getMemberId(), request.getCharacterId());
         return ResponseEntity.ok(ResultDto.of("환경유형 테스트 결과가 저장되었습니다."));
     }
 
