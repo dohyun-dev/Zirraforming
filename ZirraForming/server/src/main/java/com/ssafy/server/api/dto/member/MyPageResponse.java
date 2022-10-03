@@ -12,13 +12,13 @@ public class MyPageResponse {
     private String nickName;
     private String characterName;
     private String characterImgPath;
-    private int score;
+    private Object score;
     private List<Integer> badges;
     private Map<LocalDate, List<String>> zirraforming;
     private int total;
 
     @Builder
-    public MyPageResponse(String nickName, String characterName, String characterImgPath, int score,
+    public MyPageResponse(String nickName, String characterName, String characterImgPath, Object score,
                           List<Integer> badges, Map<LocalDate, List<String>> zirraforming, int total) {
         this.nickName = nickName;
         this.characterName = characterName;

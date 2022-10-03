@@ -104,8 +104,6 @@ app:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
-  oauth2:
-    authorizedRedirectUris: http://localhost:3000
 
 logging:
   level:
@@ -154,6 +152,10 @@ spring:
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
 
+app:
+  oauth2:
+    authorizedRedirectUris: http://j7d107.p.ssafy.io
+
 ---
 # 개발 DB
 spring:
@@ -179,6 +181,10 @@ spring:
     username: root
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
+
+app:
+  oauth2:
+    authorizedRedirectUris: http://j7d107.p.ssafy.io
 ---
 # 로컬 DB
 spring:
@@ -204,6 +210,9 @@ spring:
     username: root
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
+app:
+  oauth2:
+    authorizedRedirectUris: http://localhost:3000
 ---
 spring:
   config:

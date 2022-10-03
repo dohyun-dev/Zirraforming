@@ -13,7 +13,7 @@ public class CampaignDto implements Serializable {
 
     public CampaignDto(Campaign campaign) {
         this.campaignName = campaign.getName();
-        this.campaignUrl = campaign.getImgUrl();
+        this.campaignUrl = campaign.getUrl();
         this.campaignImgUrl = campaign.getImgUrl();
     }
 }
