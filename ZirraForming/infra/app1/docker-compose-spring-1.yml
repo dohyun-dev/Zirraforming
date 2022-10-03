@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  application:
+    container_name: spring-boot-1
+    build:
+      context: /home/ubuntu
+      dockerfile: ./app1/Dockerfile-prod
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://172.26.8.122:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: ssafy
+      SPRING_DATASOURCE_PASSWORD: ssafywlfkvhald
+      SPRING_REDIS_HOST: 172.26.8.122
+      SPRING_REDIS_PORT: 6380
+      ENV_IDLE_PROFILE: production-set1
+    volumes:
+      - /home/ubuntu/front/build/images:/images
+    ports:
+      - 9001:9001
+    networks:
+      - dev_network
+      - infra
+
+networks:
+  dev_network:
+  infra:

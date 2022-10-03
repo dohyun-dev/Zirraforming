@@ -67,6 +67,7 @@ public class MyPageApiController {
         for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)){
             zirra.put(date, new ArrayList<>());
         }
+        zirra.put(LocalDate.of(current.getYear(), 12, 31), new ArrayList<>());
 
         // 오늘 지라포밍 삽입
         List<String> todayZirra = myPageService.getZirraformingImg(memberId, String.valueOf(LocalDate.now()));
@@ -77,9 +78,11 @@ public class MyPageApiController {
             LocalDate date = LocalDate.from(star.getCreatedAt());
             zirra.get(date).add(star.getImgUrl());
         }
+        System.out.println(profile.get("score"));
+//        System.out.println(Integer.parseInt(profile.get("score")));
         MyPageResponse myPageResponse = MyPageResponse.builder()
                 .characterName(profile.get("characterName")).nickName(profile.get("nickname"))
-                .characterImgPath(profile.get("characterImgPath")).score(Integer.parseInt(profile.get("score")))
+                .characterImgPath(profile.get("characterImgPath")).score(profile.get("score"))
                 .badges(badge).total(thisYearTotalStar.size()).zirraforming(zirra).build();
         return ResponseEntity.ok(myPageResponse);
     }

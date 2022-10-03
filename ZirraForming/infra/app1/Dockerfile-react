@@ -1,0 +1,7 @@
+FROM node:16
+WORKDIR "/usr/src/app"
+COPY ./app/client/client/ ./
+RUN rm -rf node_modules
+RUN rm -rf package-lock.json
+RUN npm install --legacy-peer-deps
+CMD ["npm","run","start"]
