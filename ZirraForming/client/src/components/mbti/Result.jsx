@@ -40,8 +40,8 @@ function Result() {
 
 	const { state } = useLocation();
 	const [result, setResult] = useState([]);
+	const [campaigns, setCampaigns] = useState([]);
 	const characterId = state;
-	console.log(characterId);
 
 	useEffect(() => {
 		axios
@@ -49,6 +49,7 @@ function Result() {
 			.then((response) => {
 				console.log(response.data);
 				setResult(response.data);
+				setCampaigns(response.data.campaigns);
 			});
 	}, []);
 
@@ -80,11 +81,11 @@ function Result() {
 				>
 					<p style={{ fontSize: "14px" }}>
 						{result.description &&
-							result.description.split("<br>").map((line) => {
+							result.description.split("<br>").map((line, idx) => {
 								return (
-									<>
+									<div key={idx}>
 										{line} <br />
-									</>
+									</div>
 								);
 							})}
 					</p>
@@ -127,6 +128,9 @@ function Result() {
 				>
 					<img src={homebanner} style={{ width: "100%" }} alt="" />
 					<HomeButton
+						onClick={() => {
+							navigate("/");
+						}}
 						style={{
 							backgroundColor: "#575757",
 							height: "50px",
@@ -143,11 +147,18 @@ function Result() {
 					style={{
 						backgroundColor: "#FBEBDC",
 						margin: "2vh 0 5vh 0",
+						backgroundImage: campaigns[0]
+							? `url(${campaigns[0].campaignImgUrl})`
+							: null,
+						backgroundSize: "cover",
 					}}
 				>
 					<HomeButton
+						onClick={() => {
+							window.location.href = campaigns[0].campaignUrl;
+						}}
 						style={{
-							backgroundColor: "#FFC792",
+							backgroundColor: "#444444",
 							height: "50px",
 							justifyContent: "center",
 							alignItems: "center",
