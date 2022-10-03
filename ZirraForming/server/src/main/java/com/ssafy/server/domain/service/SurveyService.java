@@ -37,14 +37,13 @@ public class SurveyService {
     }
 
     @Transactional
-    public void updateMemberCharacterType(Long memberId, String characterTypeName) {
+    public void updateMemberCharacterType(Long memberId, Long characterId) {
         // 멤버 조회
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFountException(memberId));
         
         // 캐릭터 타입 조회
-        CharacterType findCharacterType = characterTypeRepository.findByName(characterTypeName)
-                .orElseThrow(() -> new CharacterTypeNotFoundException(characterTypeName));
+        CharacterType findCharacterType = characterTypeRepository.findById(characterId).orElseThrow(() -> new CharacterTypeNotFoundException());
         
         // 멤버 캐릭터 타입 업데이트
         findMember.updateCharacterType(findCharacterType);

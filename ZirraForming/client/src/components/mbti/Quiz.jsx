@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { BasicButton } from "../../items/styleButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { MemberData } from "../../atoms";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -41,6 +45,9 @@ function Quiz(props) {
 	const [index, setIndex] = useState(0);
 	const [score, setScore] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
 
+	const memberData = useRecoilValue(MemberData);
+	const [cookies] = useCookies(["accessToken"]);
+
 	function plusScore(props) {
 		setIndex(index + 1);
 		setScore(score.map((x, y) => x + props[y]));
@@ -49,8 +56,33 @@ function Quiz(props) {
 		if (index === 9) {
 			const maxValue = score.findIndex((ele) => ele === Math.max(...score)) + 1;
 			console.log(maxValue);
+			saveCharacterType(maxValue)
 
 			navigate("./result", { state: maxValue });
+		}
+	}
+
+	function saveCharacterType(maxValue) {
+		const config = {
+			Headers: {
+				Authorization: "Bearer " + cookies.accessToken,
+			},
+		};
+
+		const data = {
+			memberId: memberData.member.Id,
+			characterId: maxValue
+		};
+
+		console.log(data)
+
+		if (data.memberId) {
+			axios.put("https://j7d107.p.ssafy.io/api/surveyresult", data, config)
+				.then((response) => {
+					console.log(response.data.message);
+				}).catch((err) => {
+					console.log(err.message);
+				});
 		}
 	}
 
