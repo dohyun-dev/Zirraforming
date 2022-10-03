@@ -109,12 +109,7 @@ public class StarService {
             }
         }
 
-        Collections.sort(result, new Comparator<Stars>() {
-            @Override
-            public int compare(Stars o1, Stars o2) {
-                return o2.getCount()-o1.getCount();
-            }
-        });
+        Collections.sort(result, (star1, star2) -> star2.getCount() - star1.getCount());
 
         List<String> rank = new ArrayList<>();
 
@@ -184,7 +179,8 @@ public class StarService {
         String serverFilePath = fileStore.getServerFilePath(fileStore.saveFile(image));
         String aiDetectionResult = restTemplateService.getAiDetectionResult(serverFilePath);
         Trash trash = trashRepository.findByType(aiDetectionResult);
-        redisTemplate.opsForSet().add("starList:" + memberId.toString(), new StarDto(memberId, trash.getCo2(), trash.getIce(), serverFilePath, trashNamedict.get(aiDetectionResult)));
+        if (trash.getType() != "null")
+            redisTemplate.opsForSet().add("starList:" + memberId.toString(), new StarDto(memberId, trash.getCo2(), trash.getIce(), serverFilePath, trashNamedict.get(aiDetectionResult)));
         addBadge(memberId);
         return trash;
     }
@@ -277,7 +273,7 @@ public class StarService {
             if(redisTemplate.type(key).code()=="set"){
                 Iterator<StarDto> iterator = redisTemplate.opsForSet().members(key).iterator();
                 while (iterator.hasNext()) {
-                    StarDto starDto = objectMapper().convertValue(iterator.next(), new TypeReference<StarDto>() {});;
+                    StarDto starDto = objectMapper().convertValue(iterator.next(), new TypeReference<StarDto>() {});
                     if (trashCount.containsKey(starDto.getType()))
                         trashCount.put(starDto.getType(), trashCount.get(starDto.getType()) + 1);
                     else
