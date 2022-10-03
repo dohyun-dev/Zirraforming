@@ -254,13 +254,13 @@ function Profile({ memberId }) {
           if (memberInfo.badges[idx]) {
             return (
               <div className="imageWrap">
-                <img key={idx} src={img} width={"80%"} alt="" />
+                <img key={idx} src={img} width={"60%"} alt="" />
               </div>
             );
           } else {
             return (
               <div className="imageWrap">
-                <img key={idx} src={lock} width={"80%"} alt="" />
+                <img key={idx} src={lock} width={"60%"} alt="" />
               </div>
             );
           }

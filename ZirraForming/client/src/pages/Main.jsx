@@ -28,6 +28,7 @@ import IceArea from "../components/main/IceArea";
 import IceSheet from "../components/main/IceSheet";
 import IceSheetImage from "../components/three/IceSheetImage";
 import Last from "../components/main/Last";
+import Banner from "../components/main/Banner";
 
 const CanvasWrap = styled.div`
   width: 100vw;
@@ -64,6 +65,9 @@ function Main() {
   // 마지막페이지
   const [last, setLast] = useState(false);
   const [lastName, setLastName] = useState(false);
+
+  const [banner, setBanner] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -115,6 +119,7 @@ function Main() {
                 setnSecond={setnSecond}
                 setLast={setLast}
                 setLastName={setLastName}
+                setBanner={setBanner}
               />
             </ScrollControls>
           </Suspense>
@@ -131,6 +136,7 @@ function Main() {
         <IceSheetImage first={nfirst} second={nsecond} third={nthird} />
       ) : null} */}
       {last ? <Last last={last} first={lastName} /> : null}
+      {banner ? <Banner /> : null}
     </CanvasWrap>
   );
 }
