@@ -47,11 +47,7 @@ spring:
         google:
           clientId: 676448010615-l92nu3hnd67fhb9l7dovm2euu3c4p9f4.apps.googleusercontent.com
           clientSecret: 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
-          scope:
-            - email
-        facebook:
-          clientId: "{페이스북 client-id}"
-          clientSecret: "{페이스북 client-secret}"
+          redirectUri: ${server.baseURL}/{action}/oauth2/code/{registrationId}
           scope:
             - email
         naver:
@@ -59,7 +55,7 @@ spring:
           clientSecret: YPlSdz6TVv
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          redirectUri: ${server.baseURL}/{action}/oauth2/code/{registrationId}
           scope:
             - email
           clientName: Naver
@@ -68,7 +64,7 @@ spring:
           clientSecret: Qsmqx8sM5oe1ygclWuNgY8NNv8A5OmX8
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          redirectUri: ${server.baseURL}/{action}/oauth2/code/{registrationId}
           scope:
             - account_email
           clientName: Kakao
@@ -84,10 +80,7 @@ spring:
           tokenUri: https://kauth.kakao.com/oauth/token
           userInfoUri: https://kapi.kakao.com/v2/user/me
           userNameAttribute: id
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+
 # cors 설정
 cors:
   allowed-origin-patterns: '*'
@@ -115,7 +108,7 @@ logging:
 file:
   dir: /images/
 
-ssafy.server.url: https://j7d107.p.ssafy.io
+ssafy.server.url: http://j7d107.p.ssafy.io
 ssafy.server.fastapi.url: http://j7d107.p.ssafy.io:8000
 
 ---
@@ -154,7 +147,7 @@ spring:
 
 app:
   oauth2:
-    authorizedRedirectUris: http://j7d107.p.ssafy.io
+    authorizedRedirectUris: ${server.authURL}
 
 ---
 # 개발 DB
@@ -184,7 +177,8 @@ spring:
 
 app:
   oauth2:
-    authorizedRedirectUris: http://j7d107.p.ssafy.io
+    authorizedRedirectUris: ${server.authURL}
+
 ---
 # 로컬 DB
 spring:
@@ -212,7 +206,8 @@ spring:
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
 app:
   oauth2:
-    authorizedRedirectUris: http://localhost:3000
+    authorizedRedirectUris: ${server.authURL}
+
 ---
 spring:
   config:
@@ -221,6 +216,8 @@ spring:
 
 server:
   port: 8080
+  baseURL: http://localhost:8080
+  authURL: http://localhost:3000
 
 ---
 spring:
@@ -230,6 +227,8 @@ spring:
 
 server:
   port: 9001
+  baseURL: https://j7d107.p.ssafy.io
+  authURL: https://j7d107.p.ssafy.io
 
 ---
 spring:
@@ -239,3 +238,5 @@ spring:
 
 server:
   port: 9002
+  baseURL: https://j7d107.p.ssafy.io
+  authURL: https://j7d107.p.ssafy.io
