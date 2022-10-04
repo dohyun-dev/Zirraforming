@@ -10,7 +10,7 @@ const CanvasWrap = styled.div`
   background-position: center center;
   background-size: cover;
   color: ${(props) => props.theme.lightWhite};
-  font-family: "Black Han Sans";
+  font-family: "GmarketSansMedium";
   display: flex;
   justify-content: center;
   @media screen and (${(props) => props.theme.tablet}) {
