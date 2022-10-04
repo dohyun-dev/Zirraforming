@@ -11,6 +11,7 @@ import { DEG2RAD } from "three/src/math/MathUtils";
 import { useRecoilValue } from "recoil";
 import { useCookies } from "react-cookie";
 import { MemberData } from "../../atoms";
+import ProgressBar from "../common/progressBar";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -74,16 +75,18 @@ function Quiz(props) {
 
 		const data = {
 			memberId: memberData.member.Id,
-			score: score
+			score: score,
 		};
 
-		console.log(data)
+		console.log(data);
 
 		if (data.memberId) {
-			axios.put("https://j7d107.p.ssafy.io/api/quiz", data, config)
+			axios
+				.put("https://j7d107.p.ssafy.io/api/quiz", data, config)
 				.then((response) => {
 					console.log(response.data.message);
-				}).catch((err) => {
+				})
+				.catch((err) => {
 					console.log(err.message);
 				});
 		}
@@ -93,16 +96,23 @@ function Quiz(props) {
 		<>
 			{!isResult ? (
 				<Wrapper>
-					<div
+					{/* <div
 						style={{
 							width: "80%",
 							height: "20px",
 							backgroundColor: "#3c9f58",
 							margin: "7vh 0px 3vh 0px",
 						}}
-					></div>
-					<h3 style={{ marginBottom: "20px" }}>{index + 1}/10</h3>
-					<img
+					></div> */}
+					<ProgressBar
+						bgcolor="#3c9f58"
+						completed={((index + 1) / 10) * 100}
+						left={index + 1}
+					/>
+					<h3 style={{ marginBottom: "20px", fontFamily: "Black Han Sans" }}>
+						{index + 1}/10
+					</h3>
+					{/* <img
 						src="/assets/styleQuiz/bar.png"
 						style={{
 							width: "70px",
@@ -111,7 +121,7 @@ function Quiz(props) {
 							position: "absolute",
 						}}
 						alt=""
-					/>
+					/> */}
 					<h2 style={{ marginBottom: "20px", padding: "0 35px 0 35px" }}>
 						{quizData[index].question}
 					</h2>
@@ -120,7 +130,11 @@ function Quiz(props) {
 						return (
 							<BasicButton
 								key={idx}
-								style={{ marginBottom: "3vh", fontSize: "20px" }}
+								style={{
+									marginBottom: "3vh",
+									fontSize: "20px",
+									fontWeight: 600,
+								}}
 								onClick={() => {
 									setIsResult(!isResult);
 									setIndex(index + 1);
@@ -140,15 +154,20 @@ function Quiz(props) {
 				</Wrapper>
 			) : (
 				<Wrapper>
-					<div
+					{/* <div
 						style={{
 							width: "80%",
 							height: "20px",
 							backgroundColor: "#3c9f58",
 							margin: "7vh 0px 3vh 0px",
 						}}
-					></div>
-					<img
+					></div> */}
+					<ProgressBar
+						bgcolor="#3c9f58"
+						completed={(index / 10) * 100}
+						left={index}
+					/>
+					{/* <img
 						src="/assets/styleQuiz/bar.png"
 						style={{
 							width: "70px",
@@ -157,8 +176,10 @@ function Quiz(props) {
 							position: "absolute",
 						}}
 						alt=""
-					/>
-					<h3 style={{ marginBottom: "20px" }}>{index}/10</h3>
+					/> */}
+					<h3 style={{ marginBottom: "20px", fontFamily: "Black Han Sans" }}>
+						{index}/10
+					</h3>
 					<img
 						src={isCorrect ? correct : incorrect}
 						style={{
@@ -194,7 +215,15 @@ function Quiz(props) {
 							color: "black",
 						}}
 					>
-						<h2 style={{ alignSelf: "center", marginBottom: "10px" }}>풀이</h2>
+						<h2
+							style={{
+								alignSelf: "center",
+								marginBottom: "10px",
+								fontFamily: "SBAggroB",
+							}}
+						>
+							풀이
+						</h2>
 						{quizData[index - 1].solution.split("<br>").map((line, idx) => {
 							return (
 								<div key={idx}>
@@ -205,7 +234,7 @@ function Quiz(props) {
 					</div>
 					<div
 						style={{
-							width: "70px",
+							width: "90px",
 							backgroundColor: "#3c9f58",
 							margin: "3vh 0px 3vh 0px",
 							padding: " 10px 20px 10px 20px",

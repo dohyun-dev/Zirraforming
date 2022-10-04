@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { MemberData } from "../../atoms";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import ProgressBar from "../common/progressBar";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -89,7 +90,7 @@ function Quiz(props) {
 	return (
 		<>
 			<Wrapper>
-				<div
+				{/* <div
 					style={{
 						width: "80%",
 						height: "20px",
@@ -105,8 +106,8 @@ function Quiz(props) {
 						margin: "4vh 0 2vh 0 ",
 						position: "absolute",
 					}}
-					alt=""
-				/>
+				/> */}
+				<ProgressBar bgcolor="#9ba3eb" completed={(index + 1) / 10 * 100} left={index+1} />
 				<h2
 					style={{
 						justifyContent: "center",

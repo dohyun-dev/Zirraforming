@@ -42,9 +42,9 @@ const Note = styled(motion.div)`
 	border-radius: 10px;
 	border: 0px;
 	color: black;
-	font-size: 25px;
-	font-weight: 300;
-	font-family: "Black Han Sans";
+	font-size: 20px;
+	font-weight: 700;
+	font-family: "GmarketSansMedium";
 	margin: 3vh 0px 3vh 0px;
 	padding: 10px 10px 10px 10px;
 	overflow-y: scroll;
@@ -107,7 +107,7 @@ function Result() {
 					onClick={() => {
 						navigate("../quiz");
 					}}
-					style={{ marginBottom: "2vh" }}
+					style={{ marginBottom: "2vh", fontFamily: "SBAggroB" }}
 				>
 					테스트 다시하기
 				</BasicButton>
@@ -115,7 +115,7 @@ function Result() {
 					onClick={() => {
 						navigate("../../style");
 					}}
-					style={{ backgroundColor: "#99D1A9" }}
+					style={{ backgroundColor: "#99D1A9", fontFamily: "SBAggroB" }}
 				>
 					나의 환경스타일 분석하기
 				</BasicButton>
@@ -139,17 +139,20 @@ function Result() {
 							width: "width: 400px",
 							color: "white",
 						}}
+						onClick={() => navigate("/")}
 					>
 						지구의 이야기를 들으러 GO!
 					</HomeButton>
 				</HomeButton>
 				<Note>
-					<p style={{ alignSelf: "center" }}>오답노트</p>
+					<p style={{ alignSelf: "center", fontFamily: "SBAggroB" }}>
+						오답노트
+					</p>
 					{location.state.solution.map((data, idx) => {
 						return (
 							<div key={idx} style={{ margin: "10px 0 10px 0" }}>
 								<p style={{ color: "#3c9f58" }}>{data.quizId}번</p>
-								<p style={{ fontSize: "18px" }}>
+								<p style={{ fontSize: "15px" }}>
 									{data.solution.split("<br>").map((line) => {
 										return (
 											<>

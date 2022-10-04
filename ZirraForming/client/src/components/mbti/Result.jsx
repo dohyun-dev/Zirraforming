@@ -25,6 +25,7 @@ const Wrapper = styled(motion.div)`
 	h2 {
 		font-size: 100;
 		color: black;
+		font-family: SBAggroB;
 	}
 	@media screen and (${(props) => props.theme.tablet}) {
 		width: 60vw;
@@ -108,7 +109,7 @@ function Result() {
 					onClick={() => {
 						navigate("../style");
 					}}
-					style={{ marginBottom: "2vh" }}
+					style={{ marginBottom: "2vh", fontFamily: "SBAggroB" }}
 				>
 					테스트 다시하기
 				</BasicButton>
@@ -116,7 +117,7 @@ function Result() {
 					onClick={() => {
 						navigate("../../quiz");
 					}}
-					style={{ backgroundColor: "#DBDFFD" }}
+					style={{ backgroundColor: "#DBDFFD", fontFamily: "SBAggroB" }}
 				>
 					환경 상식 퀴즈 풀러가기
 				</BasicButton>

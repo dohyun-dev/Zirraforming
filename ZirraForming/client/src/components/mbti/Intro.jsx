@@ -64,6 +64,7 @@ function Intro() {
 						onClick={() => {
 							setStart(!start);
 						}}
+						style={{ fontFamily: "SBAggroB" }}
 					>
 						START
 					</BasicButton>
