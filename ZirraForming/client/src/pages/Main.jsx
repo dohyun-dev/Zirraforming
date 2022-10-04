@@ -52,6 +52,7 @@ function Main() {
   const [iceAreaImage, setIceAreaImage] = useState(false);
 
   // 빙하페이지 조작
+  const [start, setStart] = useState(false);
   const [first, setFirst] = useState(false);
   const [second, setSecond] = useState(false);
   const [third, setThird] = useState(false);
@@ -85,6 +86,7 @@ function Main() {
   const handleTemper = () => {
     setTemImage(true);
   };
+
   return (
     <CanvasWrap>
       <Canvas
@@ -120,6 +122,7 @@ function Main() {
                 setLast={setLast}
                 setLastName={setLastName}
                 setBanner={setBanner}
+                setStart={setStart}
               />
             </ScrollControls>
           </Suspense>
@@ -129,14 +132,12 @@ function Main() {
       {co2Image ? <Co2Image /> : null}
       {iceAreaImage ? <IceAreaImage /> : null}
       {summaryPage ? <Summary /> : null}
-      {first ? (
+      {start ? (
         <IceArea first={first} second={second} third={third} forth={forth} />
       ) : null}
-      {/* {nfirst || nsecond ? (
-        <IceSheetImage first={nfirst} second={nsecond} third={nthird} />
-      ) : null} */}
+
       {last ? <Last last={last} first={lastName} /> : null}
-      {banner ? <Banner /> : null}
+      {banner ? <Banner navigate={navigate} /> : null}
     </CanvasWrap>
   );
 }

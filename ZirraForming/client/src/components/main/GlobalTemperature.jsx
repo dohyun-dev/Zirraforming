@@ -28,9 +28,7 @@ function GlobalTemperature() {
       </div>
       <div className="graph">
         <TwoLine
-          title={
-            "Data source: NASA's Goddard Institute for Space Studies (GISS). Credit: NASA/GISS"
-          }
+          title={"세계 평균 기온 추세"}
           xline={globalTemp?.year}
           yline={globalTemp?.lowess}
           zline={globalTemp?.temperature}

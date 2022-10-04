@@ -42,7 +42,10 @@ const Card = styled(motion.div)`
   grid-template-rows: 1fr 1fr;
   box-shadow: 0 5px 18px -7px #3f3f3f;
   backdrop-filter: blur(2px);
-
+  .top {
+    display: flex;
+    justify-content: center;
+  }
   .description {
     display: flex;
     flex-direction: column;
@@ -83,33 +86,72 @@ const WrapVar = {
       staggerChildren: 1,
     },
   },
+  exiting: {
+    opacity: 1,
+    y: 0,
+  },
 };
 
 const childrenVar = {
   start: {
     opacity: 0,
-    y: 10,
+    y: 30,
   },
   end: {
     opacity: 1,
     y: 0,
-    // transition: {
-    //   delayChildren: 0.3,
-    //   staggerChildren: 0.3,
-    //   duration: 1,
-    // },
+    transition: {
+      duration: 1,
+    },
+  },
+  exit: {
+    y: 0,
   },
 };
 
-function Banner() {
+function Banner({ navigate }) {
   const card = useRef();
 
   return (
     <>
       <FixWrapper>
-        <Wrapper variants={WrapVar} initial="start" animate="end">
-          <Card variants={childrenVar}>
-            <img src={img1} width="100%" alt="" />
+        <Wrapper
+          variants={WrapVar}
+          initial="start"
+          animate="end"
+          exit={"exiting"}
+        >
+          <Card
+            variants={childrenVar}
+            whileHover={{
+              scale: 1.1,
+            }}
+          >
+            <div className="top">
+              <img src={img2} width="100%" alt="" />
+            </div>
+            <div className="description">
+              <div className="title">당신의 환경 스타일은?</div>
+
+              <div className="des">
+                당신의 환경 캐릭터는 누구일까요? <br /> 당신의 환경 캐릭터를
+                분석하고 당신과 잘 어울리는 캠페인을 추천해 드립니다
+              </div>
+
+              <BasicButton onClick={() => navigate("/style")}>
+                <p>한경스타일 분석</p>
+              </BasicButton>
+            </div>
+          </Card>
+          <Card
+            variants={childrenVar}
+            whileHover={{
+              scale: 1.1,
+            }}
+          >
+            <div className="top">
+              <img src={img1} width="100%" alt="" />
+            </div>
             <div className="description">
               <div className="title">별 보러 갈래</div>
 
@@ -122,28 +164,24 @@ function Banner() {
                 별보러 갈래 캠페인에 참가하여 건강한 지구를 만들어보아요
               </div>
 
-              <BasicButton>
-                <p>하러가기</p>
+              <BasicButton
+                onClick={() => {
+                  navigate("/campaign");
+                }}
+              >
+                <p>별 보러 갈래</p>
               </BasicButton>
             </div>
           </Card>
-          <Card variants={childrenVar}>
-            <img src={img2} width="100%" alt="" />
-            <div className="description">
-              <div className="title">당신의 환경 스타일은?</div>
-
-              <div className="des">
-                당신의 환경 캐릭터는 누구일까요? <br /> 당신의 환경 캐릭터를
-                분석하고 당신과 잘 어울리는 캠페인을 추천해 드립니다
-              </div>
-
-              <BasicButton>
-                <p>하러가기</p>
-              </BasicButton>
+          <Card
+            variants={childrenVar}
+            whileHover={{
+              scale: 1.1,
+            }}
+          >
+            <div className="top">
+              <img src={img3} width="90%" alt="" />
             </div>
-          </Card>
-          <Card variants={childrenVar}>
-            <img src={img3} width="100%" alt="" />
             <div className="description">
               <div className="title">환경 상식 퀴즈</div>
 
@@ -152,8 +190,12 @@ function Banner() {
                 실생활에 도움이 되는 환경문제를 풀어봐요
               </div>
 
-              <BasicButton>
-                <p>하러가기</p>
+              <BasicButton
+                onClick={() => {
+                  navigate("/quiz");
+                }}
+              >
+                <p>환경 퀴즈 풀기</p>
               </BasicButton>
             </div>
           </Card>

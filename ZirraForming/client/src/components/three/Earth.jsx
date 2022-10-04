@@ -55,6 +55,7 @@ function Earth(
     setLast,
     setLastName,
     setBanner,
+    setStart,
   },
   props
 ) {
@@ -241,6 +242,7 @@ function Earth(
       setsixthAni(false);
       setRotate(false);
       setFirst(true);
+      setStart(true);
       setSecond(false);
       setnFirst(false);
       setnSecond(false);
@@ -284,7 +286,7 @@ function Earth(
       setIceAreaImage(false);
       setSevenAni(false);
       setRotate(false);
-
+      setStart(false);
       setnFirst(true);
     }
     if (Math.floor(scroll.scroll.current * 100) >= 85) {

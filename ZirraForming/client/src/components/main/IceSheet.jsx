@@ -44,10 +44,10 @@ function IceSheet() {
       </div>
       <div className="graph">
         <OneLine
-          title={"Data source: Atmospheric Infrared Sounder (AIRS)."}
+          title={"남극 빙상 데이터"}
           xline={yearType}
           yline={DataType}
-          name={"CO2"}
+          name={"질량"}
           format={"Gt"}
           color={"#9C88FF"}
         />
