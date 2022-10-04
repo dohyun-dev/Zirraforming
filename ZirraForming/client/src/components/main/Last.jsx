@@ -5,7 +5,10 @@ import { globalTemperature, iceArea } from "../../atoms";
 import { Wrapper } from "../../items/MainWrapper";
 import OneLine from "../charts/OneLine";
 import { motion } from "framer-motion";
-import { AnimatedCharacters } from "../../items/Animation";
+import {
+  AnimatedCharacters,
+  AnimatedCharactersTwo,
+} from "../../items/Animation";
 
 const TextBox = styled(motion.div)`
   display: flex;
@@ -76,10 +79,10 @@ function Last({ last, first }) {
             animate={first ? "visible" : "hidden"}
             variants={container}
           >
-            <AnimatedCharacters item={textHolder.first} />
-            <AnimatedCharacters item={textHolder.second} />
+            <AnimatedCharactersTwo item={textHolder.first} />
+            <AnimatedCharactersTwo item={textHolder.second} />
             {textHolder.third.map((item, idx) => {
-              return <AnimatedCharacters item={item} key={idx} />;
+              return <AnimatedCharactersTwo item={item} key={idx} />;
             })}
           </TextBox>
         </>

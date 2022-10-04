@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { hoverUpDown } from "./Animation";
 
 export const ImgWrapper = styled(motion.div)`
-  width: ${(props) => props.width || "min(40vw, 800px)"};
+  width: ${(props) => props.width || "min(30vw, 700px)"};
 
   .title {
     display: grid;

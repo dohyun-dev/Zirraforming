@@ -201,7 +201,7 @@ function MainNavbar({ width, navigate }) {
                 <li onClick={() => navigate("/quiz")}>환경상식퀴즈</li>
                 <li
                   to="/"
-                  class="link"
+                  className="link"
                   onClick={() => {
                     const config = {
                       Headers: {

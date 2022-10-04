@@ -27,12 +27,7 @@ function TemperatureImage() {
     start();
   }, []);
   return (
-    <FixWrapper
-      top={"50%"}
-      // left={"35%"}
-      right={"55%"}
-      transform={"translate(0%, -50%)"}
-    >
+    <FixWrapper top={"50%"} right={"55%"}>
       <ImgWrapper
         color={"#FBC531"}
         variants={WrapVar}
@@ -40,8 +35,10 @@ function TemperatureImage() {
         animate="end"
       >
         <div className="title">
-          <div className="top">Global Temperature</div>
-          <div className="bottom_left">GLOBAL LAND-OCEAN TEMPERATURE INDEX</div>
+          {/* <div className="top">Global Temperature</div> */}
+          <div className="top">지구표면온도</div>
+          {/* <div className="bottom_left">GLOBAL LAND-OCEAN TEMPERATURE INDEX</div> */}
+          <div className="bottom_left">세계 표면온도 지표</div>
           <div className="bottom_right">
             <div className="right__top">YEAR</div>
             <div className="right__bottom">{Temper.year[now]}</div>
