@@ -44,6 +44,8 @@ function IceAreaImage() {
       >
         <div className="imgWrap">
           {ArcticImage.images.map((image, idx) => {
+            const a = "s";
+            const httpsImage = [image.slice(0, 4), a, image.slice(4)].join("");
             return (
               <div
                 key={idx}
@@ -53,7 +55,7 @@ function IceAreaImage() {
                 className={idx == now ? "image current" : "image"}
               >
                 <img
-                  src={image}
+                  src={httpsImage}
                   style={{
                     width: "100%",
                     height: "100%",
