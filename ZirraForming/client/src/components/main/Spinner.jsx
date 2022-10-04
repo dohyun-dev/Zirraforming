@@ -5,3 +5,7 @@ function Spinner() {
 }
 
 export default Spinner;
+
+function ImageSpinner() {
+  return;
+}

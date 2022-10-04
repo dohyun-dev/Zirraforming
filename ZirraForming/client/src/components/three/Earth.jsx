@@ -32,7 +32,7 @@ import {
 } from "recoil";
 import TemperatureImage from "./TemperatureImage";
 import Co2 from "../main/Co2";
-import { CustomEase } from "gsap/all";
+import { CustomEase, SlowMo } from "gsap/all";
 import IceArea from "../main/IceArea";
 import IceSheet from "../main/IceSheet";
 import Banner from "../main/Banner";
@@ -54,6 +54,7 @@ function Earth(
     setnSecond,
     setLast,
     setLastName,
+    setBanner,
   },
   props
 ) {
@@ -87,6 +88,7 @@ function Earth(
   const [fifthAni, setFifthAni] = useState(false);
   const [sixthAni, setsixthAni] = useState(false);
   const [sevenAni, setSevenAni] = useState(false);
+  const [eightAni, setEightAni] = useState(false);
 
   // HTML 조작
   const [introPage, setIntroPage] = useState(false);
@@ -108,6 +110,7 @@ function Earth(
   useFrame(({ clock }, delta) => {
     cloud.current.rotation.y -= delta / 20;
     // console.log(scroll.scroll.current);
+
     if (rotate) {
       earth.current.rotation.y += delta / 8;
     }
@@ -115,18 +118,27 @@ function Earth(
     // 1번째 페이지 무빙
     if (scroll.scroll.current === 0) {
       setIntroPage(true);
-      setSummaryPage(false);
-      setCo2Page(false);
-      setCo2Image(false);
       setTemImage(false);
+      setSummaryPage(false);
+      setCo2Image(false);
+      setCo2Page(false);
       setIceAreaPage(false);
+      setIceAreaImage(false);
+      setSummaryPage(false);
 
-      setRotate(true);
       setFirstAni(true);
       setSecondAni(false);
-
-      setnFirst(false);
-      setnSecond(false);
+      setThirdAni(false);
+      setForthAni(false);
+      setFifthAni(false);
+      setsixthAni(false);
+      setSevenAni(false);
+      setIceAreaImage(false);
+      setRotate(false);
+      setLast(false);
+      setLastName(false);
+      setBanner(false);
+      setEightAni(false);
     }
 
     if (Math.floor(scroll.scroll.current * 100) === 6) {
@@ -295,15 +307,47 @@ function Earth(
       setRotate(false);
       setLast(true);
       setLastName(false);
-      if (Math.floor(scroll.scroll.current * 100) >= 90) {
+      if (Math.floor(scroll.scroll.current * 100) >= 88) {
         setLastName(true);
+        setBanner(false);
+        setEightAni(false);
       }
+    }
+
+    if (Math.floor(scroll.scroll.current * 100) >= 98) {
+      setTemImage(false);
+      setSummaryPage(false);
+      setCo2Image(false);
+      setCo2Page(false);
+      setIceAreaPage(false);
+      setIceAreaImage(false);
+      setSummaryPage(false);
+
+      setFirstAni(false);
+      setSecondAni(false);
+      setThirdAni(false);
+      setForthAni(false);
+      setFifthAni(false);
+      setsixthAni(false);
+      setSevenAni(false);
+      setIceAreaImage(false);
+      setRotate(false);
+      setLast(false);
+      setLastName(false);
+      setBanner(true);
+      setEightAni(true);
     }
 
     // console.log(scroll.scroll.current); //81 83
     if (firstAni) {
       // 애니메이션
-
+      gsap.to(earth.current.scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        ease: Power0,
+        duration: 5,
+      });
       gsap
         .to(pCamera.current.rotation, {
           x: 0.2,
@@ -355,31 +399,41 @@ function Earth(
     // 세번째 에니메이션
     if (thridAni) {
       // console.log(stars.current);
-      gsap
-        .to(earth.current.scale, {
-          x: 30,
-          y: 30,
-          z: 30,
-        })
-        .duration(3);
-      gsap.to(pCamera.current.rotation, {
-        x: 0.3,
-        y: -0.2,
+      gsap.to(earth.current.position, {
+        y: 0,
+        x: 0,
         z: 0,
+        duration: 2,
+        ease: Power0,
+      });
+
+      gsap.to(pCamera.current.rotation, {
+        x: -0.5,
+        y: 0,
+        z: 0,
+        duration: 3,
+        ease: Power0,
+      });
+      gsap.to(earth.current.scale, {
+        x: 10,
+        y: 10,
+        z: 10,
+        ease: Power0,
         duration: 5,
       });
-      gsap
-        .to(pCamera.current.position, {
-          x: -200,
-          y: -100,
-          z: 250,
-        })
-        .duration(5);
+      gsap.to(pCamera.current.position, {
+        x: -20,
+        y: 25,
+        z: 20,
+        duration: 5,
+        ease: Power0,
+      });
 
       gsap.to(earth.current.position, {
         x: 0,
         y: 0,
         z: 0,
+        duration: 10,
       });
     }
     if (forthAni) {
@@ -393,9 +447,9 @@ function Earth(
       });
 
       gsap.to(pCamera.current.rotation, {
-        x: -0.3,
-        y: 0.85,
-        z: 0.2,
+        x: -0.35,
+        y: 1,
+        z: 0.12,
         duration: 5,
         ease: Power0,
       });
@@ -544,6 +598,55 @@ function Earth(
       //   ease: Power0,
       // });
     }
+    if (eightAni) {
+      gsap.to(earth.current.rotation, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 5,
+        ease: Power0,
+      });
+      gsap.to(earth.current.position, {
+        y: 0,
+        x: 0,
+        z: 0,
+        duration: 2,
+        ease: Power0,
+      });
+
+      gsap.to(pCamera.current.rotation, {
+        x: -0.5,
+        y: 0,
+        z: 0,
+        duration: 3,
+        ease: Power0,
+      });
+      gsap.to(earth.current.scale, {
+        x: 10,
+        y: 10,
+        z: 10,
+        ease: Power0,
+        duration: 5,
+      });
+      gsap.to(pCamera.current.position, {
+        x: 0,
+        y: 25,
+        z: 50,
+        duration: 3,
+        ease: Power0,
+      });
+      // console.log(scroll.range(1, 1 / 20));
+      // console.log(Math.floor(scroll.scroll.current * 100) - 81);
+      // pCamera.current.position.z =
+      //   -250 - (Math.floor(scroll.scroll.current * 100) - 81) * 10;
+      // gsap.to(pCamera.current.position, {
+      //   x: 13,
+      //   y: 10,
+      //   z: -100,
+      //   duration: 5,
+      //   ease: Power0,
+      // });
+    }
   });
 
   return (
@@ -563,7 +666,13 @@ function Earth(
       {/* 조명설정 */}
 
       <ambientLight
-        intensity={firstAni || secondAni ? 1 : fifthAni || sixthAni ? 1 : 3}
+        intensity={
+          firstAni || secondAni
+            ? 1
+            : fifthAni || sixthAni || sevenAni || eightAni
+            ? 1
+            : 3
+        }
         color={firstAni || secondAni ? "white" : "gray"}
       />
       <pointLight color="#f6f3ea" position={[0, 0, 0]} intensity={1} />
@@ -607,7 +716,6 @@ function Earth(
           {globalTem ? <GlobalTemperature /> : null}
           <Co2 />
           <IceSheet />
-          <Banner />
         </RecoilBridge>
       </Scroll>
     </>

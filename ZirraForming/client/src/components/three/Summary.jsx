@@ -61,11 +61,6 @@ const childrenVar = {
   end: {
     opacity: 1,
     y: 0,
-    // transition: {
-    //   delayChildren: 0.3,
-    //   staggerChildren: 0.3,
-    //   duration: 1,
-    // },
   },
 };
 
