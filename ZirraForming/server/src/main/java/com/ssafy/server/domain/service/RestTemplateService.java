@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Service
 public class RestTemplateService {
-    @Value("${ssafy.server.fastapi.url}")
+    @Value("${ssafy.server.url}")
     private String serverUrl;
 
     public String getAiDetectionResult(String serverFilePath) {
@@ -25,6 +25,8 @@ public class RestTemplateService {
                 .encode()
                 .build()
                 .toUri();
+
+        System.out.println("uri = " + uri);
 
         ResponseEntity<TrashResultResponse> response = new RestTemplate().exchange(makeRequest(serverFilePath, uri), TrashResultResponse.class);
 

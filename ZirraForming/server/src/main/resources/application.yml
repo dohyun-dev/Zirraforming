@@ -108,8 +108,7 @@ logging:
 file:
   dir: /images/
 
-ssafy.server.url: http://j7d107.p.ssafy.io
-ssafy.server.fastapi.url: http://j7d107.p.ssafy.io:8000
+ssafy.server.url: https://j7d107.p.ssafy.io
 
 ---
 # 운영 DB
