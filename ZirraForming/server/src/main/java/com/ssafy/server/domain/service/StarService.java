@@ -179,7 +179,7 @@ public class StarService {
         String serverFilePath = fileStore.getServerFilePath(fileStore.saveFile(image));
         String aiDetectionResult = restTemplateService.getAiDetectionResult(serverFilePath);
         Trash trash = trashRepository.findByType(aiDetectionResult);
-        if (trash.getType().equals("null"))
+        if (!trash.getType().equals("null"))
             redisTemplate.opsForSet().add("starList:" + memberId.toString(), new StarDto(memberId, trash.getCo2(), trash.getIce(), serverFilePath, trashNamedict.get(aiDetectionResult)));
         addBadge(memberId);
         return trash;
