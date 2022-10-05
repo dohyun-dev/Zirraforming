@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -52,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                     .authorizeRequests()
+                    .antMatchers(HttpMethod.PUT, "/api//member/*/changenickname").authenticated()
+                    .antMatchers(HttpMethod.PUT, "/api/reissue").authenticated()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .anyRequest().permitAll()
                 .and()

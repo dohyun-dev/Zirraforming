@@ -20,7 +20,7 @@ public class HomeResponse {
     public HomeResponse(Co2Dto co2Dto, SurfaceTemperatureDto surfaceTemperatureDto,
                         ArcticSeaIceDto arcticSeaIceDto, IceSheetsDto iceSheetsDto, AirPollutionDto airPollutionDto) {
 
-        this.summary = Stream.of(co2Dto.getSummaryCo2(), surfaceTemperatureDto.getSummaryTemp(),
+        this.summary = Stream.of(surfaceTemperatureDto.getSummaryTemp(), co2Dto.getSummaryCo2(),
                 arcticSeaIceDto.getSummaryArctic(), iceSheetsDto.getSummaryIceSheets()).collect(Collectors.toList());
         this.co2 = co2Dto;
         this.temperature = surfaceTemperatureDto;

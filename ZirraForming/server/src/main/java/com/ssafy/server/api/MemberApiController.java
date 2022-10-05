@@ -4,11 +4,12 @@ import com.ssafy.server.api.dto.common.ResultDto;
 import com.ssafy.server.api.dto.member.DuplicatedCheckResultResponse;
 import com.ssafy.server.api.dto.member.NicknameChangeRequest;
 import com.ssafy.server.config.properties.TokenProperties;
+import com.ssafy.server.domain.exception.InvalidJwtAccessException;
 import com.ssafy.server.domain.exception.ValidationException;
 import com.ssafy.server.domain.service.MemberService;
-import com.ssafy.server.oauth.token.AuthToken;
-import com.ssafy.server.oauth.token.AuthTokenProvider;
 import com.ssafy.server.oauth.utils.CookieUtil;
+import com.ssafy.server.oauth.utils.HeaderUtil;
+import com.ssafy.server.util.AuthenticationUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class MemberApiController {
 
     private final MemberService memberService;
     private final TokenProperties tokenProperties;
-    private final AuthTokenProvider tokenProvider;
+    private final AuthenticationUtil authenticationUtil;
 
     @PostMapping("/logout")
     public ResponseEntity<ResultDto> logout(HttpServletRequest request, HttpServletResponse response){
@@ -46,11 +47,18 @@ public class MemberApiController {
     }
 
     @PutMapping("/member/{memberId}/changenickname")
-    public ResponseEntity<ResultDto> changeNickname(@PathVariable("memberId") Long memberId, @Valid @RequestBody NicknameChangeRequest request, BindingResult bindingResult) {
+    public ResponseEntity<ResultDto> changeNickname(@PathVariable("memberId") Long memberId, @Valid @RequestBody NicknameChangeRequest nicknameChangeRequest, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
+        // 요청 유저가 유효한 유저인지 확인
+        if(authenticationUtil.getLoginMemberId() != memberId){
+            throw new InvalidJwtAccessException(memberId);
+        }
+
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult);
         }
-        memberService.changeNickname(memberId, request.getNickname());
+        memberService.changeNickname(memberId, nicknameChangeRequest.getNickname());
+
+        addToken(memberId, request, response);
         return ResponseEntity.ok(ResultDto.of("닉네임이 변경되었습니다."));
     }
 
@@ -61,15 +69,10 @@ public class MemberApiController {
     }
 
     @GetMapping("/reissue")
-    public ResponseEntity<ReissueResponse> getReissue(HttpServletRequest request, HttpServletResponse response){
-        String tokenStr = CookieUtil.getCookieValue(request, "refreshToken");
-        AuthToken token = tokenProvider.convertAuthToken(tokenStr);
-        Long memberId = Long.valueOf(tokenProvider.getAuthentication(token).getName());
-
-        CookieUtil.deleteCookie(request, response, "refreshToken");
-        CookieUtil.deleteCookie(request, response, "accessToken");
-        CookieUtil.addCookie(response, "refreshToken", memberService.createRefreshToken(tokenStr, memberId), (int)tokenProperties.getAuth().getRefreshTokenExpiry());
-        return ResponseEntity.ok(ReissueResponse.of(memberService.createAccessToken(memberId)));
+    public ResponseEntity<ResultDto> getReissue(HttpServletRequest request, HttpServletResponse response){
+        Long memberId = authenticationUtil.getLoginMemberId();
+        addToken(memberId, request, response);
+        return ResponseEntity.ok(ResultDto.of("토큰이 재발급되었습니다."));
     }
 
     @Getter
@@ -80,6 +83,13 @@ public class MemberApiController {
         public static ReissueResponse of(String accessToken) {
             return new ReissueResponse(accessToken);
         }
+    }
+
+    private void addToken(Long memberId, HttpServletRequest request, HttpServletResponse response) {
+        String tokenStr = HeaderUtil.getAccessToken(request);
+        System.out.println(tokenStr);
+        CookieUtil.addCookie(response, "accessToken", memberService.createAccessToken(memberId), (int)tokenProperties.getAuth().getTokenExpiry());
+        CookieUtil.addCookie(response, "refreshToken", memberService.createRefreshToken(tokenStr, memberId), (int)tokenProperties.getAuth().getRefreshTokenExpiry());
     }
 }
 
