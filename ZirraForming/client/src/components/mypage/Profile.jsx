@@ -41,7 +41,7 @@ const Wrapper = styled.div`
   .italic {
     font-style: italic;
     color: #353b48;
-    font-size: 1.8vw;
+    font-size: min(1.8vw, 18px);
   }
   .description {
     .error {
@@ -50,7 +50,7 @@ const Wrapper = styled.div`
       color: red;
     }
     color: black;
-    font-size: 2.5vw;
+    font-size: min(2.5vw, 30px);
     padding: 30px 0;
     display: flex;
     flex-direction: column;
@@ -75,6 +75,7 @@ const Wrapper = styled.div`
     padding: 10px 20px;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
+    align-items: center;
     .imageWrap {
       display: flex;
       justify-content: center;
@@ -138,7 +139,6 @@ function Profile({ memberId }) {
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 
   const Images = [welcome, earth, polarbak, tenten, mbit, save];
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const changeNick = e.target[0].value;
@@ -156,7 +156,6 @@ function Profile({ memberId }) {
         return data;
       })
       .then((res) => {
-        console.log(res);
         const config = {
           Headers: {
             Authorization: "Bearer " + cookies.accessToken,
@@ -169,18 +168,17 @@ function Profile({ memberId }) {
             data: data,
           })
             .then((res) => {
-              console.log(res);
               setEditMode(false);
             })
             .catch((err) => {
               console.log(err);
-              setError(err.message);
+              setError(err.response.data.message);
             });
         } else {
-          setError(res.message);
+          setError("중복된 닉네임입니다");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setError(err.response.data.message));
   };
   const handleChange = (e) => {
     setMemberInfo((data) => {
@@ -211,13 +209,7 @@ function Profile({ memberId }) {
                   type="text"
                 />
               </form>
-              <img
-                id="edit"
-                onClick={() => setEditMode(true)}
-                src={edit}
-                width={"20px"}
-                alt=""
-              />
+              <img id="edit" src={edit} width={"20px"} alt="" />
             </div>
             <p className="error">{error}</p>
           </>
@@ -237,33 +229,33 @@ function Profile({ memberId }) {
         {member.characterName ? (
           <p>{member.characterName}</p>
         ) : (
-          <Link to={"/mbti"}>
+          <Link to={"/style"}>
             <p className="italic">유형검사 하러가기</p>
           </Link>
         )}
         {member.score ? (
           <p>{member.score}</p>
         ) : (
-          <Link to={"/mbit"}>
+          <Link to={"/quiz"}>
             <p className="italic">퀴즈풀러가기</p>
           </Link>
         )}
       </div>
       <div className="badge">
         {Images.map((img, idx) => {
-          if (memberInfo.badges[idx]) {
-            return (
-              <div className="imageWrap">
-                <img key={idx} src={img} width={"60%"} alt="" />
-              </div>
-            );
-          } else {
-            return (
-              <div className="imageWrap">
-                <img key={idx} src={lock} width={"60%"} alt="" />
-              </div>
-            );
-          }
+          return (
+            <div key={idx}>
+              {memberInfo.badges[idx] ? (
+                <div className="imageWrap">
+                  <img src={img} width={"70%"} alt="" />
+                </div>
+              ) : (
+                <div className="imageWrap">
+                  <img src={lock} width={"70%"} alt="" />
+                </div>
+              )}
+            </div>
+          );
         })}
         {/* <img src={temp3} alt="" width={"70px"} /> */}
       </div>
