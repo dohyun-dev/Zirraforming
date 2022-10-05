@@ -54,7 +54,8 @@ function Intro() {
 							margin: "7vh 0px 3vh 0px",
 						}}
 					></div>
-					<h2>캐릭터로 알아보는 나의 환경 스타일은?</h2>
+					<h2>캐릭터로 알아보는 </h2>
+					<h2>나의 환경 스타일은?</h2>
 					<img
 						src="/assets/styleQuiz/문제0.png"
 						style={{ width: "60%", margin: "3vh 0 2vh 0 " }}

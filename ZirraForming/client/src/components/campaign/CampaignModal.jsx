@@ -29,7 +29,7 @@ const Modal = styled.div`
 		width: 24%;
 		min-width: 300px;
 		margin: 100px auto;
-		height: 550px;
+		height: 580px;
 		border-radius: 1rem;
 		background-color: #c6d2e4;
 		overflow: hidden;
@@ -190,7 +190,12 @@ function CampaignModal({ setModalOpen }) {
 							>
 								오늘의 지라포밍
 							</p>
-							<p style={{ color: "#151457", fontSize: "2.4rem" }}>
+							<p
+								style={{
+									color: "#151457",
+									fontSize: "2.4rem",
+								}}
+							>
 								{result.type}
 							</p>
 							<img
@@ -200,8 +205,10 @@ function CampaignModal({ setModalOpen }) {
 							/>
 							<p
 								style={{
-									color: "#49489B",
+									color: "#222128",
 									fontSize: "1rem",
+									padding: "0 25px 0 25px",
+									fontFamily: "GmarketSansMedium",
 								}}
 							>
 								{result.comment}
@@ -217,6 +224,7 @@ function CampaignModal({ setModalOpen }) {
 									cursor: "default",
 									display: "flex",
 									flexDirection: "column",
+									fontFamily: "SBAggroB",
 								}}
 							>
 								전 인구가 이 쓰레기를 잘 버린다면 <br />
@@ -232,7 +240,12 @@ function CampaignModal({ setModalOpen }) {
 								</p>
 							</BasicButton>
 							<BasicButton
-								style={{ width: "80%", height: "50px", marginTop: "20px" }}
+								style={{
+									width: "80%",
+									height: "50px",
+									marginTop: "20px",
+									fontFamily: "SBAggroB",
+								}}
 								onClick={() => {
 									navigate("./result");
 								}}

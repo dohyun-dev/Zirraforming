@@ -58,12 +58,13 @@ function Quiz(props) {
 
 	function plusScore() {
 		setScore(score + 1);
-		console.log(score);
 	}
 
-	function insertSolution(props) {
-		setSolution([...solution, { quizId: index + 1, solution: props }]);
-		console.log(solution);
+	function insertSolution(solutionData, question) {
+		setSolution([
+			...solution,
+			{ quizId: index + 1, solutionData: solutionData, question: question },
+		]);
 	}
 
 	function saveScore(score) {
@@ -77,8 +78,6 @@ function Quiz(props) {
 			memberId: memberData.member.Id,
 			score: score,
 		};
-
-		console.log(data);
 
 		if (data.memberId) {
 			axios
@@ -143,7 +142,11 @@ function Quiz(props) {
 										plusScore();
 									} else {
 										setIsCorrect(false);
-										insertSolution(quizData[index].solution);
+
+										insertSolution(
+											quizData[index].solution,
+											quizData[index].question
+										);
 									}
 								}}
 							>
@@ -248,7 +251,10 @@ function Quiz(props) {
 							if (index === 10) {
 								saveScore(score);
 								navigate("./result", {
-									state: { score: score, solution: solution },
+									state: {
+										score: score,
+										solution: solution,
+									},
 								});
 							}
 						}}
