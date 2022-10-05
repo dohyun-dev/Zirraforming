@@ -19,7 +19,7 @@ const Wrapper = styled(motion.div)`
 	opacity: 1;
 	border-radius: 5vh;
 	width: 500px;
-	height: 650px;
+	height: 700px;
 	h2 {
 		font-size: 100;
 		color: black;
@@ -57,7 +57,7 @@ function Quiz(props) {
 		if (index === 9) {
 			const maxValue = score.findIndex((ele) => ele === Math.max(...score)) + 1;
 			console.log(maxValue);
-			saveCharacterType(maxValue)
+			saveCharacterType(maxValue);
 
 			navigate("./result", { state: maxValue });
 		}
@@ -72,16 +72,18 @@ function Quiz(props) {
 
 		const data = {
 			memberId: memberData.member.Id,
-			characterId: maxValue
+			characterId: maxValue,
 		};
 
-		console.log(data)
+		console.log(data);
 
 		if (data.memberId) {
-			axios.put("https://j7d107.p.ssafy.io/api/surveyresult", data, config)
+			axios
+				.put("https://j7d107.p.ssafy.io/api/surveyresult", data, config)
 				.then((response) => {
 					console.log(response.data.message);
-				}).catch((err) => {
+				})
+				.catch((err) => {
 					console.log(err.message);
 				});
 		}
@@ -107,7 +109,11 @@ function Quiz(props) {
 						position: "absolute",
 					}}
 				/> */}
-				<ProgressBar bgcolor="#9ba3eb" completed={(index + 1) / 10 * 100} left={index+1} />
+				<ProgressBar
+					bgcolor="#9ba3eb"
+					completed={((index + 1) / 10) * 100}
+					left={index + 1}
+				/>
 				<h2
 					style={{
 						justifyContent: "center",

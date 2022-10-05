@@ -78,6 +78,7 @@ function Result() {
 						height: "200px",
 						margin: "30px 0 30px 0",
 						padding: "10px 20px 10px 20px",
+						cursor: "default",
 					}}
 				>
 					<p style={{ fontSize: "14px" }}>

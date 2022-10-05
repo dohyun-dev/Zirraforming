@@ -45,10 +45,10 @@ const Note = styled(motion.div)`
 	font-size: 20px;
 	font-weight: 700;
 	font-family: "GmarketSansMedium";
-	margin: 3vh 0px 3vh 0px;
+	margin: 3vh 0px 6vh 0px;
 	padding: 10px 10px 10px 10px;
 	overflow-y: scroll;
-	cursor: pointer;
+	cursor: default;
 
 	@media screen and (${(props) => props.theme.tablet}) {
 		width: 55vw;

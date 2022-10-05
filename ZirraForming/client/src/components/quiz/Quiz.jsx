@@ -23,7 +23,7 @@ const Wrapper = styled(motion.div)`
 	opacity: 1;
 	border-radius: 5vh;
 	width: 500px;
-	height: 650px;
+	height: 700px;
 	h2 {
 		font-size: 100;
 		color: black;
@@ -121,7 +121,7 @@ function Quiz(props) {
 						}}
 						alt=""
 					/> */}
-					<h2 style={{ marginBottom: "20px", padding: "0 35px 0 35px" }}>
+					<h2 style={{ marginBottom: "20px", padding: "0 35px 35px 35px" }}>
 						{quizData[index].question}
 					</h2>
 
@@ -198,8 +198,13 @@ function Quiz(props) {
 					<BasicButton
 						style={
 							isCorrect
-								? { marginBottom: "3vh", fontSize: "20px" }
-								: { marginBottom: "3vh", fontSize: "20px", color: "yellow" }
+								? { marginBottom: "3vh", fontSize: "20px", cursor: "default" }
+								: {
+										marginBottom: "3vh",
+										fontSize: "20px",
+										color: "yellow",
+										cursor: "default",
+								  }
 						}
 					>
 						{quizData[index - 1].option[quizData[index - 1].answer]}
@@ -244,6 +249,7 @@ function Quiz(props) {
 							display: "flex",
 							justifyContent: "center",
 							color: "white",
+							cursor: "pointer",
 						}}
 						onClick={() => {
 							setIsResult(!isResult);
