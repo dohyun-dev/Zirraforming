@@ -151,7 +151,7 @@ function CampaignModal({ setModalOpen }) {
 	};
 
 	useEffect(() => {
-		webSocket.current = new WebSocket(`ws://j7d107.p.ssafy.io/ws/socket`)
+		webSocket.current = new WebSocket(`wss://j7d107.p.ssafy.io/ws/socket`)
 		
 		webSocket.current.onopen = (event) => { 
 			console.log("소켓연결")
