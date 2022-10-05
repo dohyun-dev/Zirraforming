@@ -6,7 +6,6 @@ import axios from "axios";
 import { BooleanKeyframeTrack } from "three";
 import { useNavigate } from "react-router-dom";
 
-
 const Wrapper = styled(motion.div)`
 	position: relative;
 	top: 2vh;
@@ -41,18 +40,20 @@ function Result() {
 	useEffect(() => {
 		axios.get("https://j7d107.p.ssafy.io/api/todayresult").then((response) => {
 			setResultData(response.data);
-			setTrashType(response.data.trashType)
-			setTrashCount(response.data.trashCount)
+			setTrashType(response.data.trashType);
+			setTrashCount(response.data.trashCount);
 
-			if(response.data.ice_2030 >= 12.443) setIceImgSrc("/assets/ice/빙하1.png")
-			else if(response.data.ice_2030 >= 7.667) setIceImgSrc("/assets/ice/빙하2.png")
-			else if(response.data.ice_2030 >= 3.52) setIceImgSrc("/assets/ice/빙하3.png")
-			else setIceImgSrc("/assets/ice/빙하4.png")
-			
-			
-			console.log(response.data)
-			console.log(trashType)
-			console.log(trashCount)
+			if (response.data.ice_2030 >= 12.443)
+				setIceImgSrc("/assets/ice/빙하1.png");
+			else if (response.data.ice_2030 >= 7.667)
+				setIceImgSrc("/assets/ice/빙하2.png");
+			else if (response.data.ice_2030 >= 3.52)
+				setIceImgSrc("/assets/ice/빙하3.png");
+			else setIceImgSrc("/assets/ice/빙하4.png");
+
+			console.log(response.data);
+			console.log(trashType);
+			console.log(trashCount);
 		});
 	}, []);
 
@@ -100,46 +101,107 @@ function Result() {
 								borderRadius: "10px",
 								display: "flex",
 								justifyContent: "space-around",
-								alignItems: "center"
+								alignItems: "center",
 							}}
 						>
-							<img src="http://j7d107.p.ssafy.io/images/plastic.jpg" style={{ width: '68px', height: '74px', opacity: trashType.find((trash) => trash === "플라스틱") ? 1 : 0.3}}/>
-							<img src="http://j7d107.p.ssafy.io/images/metal.png" style={{ width: '68px', height: '74px', opacity: trashType.find((trash) => trash === "철") ? 1 : 0.3}}/>
-							<img src="http://j7d107.p.ssafy.io/images/paper.png" style={{ width: '68px', height: '74px', opacity: trashType.find((trash) => trash === "종이") ? 1 : 0.3}}/>
-							<img src="http://j7d107.p.ssafy.io/images/cardboard.png" style={{ width: '68px', height: '74px', opacity: trashType.find((trash) => trash === "박스") ? 1 : 0.3}}/>
-							<img src="http://j7d107.p.ssafy.io/images/glass.png" style={{ width: '68px', height: '74px', opacity: trashType.find((trash) => trash === "유리") ? 1 : 0.3}}/>
-							<img src="http://j7d107.p.ssafy.io/images/trash.png" style={{ width: '68px', height: '74px', opacity: trashType.find((trash) => trash === "일반쓰레기") ? 1 : 0.3}}/>
+							<img
+								src="https://j7d107.p.ssafy.io/images/plastic.jpg"
+								style={{
+									width: "68px",
+									height: "74px",
+									opacity: trashType.find((trash) => trash === "플라스틱")
+										? 1
+										: 0.3,
+								}}
+							/>
+							<img
+								src="https://j7d107.p.ssafy.io/images/metal.png"
+								style={{
+									width: "68px",
+									height: "74px",
+									opacity: trashType.find((trash) => trash === "철") ? 1 : 0.3,
+								}}
+							/>
+							<img
+								src="https://j7d107.p.ssafy.io/images/paper.png"
+								style={{
+									width: "68px",
+									height: "74px",
+									opacity: trashType.find((trash) => trash === "종이")
+										? 1
+										: 0.3,
+								}}
+							/>
+							<img
+								src="https://j7d107.p.ssafy.io/images/cardboard.png"
+								style={{
+									width: "68px",
+									height: "74px",
+									opacity: trashType.find((trash) => trash === "박스")
+										? 1
+										: 0.3,
+								}}
+							/>
+							<img
+								src="https://j7d107.p.ssafy.io/images/glass.png"
+								style={{
+									width: "68px",
+									height: "74px",
+									opacity: trashType.find((trash) => trash === "유리")
+										? 1
+										: 0.3,
+								}}
+							/>
+							<img
+								src="https://j7d107.p.ssafy.io/images/trash.png"
+								style={{
+									width: "68px",
+									height: "74px",
+									opacity: trashType.find((trash) => trash === "일반쓰레기")
+										? 1
+										: 0.3,
+								}}
+							/>
 						</div>
-						{trashType && <ApexChart
-							type="pie"
-							width={450}
-							series={trashCount}
-							options={{
-								chart: {
-									width: 380,
-									height: 400,
-									type: "pie",
-								},
-								labels: trashType,
-								responsive: [
-									{
-										breakpoint: 480,
-										options: {
-											chart: {
-												width: 200,
-											},
-											legend: {
-												position: "bottom",
+						{trashType && (
+							<ApexChart
+								type="pie"
+								width={450}
+								series={trashCount}
+								options={{
+									chart: {
+										width: 380,
+										height: 400,
+										type: "pie",
+									},
+									labels: trashType,
+									responsive: [
+										{
+											breakpoint: 480,
+											options: {
+												chart: {
+													width: 200,
+												},
+												legend: {
+													position: "bottom",
+												},
 											},
 										},
+									],
+									legend: {
+										position: "bottom",
 									},
-								],
-								legend: {
-									position: 'bottom'
-								},
-								colors: ['#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#ffed6f']
-							}}
-						/>}
+									colors: [
+										"#bebada",
+										"#fb8072",
+										"#80b1d3",
+										"#fdb462",
+										"#b3de69",
+										"#ffed6f",
+									],
+								}}
+							/>
+						)}
 					</div>
 					<div
 						style={{
@@ -155,12 +217,15 @@ function Result() {
 						}}
 					>
 						<p>오늘 주운 쓰레기로 늘어난 빙하 면적</p>
-						<img
-							src={iceImgSrc}
-							width="40%"
-
-						/>
-						<div style={{ fontSize: "22px", display: "flex", marginTop: "10px", color: "black"}}>
+						<img src={iceImgSrc} width="40%" />
+						<div
+							style={{
+								fontSize: "22px",
+								display: "flex",
+								marginTop: "10px",
+								color: "black",
+							}}
+						>
 							전 세계 인구가 한달동안 오늘처럼 진행한다면?
 						</div>
 						<div
@@ -168,38 +233,65 @@ function Result() {
 								width: "90%",
 								height: "80px",
 								textAlign: "center",
-								marginBottom: "20px", 
-								color: "black"
+								marginBottom: "20px",
+								color: "black",
 							}}
 						>
-							<div style={{fontSize: "16px", float: "left", width: "33%", padding: "10px"}}>
+							<div
+								style={{
+									fontSize: "16px",
+									float: "left",
+									width: "33%",
+									padding: "10px",
+								}}
+							>
 								<p>2030년에 지구온도</p>
-								<span style={{color: "#3CB371"}}>{resultData.temperature_2030}도 </span>
+								<span style={{ color: "#3CB371" }}>
+									{resultData.temperature_2030}도{" "}
+								</span>
 								<span>감소</span>
 							</div>
-							<div style={{fontSize: "16px", float: "left", width: "33%", padding: "10px"}}>
+							<div
+								style={{
+									fontSize: "16px",
+									float: "left",
+									width: "33%",
+									padding: "10px",
+								}}
+							>
 								<p>2030년에 이산화탄소</p>
-								<span style={{color: "#3296D7"}}>{resultData.co2_2030}% </span>
+								<span style={{ color: "#3296D7" }}>
+									{resultData.co2_2030}%{" "}
+								</span>
 								<span>감소</span>
 							</div>
-							<div style={{fontSize: "16px", float: "left", width: "33%", padding: "10px"}}>
+							<div
+								style={{
+									fontSize: "16px",
+									float: "left",
+									width: "33%",
+									padding: "10px",
+								}}
+							>
 								<p>2030년에 빙하무게</p>
-								<span style={{color: "#96A5FF"}}>{resultData.ice_2030}% </span>
+								<span style={{ color: "#96A5FF" }}>
+									{resultData.ice_2030}%{" "}
+								</span>
 								<span>증가</span>
 							</div>
 						</div>
 						<ApexChart
 							type="line"
 							width={380}
-							series= {[
-							  {
-								name: "빙하 무게 감소량",
-								data: resultData.ice_mass
-							  },
-							  {
-								name: "지라포밍 빙하 무게 감소량",
-								data: resultData.ice_mass_predict
-							  },
+							series={[
+								{
+									name: "빙하 무게 감소량",
+									data: resultData.ice_mass,
+								},
+								{
+									name: "지라포밍 빙하 무게 감소량",
+									data: resultData.ice_mass_predict,
+								},
 							]}
 							options={{
 								xaxis: {
@@ -208,24 +300,24 @@ function Result() {
 								yaxis: {
 									show: true,
 									labels: {
-										formatter: function(val, index) {
-										  return val.toFixed(0);
-										}
-									}
+										formatter: function (val, index) {
+											return val.toFixed(0);
+										},
+									},
 								},
 								stroke: {
-									curve: 'smooth',
+									curve: "smooth",
 									width: 1,
 								},
 								tooltip: {
 									y: {
-									  formatter: (value) => `${value.toFixed(2)}Gt`,
+										formatter: (value) => `${value.toFixed(2)}Gt`,
 									},
 								},
 								markers: {
 									size: 1,
 								},
-								colors: ['#80b1d3', '#0080ff']
+								colors: ["#80b1d3", "#0080ff"],
 							}}
 						/>
 					</div>
@@ -238,7 +330,7 @@ function Result() {
 								right: "60px",
 								bottom: "45px",
 								zIndex: "10",
-								cursor: "pointer"
+								cursor: "pointer",
 							}}
 							onClick={() => {
 								navigate("/campaign");
@@ -246,7 +338,6 @@ function Result() {
 							alt=""
 						/>
 					</div>
-					
 				</div>
 			</Wrapper>
 		</>

@@ -7,6 +7,7 @@ import result from "../../assets/campaign/result.png";
 import camera from "../../assets/campaign/camera.png";
 import CampaignModal from "./CampaignModal";
 import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -88,11 +89,17 @@ function star(props) {
 		content.style.left = x + "px";
 		let yy = y + 1000;
 		content.style.top = yy + "px";
-
-		content.style.zIndex = "100";
+		let memberId = props[i].memberId;
+		content.style.zIndex = "10";
 		content.style.backgroundColor = "rgba(0,0,0,0.5)";
 		content.style.opacity = "0";
 		content.className = "starContent";
+		const getMember = (props) => {
+			window.location.href = `https://j7d107.p.ssafy.io/mypage/${props}`;
+		};
+		content.addEventListener("click", () => {
+			getMember(memberId);
+		});
 
 		starbox.appendChild(star);
 		starbox.appendChild(content);
@@ -112,9 +119,14 @@ function Intro() {
 	const [percentage, setPercentage] = useState(0);
 	const [isHover, setIsHover] = useState(false);
 	const [hover, setHover] = useState(false);
+	const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 
 	const showModal = () => {
-		setModalOpen(true);
+		if (!cookies.accessToken) {
+			alert("로그인한 사용자만 이용가능합니다!");
+		} else {
+			setModalOpen(true);
+		}
 	};
 
 	useEffect(() => {
@@ -164,7 +176,7 @@ function Intro() {
 							display: "flex",
 							flexDirection: "column",
 							alignItems: "center",
-							zIndex: "10",
+							zIndex: "100",
 							paddingTop: "10px",
 						}}
 					>
@@ -240,20 +252,23 @@ function Intro() {
 										);
 									}
 								})}
-								<div
-									style={{
-										backgroundColor: "#575757",
-										margin: "10px 5px 10px 5px",
-										padding: "2px 10px 2px 10px",
-										borderRadius: "10px",
-										cursor: "pointer",
-									}}
-									onClick={() => {
-										setOnetab(!onetab);
-									}}
-								>
-									6~10위 보기
-								</div>{" "}
+
+								{rank.length > 5 && (
+									<div
+										style={{
+											backgroundColor: "#575757",
+											margin: "10px 5px 10px 5px",
+											padding: "2px 10px 2px 10px",
+											borderRadius: "10px",
+											cursor: "pointer",
+										}}
+										onClick={() => {
+											setOnetab(!onetab);
+										}}
+									>
+										6~10위 보기
+									</div>
+								)}
 							</>
 						) : (
 							<>
@@ -366,7 +381,7 @@ function Intro() {
 								width: "120px",
 								right: "50px",
 								bottom: "50px",
-								zIndex: "10",
+								zIndex: "100",
 								cursor: "pointer",
 							}}
 							onMouseLeave={handleMouseLeave}
@@ -404,7 +419,7 @@ function Intro() {
 								width: "140px",
 								right: "40px",
 								bottom: "40px",
-								zIndex: "10",
+								zIndex: "200",
 							}}
 							onClick={() => {
 								navigate("./result");
@@ -419,7 +434,8 @@ function Intro() {
 							width: "5vw",
 							right: "60px",
 							top: "100px",
-							zIndex: "10",
+							zIndex: "100",
+							cursor: "pointer",
 						}}
 						onClick={showModal}
 						alt=""
