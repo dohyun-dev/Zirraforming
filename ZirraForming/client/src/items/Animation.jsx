@@ -17,6 +17,17 @@ export const WrapVar = {
   },
 };
 
+export const childernVar = {
+  start: {
+    opacity: 0,
+    y: 10,
+  },
+  end: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
 export const hoverUpDown = keyframes`
   0% {
     scale: 1;

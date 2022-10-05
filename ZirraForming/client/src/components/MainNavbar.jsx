@@ -163,7 +163,10 @@ function MainNavbar({ width, navigate }) {
               variants={subMenuAnimate}
             >
               <div className="dropBox">
-                <p className="drop_item" onClick={() => navigate("/mypage")}>
+                <p
+                  className="drop_item"
+                  onClick={() => navigate(`/mypage/${member.member.Id}`)}
+                >
                   마이페이지
                 </p>
                 <p className="drop_item" onClick={() => navigate("/style")}>

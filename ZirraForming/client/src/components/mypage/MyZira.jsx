@@ -6,8 +6,10 @@ import { member } from "../../atoms";
 import GrassGraph from "../charts/GrassGraph";
 import axios from "axios";
 import Urls from "../../apis/Urls";
+import { motion } from "framer-motion";
+import { childernVar } from "../../items/Animation";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   padding: 20px 20px 10px;
   background-color: #d8dee7;
   border-radius: 20px;
@@ -92,7 +94,7 @@ function MyZira({ memberId }) {
   mySVG.setAttribute("viewBox", "0 0 590 100");
 
   return (
-    <Wrapper>
+    <Wrapper variants={childernVar}>
       <div className="top">
         <div className="title">누적 지라포밍 : {memberInfo.total}회</div>
         <div className="graph">

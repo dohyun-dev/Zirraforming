@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useCallback } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import styled from "styled-components";
@@ -8,6 +9,7 @@ import img3 from "../../assets/banner/temp6.png";
 import { BasicButton } from "../../items/Button";
 
 const FixWrapper = styled.div`
+  z-index: 900 !important;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -24,6 +26,7 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Card = styled(motion.div)`
+  z-index: 10 !important;
   padding: 20px 0;
   margin: 0px 0px;
   border-radius: 10px;
@@ -42,6 +45,7 @@ const Card = styled(motion.div)`
   grid-template-rows: 1fr 1fr;
   box-shadow: 0 5px 18px -7px #3f3f3f;
   backdrop-filter: blur(2px);
+  pointer-events: all !important;
   .top {
     display: flex;
     justify-content: center;

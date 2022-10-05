@@ -29,6 +29,7 @@ import IceSheet from "../components/main/IceSheet";
 import IceSheetImage from "../components/three/IceSheetImage";
 import Last from "../components/main/Last";
 import Banner from "../components/main/Banner";
+import { useCallback } from "react";
 
 const CanvasWrap = styled.div`
   width: 100vw;
@@ -86,59 +87,69 @@ function Main() {
   const handleTemper = () => {
     setTemImage(true);
   };
+  const html = useCallback(
+    (element) => {
+      if (element && !banner)
+        element.parentElement.style.pointerEvents = "none";
+    },
+    [banner]
+  );
 
   return (
-    <CanvasWrap>
-      <Canvas
-        gl={{ antialias: true }}
-        style={{
-          width: "100%",
-          height: "100%",
-          // backgroundColor: "black",
-        }}
-      >
-        <RecoilBridge>
-          <Suspense fallback={<Spinner />}>
-            <ScrollControls
-              pages={25}
-              style={
-                {
-                  // left: "20px",
+    <>
+      <CanvasWrap>
+        <Canvas
+          gl={{ antialias: true }}
+          style={{
+            width: "100%",
+            height: "100%",
+            // backgroundColor: "black",
+          }}
+        >
+          {/* <Spinner /> */}
+          <RecoilBridge>
+            <Suspense fallback={<Spinner position={[0, 0, 0]} />}>
+              <ScrollControls
+                pages={25}
+                style={
+                  {
+                    // left: "20px",
+                  }
                 }
-              }
-            >
-              <Earth
-                navigate={navigate}
-                setIceAreaImage={setIceAreaImage}
-                setTemImage={setTemImage}
-                setCo2Image={setCo2Image}
-                setSummaryPage={setSummaryPage}
-                setFirst={setFirst}
-                setSecond={setSecond}
-                setThird={setThird}
-                setForth={setForth}
-                setnFirst={setnFirst}
-                setnSecond={setnSecond}
-                setLast={setLast}
-                setLastName={setLastName}
-                setBanner={setBanner}
-                setStart={setStart}
-              />
-            </ScrollControls>
-          </Suspense>
-        </RecoilBridge>
-      </Canvas>
-      {temImage ? <TemperatureImage /> : null}
-      {co2Image ? <Co2Image /> : null}
-      {iceAreaImage ? <IceAreaImage /> : null}
-      {summaryPage ? <Summary /> : null}
-      {start ? (
-        <IceArea first={first} second={second} third={third} forth={forth} />
-      ) : null}
+              >
+                <Earth
+                  navigate={navigate}
+                  setIceAreaImage={setIceAreaImage}
+                  setTemImage={setTemImage}
+                  setCo2Image={setCo2Image}
+                  setSummaryPage={setSummaryPage}
+                  setFirst={setFirst}
+                  setSecond={setSecond}
+                  setThird={setThird}
+                  setForth={setForth}
+                  setnFirst={setnFirst}
+                  setnSecond={setnSecond}
+                  setLast={setLast}
+                  setLastName={setLastName}
+                  setBanner={setBanner}
+                  setStart={setStart}
+                />
+              </ScrollControls>
+            </Suspense>
+          </RecoilBridge>
+        </Canvas>
+        {summaryPage ? <Summary html={html} /> : null}
+        {temImage ? <TemperatureImage html={html} /> : null}
+        {co2Image ? <Co2Image html={html} /> : null}
+        {iceAreaImage ? <IceAreaImage /> : null}
+        {start ? (
+          <IceArea first={first} second={second} third={third} forth={forth} />
+        ) : null}
+        {last ? <Last last={last} first={lastName} /> : null}
 
-      {last ? <Last last={last} first={lastName} /> : null}
-      {banner ? <Banner navigate={navigate} /> : null}
-    </CanvasWrap>
+        {banner ? <Banner navigate={navigate} /> : null}
+      </CanvasWrap>
+    </>
   );
 }
 export default Main;

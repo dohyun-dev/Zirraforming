@@ -18,7 +18,7 @@ const ImgGraph = styled.image`
   height: 100%;
 `;
 
-function Co2Image() {
+function Co2Image({ html }) {
   const co2Data = useRecoilValue(co2);
   const maxImages = co2Data?.images.length - 1;
   const ImgYear = [];
@@ -49,7 +49,7 @@ function Co2Image() {
     start();
   }, []);
   return (
-    <FixWrapper top={"50%"} left={"55vw"}>
+    <FixWrapper top={"50%"} left={"55vw"} ref={html}>
       <ImgWrapper
         color={"#E84118"}
         variants={WrapVar}

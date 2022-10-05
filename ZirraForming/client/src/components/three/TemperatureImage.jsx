@@ -18,7 +18,7 @@ const ImgGraph = styled.image`
   height: 100%;
 `;
 
-function TemperatureImage() {
+function TemperatureImage({ html }) {
   const Temper = useRecoilValue(globalTemperature);
   const maxImages = Temper.images.length - 1;
 
@@ -27,7 +27,7 @@ function TemperatureImage() {
     start();
   }, []);
   return (
-    <FixWrapper top={"50%"} right={"55%"}>
+    <FixWrapper top={"50%"} right={"55%"} ref={html}>
       <ImgWrapper
         color={"#FBC531"}
         variants={WrapVar}

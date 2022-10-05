@@ -7,7 +7,8 @@ import { MainData, SummaryData } from "../../atoms";
 import SumCard from "../../items/SumCard";
 
 const FixWrapper = styled.div`
-  position: fixed;
+  z-index: 0;
+  position: absolute;
   display: flex;
   bottom: 5%;
   left: 50%;
@@ -64,11 +65,12 @@ const childrenVar = {
   },
 };
 
-function Summary() {
+function Summary({ html }) {
   const summaryData = useRecoilValue(MainData);
   const sum = summaryData?.summary;
+
   return (
-    <FixWrapper>
+    <FixWrapper ref={html} as="div">
       <Wrapper variants={WrapVar} initial="start" animate="end">
         <SumCard
           color={"#FBC531"}

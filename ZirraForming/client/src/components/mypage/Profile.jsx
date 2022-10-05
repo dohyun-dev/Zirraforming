@@ -18,9 +18,27 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Urls from "../../apis/Urls";
 import { useCookies } from "react-cookie";
-import qs from "qs";
+import ReactTooltip from "react-tooltip";
+import { childernVar } from "../../items/Animation";
 
-const Wrapper = styled.div`
+const badgeTitle = [
+  "환영합니다!",
+  "십시일반",
+  "환경박사",
+  "별 수집가",
+  "환경러버",
+  "나의 환경스타일은?",
+];
+const badgeDes = [
+  "처음으로 쓰레기 등록",
+  "10일 연속 쓰레기 등록",
+  "환경퀴즈 백점",
+  "일일 랭킹 1위 도달",
+  "일일 5회이상 쓰레기 등록",
+  "환경 스타일 검사 완료",
+];
+
+const Wrapper = styled(motion.div)`
   display: grid;
   width: 100%;
   background-color: #d8dee7;
@@ -50,7 +68,7 @@ const Wrapper = styled.div`
       color: red;
     }
     color: black;
-    font-size: min(2.5vw, 30px);
+    font-size: min(2vw, 22px);
     padding: 30px 0;
     display: flex;
     flex-direction: column;
@@ -80,6 +98,36 @@ const Wrapper = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
+
+      .hoverdImg {
+        z-index: -2 !important;
+      }
+
+      /* img {
+        z-index: 2;
+      } */
+      :hover .whenHover {
+        visibility: visible;
+      }
+      .whenHover {
+        z-index: -1;
+        position: absolute;
+        color: black;
+        font-size: 10px;
+        -webkit-transform: 1; //0.5 -> 50%
+        opacity: 1 !important;
+        visibility: hidden;
+        transition: all 1 linear;
+        word-break: keep-all;
+        text-align: center;
+        .hoverTitle {
+          color: #43b262;
+        }
+        .hoverdes {
+          color: black;
+          -webkit-transform: scale(0.8); //0.5 -> 50%
+        }
+      }
     }
     .cell {
       display: flex;
@@ -131,6 +179,18 @@ const NickInput = styled(motion.input)`
   }
 `;
 
+const BadgeHover = {
+  hovering: {
+    scale: 1.2,
+  },
+};
+
+const ImgHover = {
+  hovering: {
+    opacity: 0.3,
+  },
+};
+
 function Profile({ memberId }) {
   const [editMode, setEditMode] = useState(false);
   const [memberInfo, setMemberInfo] = useRecoilState(member);
@@ -143,11 +203,6 @@ function Profile({ memberId }) {
     e.preventDefault();
     const changeNick = e.target[0].value;
     const data = { nickname: changeNick };
-    const config = {
-      Headers: {
-        Authorization: "Bearer " + cookies.accessToken,
-      },
-    };
 
     axios
       .get(Urls.checkNick(e.target[0].value))
@@ -158,12 +213,15 @@ function Profile({ memberId }) {
       .then((res) => {
         const config = {
           Headers: {
-            Authorization: "Bearer " + cookies.accessToken,
+            // Authorization: "Bearer " + cookies.accessToken,
+            Authorization: "Bearer " + cookies.refreshToken,
           },
         };
         if (res.result) {
           axios({
-            url: Urls.changeNick(memberId.memberId),
+            url: Urls.changeNick(memberId.memberId, config, {
+              withCredentials: true,
+            }),
             method: "put",
             data: data,
           })
@@ -189,8 +247,9 @@ function Profile({ memberId }) {
       return newData;
     });
   };
+  console.log(memberInfo);
   return (
-    <Wrapper>
+    <Wrapper variants={childernVar}>
       <div className="profile">
         <img
           src={member.imagePath ? member.imagePath : user}
@@ -226,15 +285,15 @@ function Profile({ memberId }) {
           </div>
         )}
 
-        {member.characterName ? (
-          <p>{member.characterName}</p>
+        {memberInfo.characterName ? (
+          <p>{memberInfo.characterName}</p>
         ) : (
           <Link to={"/style"}>
             <p className="italic">유형검사 하러가기</p>
           </Link>
         )}
-        {member.score ? (
-          <p>{member.score}</p>
+        {memberInfo.score != null ? (
+          <p>{memberInfo.score}</p>
         ) : (
           <Link to={"/quiz"}>
             <p className="italic">퀴즈풀러가기</p>
@@ -246,13 +305,44 @@ function Profile({ memberId }) {
           return (
             <div key={idx}>
               {memberInfo.badges[idx] ? (
-                <div className="imageWrap">
-                  <img src={img} width={"70%"} alt="" />
-                </div>
+                <motion.div
+                  className="imageWrap"
+                  style={{ position: "relative" }}
+                  variants={BadgeHover}
+                  whileHover="hovering"
+                >
+                  <motion.img
+                    class="hoveredImg"
+                    variants={ImgHover}
+                    whileHover="hovering"
+                    src={img}
+                    width={"90%"}
+                    alt=""
+                  />
+                  <div className="whenHover">
+                    <p>{badgeTitle[idx]}</p>
+                    <p className="hoverdes">{badgeDes[idx]}</p>
+                  </div>
+                </motion.div>
               ) : (
-                <div className="imageWrap">
-                  <img src={lock} width={"70%"} alt="" />
-                </div>
+                <motion.div
+                  style={{ position: "relative" }}
+                  className="imageWrap"
+                  variants={BadgeHover}
+                  whileHover="hovering"
+                >
+                  <div className="whenHover">
+                    <p>{badgeDes[idx]}</p>
+                  </div>
+                  <motion.img
+                    class="hoveredImg"
+                    variants={ImgHover}
+                    whileHover="hovering"
+                    src={lock}
+                    width={"90%"}
+                    alt=""
+                  />
+                </motion.div>
               )}
             </div>
           );

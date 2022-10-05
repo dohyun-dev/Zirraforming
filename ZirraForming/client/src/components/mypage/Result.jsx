@@ -7,6 +7,7 @@ import { useState } from "react";
 import Urls from "../../apis/Urls";
 import ResultCard from "../../items/ResultCard";
 import ResultTwoLine from "../charts/ResultTwoLine";
+import { childernVar } from "../../items/Animation";
 
 const Wrapper = styled(motion.div)`
   padding: 20px 10px 10px;
@@ -69,7 +70,7 @@ function Result({ memberId }) {
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper variants={childernVar}>
       <div className="grid_box">
         <Title>
           지구에 당신이 <span>오백만명</span> 있다면?
