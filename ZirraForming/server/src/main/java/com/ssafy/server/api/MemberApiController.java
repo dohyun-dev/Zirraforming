@@ -48,8 +48,7 @@ public class MemberApiController {
 
     @PutMapping("/member/{memberId}/changenickname")
     public ResponseEntity<ResultDto> changeNickname(@PathVariable("memberId") Long memberId, @Valid @RequestBody NicknameChangeRequest nicknameChangeRequest, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
-        // 요청 유저가 유효한 유저인지 확인
-        if(authenticationUtil.getLoginMemberId() != memberId){
+        if(authenticationUtil.getLoginMemberId()!=memberId){
             throw new InvalidJwtAccessException(memberId);
         }
 
@@ -68,9 +67,8 @@ public class MemberApiController {
         return ResponseEntity.ok(ResultDto.of("회원탈퇴가 완료되었습니다."));
     }
 
-    @GetMapping("/reissue")
-    public ResponseEntity<ResultDto> getReissue(HttpServletRequest request, HttpServletResponse response){
-        Long memberId = authenticationUtil.getLoginMemberId();
+    @GetMapping("/reissue/{memberId}")
+    public ResponseEntity<ResultDto> getReissue(HttpServletRequest request, HttpServletResponse response, @PathVariable("memberId") Long memberId){
         addToken(memberId, request, response);
         return ResponseEntity.ok(ResultDto.of("토큰이 재발급되었습니다."));
     }
@@ -86,8 +84,7 @@ public class MemberApiController {
     }
 
     private void addToken(Long memberId, HttpServletRequest request, HttpServletResponse response) {
-        String tokenStr = HeaderUtil.getAccessToken(request);
-        System.out.println(tokenStr);
+        String tokenStr = CookieUtil.getCookieValue(request, "refreshToken");
         CookieUtil.addCookie(response, "accessToken", memberService.createAccessToken(memberId), (int)tokenProperties.getAuth().getTokenExpiry());
         CookieUtil.addCookie(response, "refreshToken", memberService.createRefreshToken(tokenStr, memberId), (int)tokenProperties.getAuth().getRefreshTokenExpiry());
     }

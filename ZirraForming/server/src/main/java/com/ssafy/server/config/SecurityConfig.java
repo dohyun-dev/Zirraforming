@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .antMatchers(HttpMethod.PUT, "/api//member/*/changenickname").authenticated()
-                    .antMatchers(HttpMethod.PUT, "/api/reissue").authenticated()
+                    .antMatchers(HttpMethod.GET, "/api/reissue").authenticated()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .anyRequest().permitAll()
                 .and()
