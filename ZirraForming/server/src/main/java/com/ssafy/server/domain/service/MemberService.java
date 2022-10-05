@@ -74,7 +74,7 @@ public class MemberService {
         String key = "refreshToken:" + String.valueOf(memberId);
 
         //레디스에 저장되어있는 리프레시 토큰과 요청 리프레시 토큰이 같은지 비교
-        if(!setOperations.pop(key).equals(tokenStr)){
+        if(setOperations.size(key)==0 || !setOperations.pop(key).equals(tokenStr)){
             throw new TokenValidFailedException();
         }
 
