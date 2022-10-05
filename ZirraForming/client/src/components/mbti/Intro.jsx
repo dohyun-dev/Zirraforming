@@ -14,7 +14,7 @@ const Wrapper = styled(motion.div)`
 	opacity: 1;
 	border-radius: 5vh;
 	width: 500px;
-	height: 650px;
+	height: 700px;
 
 	h2 {
 		font-size: 100;
