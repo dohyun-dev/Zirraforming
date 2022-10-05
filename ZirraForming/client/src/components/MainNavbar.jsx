@@ -31,7 +31,8 @@ const Nav = styled.div`
       cursor: pointer;
     }
   }
-
+  .link {
+  }
   .login {
     grid-column: 3 / 5;
     cursor: pointer;
@@ -50,32 +51,33 @@ const Nav = styled.div`
     z-index: 10;
     text-align: center;
     .dropBox {
+      height: 200px;
+
+      box-shadow: 0 5px 18px -7px #3f3f3f;
       position: absolute;
-      width: 600px;
+      top: 50px;
+      width: 180px;
+      right: 0px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
       justify-content: space-around;
-      line-height: 34px;
-      transform: translate(-100%, 0%);
+      transform: translate(0%, 0%);
       .drop_item {
         :hover {
-          color: #3c9f58;
+          color: #3c9f58 !important;
           transition: all linear 0.1s;
         }
       }
     }
     p {
       transition: all linear 0.3s;
-      transition-delay: 0.3s;
+      /* transition-delay: 0.3s; */
       font-size: 18px;
       font-family: "GmarketSansMedium";
       span {
         color: #3c9f58;
       }
-    }
-    .hidden {
-      visibility: hidden;
     }
   }
 `;
@@ -114,7 +116,7 @@ function MainNavbar({ width, navigate }) {
   const subMenuAnimate = {
     enter: {
       opacity: 1,
-      rotateX: 0,
+
       transition: {
         duration: 0.5,
         delay: 0.2,
@@ -123,7 +125,6 @@ function MainNavbar({ width, navigate }) {
     },
     exit: {
       opacity: 0,
-      rotateX: -15,
       transition: {
         duration: 0.5,
         delay: 0.2,
@@ -146,15 +147,9 @@ function MainNavbar({ width, navigate }) {
             onHoverStart={toggleDropDown}
             onHoverEnd={toggleDropDown}
           >
-            {dropBox ? (
-              <p className="hidden">
-                <span>{user}</span> 님 안녕하세요
-              </p>
-            ) : (
-              <p>
-                <span>{user}</span> 님 안녕하세요
-              </p>
-            )}
+            <p>
+              <span>{user}</span> 님 안녕하세요
+            </p>
 
             <motion.div
               className="content"
@@ -179,8 +174,6 @@ function MainNavbar({ width, navigate }) {
                   환경상식퀴즈
                 </p>
                 <p
-                  to="/"
-                  className="link"
                   onClick={() => {
                     const config = {
                       Headers: {

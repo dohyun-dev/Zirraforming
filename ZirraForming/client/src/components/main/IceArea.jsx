@@ -15,14 +15,14 @@ const TextBox = styled(motion.div)`
   align-items: center;
   justify-content: center;
   position: fixed;
-  top: 30vh;
+  top: 40vh;
   left: 50vw;
   transform: translate(-50%, -50%);
   width: 50vw;
   max-width: 800px;
   font-size: 20px;
   p {
-    font-size: 30px;
+    font-size: 20px;
     font-family: GmarketSansMedium;
   }
 `;
@@ -49,15 +49,15 @@ const container = {
 };
 
 const textHolder = {
-  first: { type: "heading1", text: "줄어드는 지구빙하" },
+  first: { type: "heading1", text: "줄어드는 북극 빙하" },
   third: [
     {
       type: "paragraph",
-      text: "세계 인구의 최대 밀집 지역이라고 할 중국 / 동남아시아, 인도 사람들의 삶은 황허강, 양쯔강, 메콩강, 갠지스강, 인더스강이라는 다섯 개의 큰 강에 절대적으로 의존하고 있다. 이 다섯 개의 강 모두의 발원지가 힌두쿠시-히말라야 인접 지역이며, 여기에서의 빙하의 변화는 이 강들의 ",
+      text: "북극 해빙은 1981년부터 2010년 사이의 평균범위와 비교하여 10년 마다 13%의 비율로 줄어들고 있습니다. / 아래의 애니메이션은 위성관측을 기반으로 1979년 이후 매년 측정된 북극해빙의 최소 크기를 보여줍니다. ",
     },
     {
       type: "paragraph",
-      text: "이런저런 이유로 살 곳을 잃고 떠돌게 될 전 지구적인 유랑민들의 숫자에 대해 한 보고서는 2060년 12억명, 2100년에는 20억명에 달할 것으로 전망하고 있다. 2100년에 지구 전체의 인구가 100억명 정도에 도달 ",
+      text: " 기후변화에 관한 정부 간 협의체 (IPCC)에 따르면 2021년 북극해의 얼음면적이 과거 1천년 역사를 통틀어 가장작았다고 한다. / 2000년 이후로 줄어드는 속도가 더 빨라지고 있으며, 유럽 아이슬라드 빙하는 길이가 1km 이상 줄었다고 알려집니다 / 빙하가 녹으면서 북극 생태계는 큰 영향을 받고 있습니다.",
     },
   ],
 };

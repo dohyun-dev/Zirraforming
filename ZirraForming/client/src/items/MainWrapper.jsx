@@ -11,6 +11,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   line-break: normal;
   font-family: "GmarketSansMedium";
+  word-break: keep-all;
 
   width: min(40vw, 800px);
 
