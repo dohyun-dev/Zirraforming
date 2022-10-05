@@ -14,7 +14,7 @@ const Modal = styled.div`
 	right: 0;
 	bottom: 0;
 	left: 0;
-	z-index: 99;
+	z-index: 200;
 	background-color: rgba(0, 0, 0, 0.6);
 	width: 100vw;
 	height: 100vh;
@@ -83,6 +83,7 @@ function CampaignModal({ setModalOpen }) {
 	const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 	const [result, setResult] = useState({});
 	const [isSubmit, setIsSubmit] = useState(false);
+	const [isFile, setIsFile] = useState(false);
 
 	const accessToken = localStorage.getItem("accessToken", cookies.accessToken);
 
@@ -115,27 +116,31 @@ function CampaignModal({ setModalOpen }) {
 	};
 
 	const submit = () => {
-		const formdata = new FormData();
-		formdata.append("image", file);
-		console.log(memberId.member.Id);
-		formdata.append("memberId", memberId.member.Id);
-		console.log(file);
-		console.log(formdata);
-		const config = {
-			Headers: {
-				"content-type": "multipart/form-data",
-				Authorization: "Bearer " + accessToken,
-			},
-		};
+		if (!file) {
+			setIsFile(true);
+		} else {
+			const formdata = new FormData();
+			formdata.append("image", file);
+			console.log(memberId.member.Id);
+			formdata.append("memberId", memberId.member.Id);
+			console.log(file);
+			console.log(formdata);
+			const config = {
+				Headers: {
+					"content-type": "multipart/form-data",
+					Authorization: "Bearer " + accessToken,
+				},
+			};
 
-		axios
-			.post("https://j7d107.p.ssafy.io/api/stars", formdata, config)
-			.then((response) => {
-				console.log("성공");
-				console.log(response);
-				setResult(response.data);
-				setIsSubmit(true);
-			});
+			axios
+				.post("https://j7d107.p.ssafy.io/api/stars", formdata, config)
+				.then((response) => {
+					console.log("성공");
+					console.log(response);
+					setResult(response.data);
+					setIsSubmit(true);
+				});
+		}
 	};
 
 	const uploadImage = () => {
@@ -247,25 +252,59 @@ function CampaignModal({ setModalOpen }) {
 								오늘 주운 쓰레기 등록
 							</p>
 							{!file ? (
-								<img
-									src={upload}
-									style={{
-										width: "160px",
-
-										marginBottom: "20px",
-									}}
-									onClick={uploadImage}
-									alt=""
-								/>
+								<>
+									<img
+										src={upload}
+										style={{
+											width: "160px",
+											cursor: "pointer",
+											marginBottom: "20px",
+										}}
+										onClick={uploadImage}
+										alt=""
+									/>
+									{isFile ? (
+										<p
+											style={{
+												fontSize: "12px",
+												color: "#bb3e30",
+												fontFamily: "SBAggroB",
+											}}
+										>
+											업로드된 이미지가 없습니다
+										</p>
+									) : (
+										<p
+											style={{
+												fontSize: "12px",
+												color: "#bb3e30",
+												fontFamily: "SBAggroB",
+											}}
+										>
+											버튼을 눌러 이미지를 업로드해주세요
+										</p>
+									)}
+								</>
 							) : (
-								<img
-									src={imageSrc}
-									style={{
-										width: "160px",
-										height: "150px",
-										marginBottom: "20px",
-									}}
-								/>
+								<>
+									<img
+										src={imageSrc}
+										style={{
+											width: "160px",
+											height: "150px",
+											marginBottom: "20px",
+										}}
+									/>
+									<p
+										style={{
+											fontSize: "12px",
+											color: "#bb3e30",
+											fontFamily: "SBAggroB",
+										}}
+									>
+										이미지가 업로드 되었습니다
+									</p>
+								</>
 							)}
 							<input
 								type="file"
@@ -275,7 +314,7 @@ function CampaignModal({ setModalOpen }) {
 							/>
 
 							<BasicButton
-								style={{ width: "80%", height: "50px", marginTop: "20px" }}
+								style={{ width: "80%", height: "50px", marginTop: "40px" }}
 								onClick={submit}
 							>
 								등록하기
