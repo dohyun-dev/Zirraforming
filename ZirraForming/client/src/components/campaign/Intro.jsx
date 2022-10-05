@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { BasicButton } from "../../items/styleButton";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import result from "../../assets/campaign/result.png";
 import camera from "../../assets/campaign/camera.png";
@@ -54,6 +54,10 @@ const Wrapper = styled(motion.div)`
 function star(props) {
 	let count = props.length; // 별 수
 	let scene = document.querySelector(".scene");
+	let nodeList = document.querySelectorAll(".starbox")
+	for (let node of nodeList) { 
+		node.remove()
+	}
 	let i = 0;
 	while (i < count) {
 		let starbox = document.createElement("div");
@@ -120,6 +124,7 @@ function Intro() {
 	const [isHover, setIsHover] = useState(false);
 	const [hover, setHover] = useState(false);
 	const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+	const webSocket = useRef(null);
 
 	const showModal = () => {
 		if (!cookies.accessToken) {
@@ -130,21 +135,31 @@ function Intro() {
 	};
 
 	useEffect(() => {
-		axios.get("https://j7d107.p.ssafy.io/api/stars").then((response) => {
-			console.log(response.data);
-			setStars(response.data.stars);
-			setTotalcount(response.data.totalCount);
-			setPercentage(Math.min((response.data.totalCount / 80) * 100).toFixed(1));
-			star(response.data.stars);
-		});
+		webSocket.current = new WebSocket(`ws://j7d107.p.ssafy.io/ws/socket`)
+		
+		webSocket.current.onopen = (event) => { 
+			console.log("소켓연결")
+			webSocket.current.send("success")
+		}
 
-		axios
-			.get("https://j7d107.p.ssafy.io/api/stars/ranking")
-			.then((response) => {
-				console.log(response.data);
-				setRank(response.data);
-			});
+
+		webSocket.current.onmessage = (event) => { 
+			const response = JSON.parse(event.data)
+			// console.log(result)
+			setStars(response.stars.stars)
+			setRank(response.rankings)
+			setTotalcount(response.stars.totalCount)
+			setPercentage(Math.min((response.stars.totalCount / 80) * 100).toFixed(1))
+			
+			console.log("메시지")
+			star(response.stars.stars);
+		}
+
+		return () => webSocket.current.onclose = () => { 
+			console.log("소켓연결해제")
+		}
 	}, []);
+	console.log(stars)
 
 	const handleMouseEnter = () => {
 		setIsHover(true);
@@ -390,11 +405,6 @@ function Intro() {
 							}}
 						>
 							<CircularProgressbarWithChildren value={percentage}>
-								{/* <img
-									style={{ width: 30, marginTop: -5 }}
-									src={camera}
-									alt="doge"
-								/> */}
 								<div
 									style={{
 										marginTop: -5,

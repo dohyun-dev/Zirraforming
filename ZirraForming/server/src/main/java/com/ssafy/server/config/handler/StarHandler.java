@@ -31,7 +31,6 @@ public class StarHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         log.info("세션연결", session);
         sessions.add(session);
-        session.sendMessage(new TextMessage(makeResponse()));
     }
 
     @Override
