@@ -150,10 +150,19 @@ function Result() {
 					</p>
 					{location.state.solution.map((data, idx) => {
 						return (
-							<div key={idx} style={{ margin: "10px 0 10px 0" }}>
+							<div key={idx} style={{ margin: "10px 0 20px 0" }}>
 								<p style={{ color: "#3c9f58" }}>{data.quizId}번</p>
+								<p
+									style={{
+										color: "#40744f",
+										fontSize: "17px",
+										margin: "5px 0 5px 0",
+									}}
+								>
+									Q. {data.question}
+								</p>
 								<p style={{ fontSize: "15px" }}>
-									{data.solution.split("<br>").map((line) => {
+									{data.solutionData.split("<br>").map((line) => {
 										return (
 											<>
 												{line} <br />
