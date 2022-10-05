@@ -169,7 +169,7 @@ function LoginModal({ setModalOpen }) {
 							onClick={() => {
 								window.location.href =
 									"https://j7d107.p.ssafy.io/oauth2/authorization/google";
-								// "http://localhost:8080/oauth2/authorization/google";
+									// "http://localhost:8080/oauth2/authorization/google";
 							}}
 						>
 							<img

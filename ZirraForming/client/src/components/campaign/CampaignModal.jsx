@@ -84,6 +84,7 @@ function CampaignModal({ setModalOpen }) {
 	const [result, setResult] = useState({});
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [isFile, setIsFile] = useState(false);
+	const webSocket = useRef(null);
 
 	const accessToken = localStorage.getItem("accessToken", cookies.accessToken);
 
@@ -139,6 +140,8 @@ function CampaignModal({ setModalOpen }) {
 					console.log(response);
 					setResult(response.data);
 					setIsSubmit(true);
+
+					webSocket.current.send("success")
 				});
 		}
 	};
@@ -148,6 +151,12 @@ function CampaignModal({ setModalOpen }) {
 	};
 
 	useEffect(() => {
+		webSocket.current = new WebSocket(`ws://j7d107.p.ssafy.io/ws/socket`)
+		
+		webSocket.current.onopen = (event) => { 
+			console.log("소켓연결")
+		}
+
 		const handler = (e) => {
 			if (
 				setModalOpen &&
@@ -166,6 +175,9 @@ function CampaignModal({ setModalOpen }) {
 			// 이벤트 핸들러 해제
 			document.removeEventListener("mousedown", handler);
 			// document.removeEventListener('touchstart', handler); // 모바일 대응
+			webSocket.current.onclose = () => { 
+				console.log("소켓연결해제")
+			}
 		};
 	});
 
