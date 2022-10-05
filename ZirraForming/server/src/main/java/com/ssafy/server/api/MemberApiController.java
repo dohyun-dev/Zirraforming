@@ -85,7 +85,7 @@ public class MemberApiController {
 
     private void addToken(Long memberId, HttpServletRequest request, HttpServletResponse response) {
         String tokenStr = CookieUtil.getCookieValue(request, "refreshToken");
-        CookieUtil.addCookie(response, "accessToken", memberService.createAccessToken(memberId), (int)tokenProperties.getAuth().getTokenExpiry());
+        CookieUtil.addCookie(response, "accessToken", memberService.createAccessToken(memberId), (int)tokenProperties.getAuth().getTokenExpiry(), false);
         CookieUtil.addCookie(response, "refreshToken", memberService.createRefreshToken(tokenStr, memberId), (int)tokenProperties.getAuth().getRefreshTokenExpiry());
     }
 }
