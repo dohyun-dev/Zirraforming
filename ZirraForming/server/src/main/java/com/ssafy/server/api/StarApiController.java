@@ -3,7 +3,7 @@ package com.ssafy.server.api;
 import com.ssafy.server.api.dto.star.StarRankingResponse;
 import com.ssafy.server.api.dto.star.StarSaveResponse;
 import com.ssafy.server.api.dto.star.StarTodayResultResponse;
-import com.ssafy.server.domain.entity.Stars;
+import com.ssafy.server.api.dto.star.StarsResultResponse;
 import com.ssafy.server.domain.entity.Trash;
 import com.ssafy.server.domain.service.StarService;
 import lombok.*;
@@ -47,22 +47,6 @@ public class StarApiController {
     @GetMapping(value = "/todayresult", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StarTodayResultResponse> savaStar() throws IOException {
         return ResponseEntity.ok().body(new StarTodayResultResponse(starService.getTodayResult()));
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class StarsResultResponse{
-        List<Stars> stars = new ArrayList<>();
-        int totalCount;
-
-        public void changeStars(List<Stars> starsResult) {
-            this.stars = starsResult;
-        }
-
-        public void changeTotalCount(int totalCount) {
-            this.totalCount = totalCount;
-        }
     }
 
     @Getter
