@@ -62,7 +62,7 @@ const GridWrapper = styled(motion.div)`
   }
 `;
 
-const StartAni = {
+const WrapVar = {
   start: {
     opacity: 0,
     y: 10,
@@ -70,20 +70,11 @@ const StartAni = {
   end: {
     opacity: 1,
     y: 0,
-    duration: 0.5,
-    delayChildren: 0.5,
-    staggerChildren: 0.5,
-  },
-};
-
-const childrenVar = {
-  start: {
-    opacity: 0,
-    y: 10,
-  },
-  end: {
-    opacity: 1,
-    y: 0,
+    transition: {
+      duration: 1,
+      delayChildren: 0.5,
+      staggerChildren: 0.5,
+    },
   },
 };
 
@@ -114,11 +105,11 @@ function MyPage() {
     <>
       <NewNav />
       <CanvasWrap>
-        <GridWrapper variants={StartAni} initial="start" animate="end">
+        <GridWrapper variants={WrapVar} initial="start" animate="end">
           <div className="grid">
-            <Profile variants={childrenVar} memberId={memberId}></Profile>
-            <MyZira variants={childrenVar} memberId={memberId}></MyZira>
-            <Result variants={childrenVar} memberId={memberId}></Result>
+            <Profile memberId={memberId}></Profile>
+            <MyZira memberId={memberId}></MyZira>
+            <Result memberId={memberId}></Result>
           </div>
         </GridWrapper>
       </CanvasWrap>
