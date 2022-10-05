@@ -154,7 +154,7 @@ function Intro() {
 		webSocket.current = new WebSocket(`wss://j7d107.p.ssafy.io/ws/socket`)
 		
 		webSocket.current.onopen = (event) => { 
-			console.log("소켓연결")
+			console.log("인트로 소켓연결")
 		}
 
 
@@ -166,16 +166,14 @@ function Intro() {
 			setTotalcount(response.stars.totalCount)
 			setPercentage(Math.min((response.stars.totalCount / 80) * 100).toFixed(1))
 			
-			console.log("메시지")
+			console.log("인트로 메시지")
 			star(response.stars.stars);
 		}
 
 		return () => webSocket.current.onclose = () => { 
-			console.log("소켓연결해제")
+			console.log("인트로 소켓연결해제")
 		}
 	}, []);
-
-	console.log(stars)
 
 	const handleMouseEnter = () => {
 		setIsHover(true);
@@ -466,7 +464,7 @@ function Intro() {
 						onClick={showModal}
 						alt=""
 					/>
-					{modalOpen && <CampaignModal setModalOpen={setModalOpen} />}
+					{modalOpen && <CampaignModal setModalOpen={setModalOpen} webSocket={ webSocket } />}
 				</div>
 			</Wrapper>
 		</>

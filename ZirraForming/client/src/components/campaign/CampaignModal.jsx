@@ -76,7 +76,7 @@ const Modal = styled.div`
 	}
 `;
 
-function CampaignModal({ setModalOpen }) {
+function CampaignModal({ setModalOpen, webSocket }) {
 	const [file, setFile] = useState("");
 	const [imageSrc, setImageSrc] = useState("");
 	const memberId = useRecoilValue(MemberData);
@@ -84,7 +84,6 @@ function CampaignModal({ setModalOpen }) {
 	const [result, setResult] = useState({});
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [isFile, setIsFile] = useState(false);
-	const webSocket = useRef(null);
 
 	const accessToken = localStorage.getItem("accessToken", cookies.accessToken);
 
@@ -116,7 +115,8 @@ function CampaignModal({ setModalOpen }) {
 		});
 	};
 
-	const submit = () => {
+	const submit = (webSocket) => {
+		
 		if (!file) {
 			setIsFile(true);
 		} else {
@@ -136,14 +136,17 @@ function CampaignModal({ setModalOpen }) {
 			axios
 				.post("https://j7d107.p.ssafy.io/api/stars", formdata, config)
 				.then((response) => {
+		
 					console.log("성공");
 					console.log(response);
 					setResult(response.data);
 					setIsSubmit(true);
 
 					webSocket.current.send("success")
+					console.log("모달 메시지 전송")
 				});
 		}
+		
 	};
 
 	const uploadImage = () => {
@@ -151,11 +154,6 @@ function CampaignModal({ setModalOpen }) {
 	};
 
 	useEffect(() => {
-		webSocket.current = new WebSocket(`wss://j7d107.p.ssafy.io/ws/socket`)
-		
-		webSocket.current.onopen = (event) => { 
-			console.log("소켓연결")
-		}
 
 		const handler = (e) => {
 			if (
@@ -175,9 +173,6 @@ function CampaignModal({ setModalOpen }) {
 			// 이벤트 핸들러 해제
 			document.removeEventListener("mousedown", handler);
 			// document.removeEventListener('touchstart', handler); // 모바일 대응
-			webSocket.current.onclose = () => { 
-				console.log("소켓연결해제")
-			}
 		};
 	});
 
@@ -340,7 +335,7 @@ function CampaignModal({ setModalOpen }) {
 
 							<BasicButton
 								style={{ width: "80%", height: "50px", marginTop: "40px" }}
-								onClick={submit}
+									onClick={() => { submit(webSocket) }}
 							>
 								등록하기
 							</BasicButton>
