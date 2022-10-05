@@ -214,16 +214,16 @@ function Profile({ memberId }) {
         const config = {
           Headers: {
             // Authorization: "Bearer " + cookies.accessToken,
-            Authorization: "Bearer " + cookies.refreshToken,
+            Authorization: "Bearer " + cookies.accessToken,
           },
         };
         if (res.result) {
           axios({
-            url: Urls.changeNick(memberId.memberId, config, {
-              withCredentials: true,
-            }),
+            url: Urls.changeNick(memberId.memberId),
             method: "put",
             data: data,
+            config: config,
+            withCredentials: true,
           })
             .then((res) => {
               setEditMode(false);
@@ -252,7 +252,7 @@ function Profile({ memberId }) {
     <Wrapper variants={childernVar}>
       <div className="profile">
         <img
-          src={member.imagePath ? member.imagePath : user}
+          src={memberInfo.characterImgPath ? memberInfo.characterImgPath : user}
           width="100%"
           style={{ display: "block" }}
         />
@@ -293,7 +293,7 @@ function Profile({ memberId }) {
           </Link>
         )}
         {memberInfo.score != null ? (
-          <p>{memberInfo.score}</p>
+          <p>{memberInfo.score} / 10 점</p>
         ) : (
           <Link to={"/quiz"}>
             <p className="italic">퀴즈풀러가기</p>

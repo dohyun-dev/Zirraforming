@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Rocket from "../../assets/spinner/rocket.svg";
 
 const Wrapper = styled(Html)`
+  background-color: black;
   .preloader {
     transform: translate(-50%, -50%) !important;
     position: fixed;
@@ -108,9 +109,23 @@ const Wrapper = styled(Html)`
     text-align: left;
     color: #fff;
   }
+
+  .randomP {
+    display: inline-block;
+    top: 20px;
+    font-size: 24px;
+    color: #fff;
+    font-family: GmarketSansMedium;
+  }
 `;
 
 function Spinner() {
+  const randomText = [
+    "6월 5일은 환경의 날 인거 아시나요? 하지만, 환경은 365일 지켜야합니다",
+    "의약품은 약 종류에 따른 지정된 방법으로 배출해야합니다. 토양으로 들어갈 경우 생태계 파괴를 일으 킬 수 있어요",
+    "맛있는 치킨! 먹고난 후 치킨뼈는 일반 쓰레기입니다!. 헷갈릴 때는 물이 먹을 수 있는지 아닌지 생각해 보세요!",
+  ];
+
   useEffect(() => {
     const stars = document.querySelectorAll("#star");
 
@@ -263,6 +278,9 @@ function Spinner() {
         </svg>
         <div className="rocket-container">
           <img src={Rocket} className="rocket" />
+        </div>
+        <div className="textwrap">
+          <p className="randomP">{randomText[Math.floor(Math.random() * 3)]}</p>
         </div>
       </div>
     </Wrapper>

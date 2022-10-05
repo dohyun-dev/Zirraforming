@@ -50,14 +50,18 @@ const Nav = styled.div`
     z-index: 10;
     text-align: center;
     .dropBox {
+      height: 200px;
+
+      box-shadow: 0 5px 18px -7px #3f3f3f;
       position: absolute;
-      width: 600px;
+      top: 50px;
+      width: 180px;
+      right: 0px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
       justify-content: space-around;
-      line-height: 34px;
-      transform: translate(-100%, 0%);
+      transform: translate(-0%, 0%);
       .link {
         color: white;
       }
@@ -122,7 +126,7 @@ function Navbar({ width, navigate }) {
   const subMenuAnimate = {
     enter: {
       opacity: 1,
-      rotateX: 0,
+
       transition: {
         duration: 0.5,
         delay: 0.2,
@@ -131,7 +135,7 @@ function Navbar({ width, navigate }) {
     },
     exit: {
       opacity: 0,
-      rotateX: -15,
+
       transition: {
         duration: 0.5,
         delay: 0.2,
@@ -156,15 +160,10 @@ function Navbar({ width, navigate }) {
             onHoverStart={toggleDropDown}
             onHoverEnd={toggleDropDown}
           >
-            {dropBox ? (
-              <p className="hidden">
-                <span>{user}</span> 님 안녕하세요
-              </p>
-            ) : (
-              <p>
-                <span>{user}</span> 님 안녕하세요
-              </p>
-            )}
+            <p>
+              <span>{user}</span> 님 안녕하세요
+            </p>
+
             <motion.div
               className="content"
               initial="exit"

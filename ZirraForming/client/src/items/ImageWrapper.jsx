@@ -60,6 +60,7 @@ export const ImgWrapper = styled(motion.div)`
   }
 
   .progress {
+    pointer-events: all;
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 25px auto 1fr auto;
@@ -86,6 +87,7 @@ export const ImgWrapper = styled(motion.div)`
 `;
 
 export const FixWrapper = styled.div`
+  word-break: keep-all;
   position: fixed;
   display: flex;
   justify-content: center;
