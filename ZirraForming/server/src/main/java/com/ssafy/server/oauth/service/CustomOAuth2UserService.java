@@ -66,8 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         memberRepo.saveAndFlush(member);
 
         Optional<Member> findMember = memberRepo.findByEmail(providerType+"_"+userInfo.getEmail());
-        System.out.println(findMember.get().getId());
-        findMember.get().updateNickname(providerType+String.valueOf(findMember.get().getId()));
+        findMember.get().updateNickname("User"+String.valueOf(findMember.get().getId()));
 
         return memberRepo.save(findMember.get());
     }
