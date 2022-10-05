@@ -15,7 +15,9 @@ const Wrapper = styled(motion.div)`
 	background-color: rgba(255, 255, 255, 0.8);
 	border-radius: 5vh;
 	width: 77vw;
-	height: 88vh;
+	height: 700px;
+	margin-bottom: 100px;
+	min-width: 1000px;
 
 	h2 {
 		font-size: 100;
@@ -23,10 +25,11 @@ const Wrapper = styled(motion.div)`
 	}
 	@media screen and (${(props) => props.theme.tablet}) {
 		width: 60vw;
+		min-width: 1000px;
 	}
 	@media screen and (${(props) => props.theme.mobile}) {
 		width: 300px;
-		min-width: 300px;
+		min-width: 1000px;
 	}
 `;
 
@@ -76,6 +79,7 @@ function Result() {
 					}}
 				>
 					<div
+						className="typeTitle"
 						style={{
 							width: "50%",
 							borderTop: "0px",
@@ -87,16 +91,18 @@ function Result() {
 							display: "flex",
 							flexDirection: "column",
 							alignItems: "center",
-							fontSize: "50px",
+							fontSize: "40px",
 						}}
 					>
 						오늘 주운 쓰레기 종류
 						<div
 							style={{
-								width: "80%",
+								width: "440px",
+								minWidth: "440px",
 								height: "80px",
 								marginTop: "40px",
 								marginBottom: "40px",
+								marginRight: "10px",
 								backgroundColor: "white",
 								borderRadius: "10px",
 								display: "flex",
@@ -171,7 +177,7 @@ function Result() {
 								options={{
 									chart: {
 										width: 380,
-										height: 400,
+										height: 380,
 										type: "pie",
 									},
 									labels: trashType,
@@ -217,7 +223,7 @@ function Result() {
 						}}
 					>
 						<p>오늘 주운 쓰레기로 늘어난 빙하 면적</p>
-						<img src={iceImgSrc} width="40%" />
+						<img src={iceImgSrc} width="30%" />
 						<div
 							style={{
 								fontSize: "22px",
