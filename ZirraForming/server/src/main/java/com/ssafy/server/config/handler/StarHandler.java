@@ -2,8 +2,8 @@ package com.ssafy.server.config.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.server.api.dto.star.StarRankingResponse;
 import com.ssafy.server.api.dto.star.StarsResultResponse;
-import com.ssafy.server.domain.repository.StarRepository;
 import com.ssafy.server.domain.service.StarService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -29,13 +31,13 @@ public class StarHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         log.info("세션연결", session);
         sessions.add(session);
-        session.sendMessage(new TextMessage(makeResponse(makeStarsResultResponse())));
+        session.sendMessage(new TextMessage(makeResponse()));
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         for (WebSocketSession sess : sessions) {
-            sess.sendMessage(new TextMessage(makeResponse(makeStarsResultResponse())));
+            sess.sendMessage(new TextMessage(makeResponse()));
 //            sess.sendMessage(message);
         }
     }
@@ -53,7 +55,14 @@ public class StarHandler extends TextWebSocketHandler {
         return result;
     }
 
-    private String makeResponse(StarsResultResponse value) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(value);
+    private List<StarRankingResponse> makeStarsRankings() {
+        return starService.getRankCountResponse().stream().map(s -> new StarRankingResponse(s)).collect(Collectors.toList());
     }
+
+    private String makeResponse() throws JsonProcessingException {
+        StarsResultResponse starsResultResponse = makeStarsResultResponse();
+        List<StarRankingResponse> starRankingResponses = makeStarsRankings();
+        return objectMapper.writeValueAsString(Map.of("stars", starsResultResponse, "rankings", starRankingResponses));
+    }
+
 }
