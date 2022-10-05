@@ -8,7 +8,6 @@ import QuizResult from "./pages/QuizResult";
 import Campaign from "./pages/Campaign";
 import CampaignResult from "./pages/CampaignResult";
 import MyPage from "./pages/MyPage";
-import Navbar from "./components/Navbar";
 
 function Router() {
   return (

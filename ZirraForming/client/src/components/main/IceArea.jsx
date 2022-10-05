@@ -17,7 +17,7 @@ const TextBox = styled(motion.div)`
   position: fixed;
   top: 30vh;
   left: 50vw;
-  transform: translate(-50%, 50%);
+  transform: translate(-50%, -50%);
   width: 50vw;
   max-width: 800px;
   font-size: 20px;

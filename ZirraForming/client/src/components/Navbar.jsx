@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Logo from "../assets/logo/jirav1.svg";
 // import LogoPNG from "../assets/logo/jirav1.png";
+import { motion } from "framer-motion";
 
 import LoginModal from "./LoginModal";
 import { useCookies } from "react-cookie";
@@ -12,248 +13,222 @@ import { MemberData, Token } from "../atoms";
 import axios from "axios";
 
 const Nav = styled.div`
-	display: grid;
-	padding: 10px 30px;
-	grid-template-columns: 200px 1fr 200px;
-	grid-template-rows: 80px;
-	width: ${(props) => props.width || "calc(100vw-10px)"};
-	height: 80px;
-	color: ${(props) => props.theme.lightWhite};
-	font-family: "Black Han Sans";
+  display: grid;
+  padding: 10px 30px;
+  grid-template-columns: 200px 1fr 200px;
+  grid-template-rows: 80px;
+  width: ${(props) => props.width || "calc(100vw-10px)"};
+  height: 80px;
+  color: ${(props) => props.theme.lightWhite};
+  font-family: "Black Han Sans";
 
-	.logo {
-		width: 100%;
-		height: 100%;
-		img {
-			width: 100%;
-			height: 100%;
-			cursor: pointer;
-		}
-	}
+  .logo {
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+  }
 
-	.login {
-		grid-column: 3 / 5;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 30px;
-	}
-	.container {
-		min-width: 220px;
-		box-shadow: 0 4px 5px 0 #00000026;
-		position: relative;
-		z-index: 10;
-		text-align: center;
-	}
-	#dropdown {
-		left: 0;
-		visibility: hidden;
-		position: absolute;
-	}
-	.dropdownLabel {
-		display: flex;
-		justify-content: center;
-		padding: 12px;
-		width: 200px;
-	}
-	.dropdownLabel:hover {
-		cursor: pointer;
-	}
-	.content {
-		display: none;
-		position: absolute;
-		width: 80%;
-		left: 0;
-		font-size: 20px;
-		background: rgba(255, 255, 255, 0.9);
-		box-shadow: 0 4px 5px 0 #00000026;
-		border-radius: 8px;
-		box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-		margin-left: 20px;
-		z-index: 100;
-	}
+  .login {
+    grid-column: 3 / 5;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+  }
+  .container {
+    display: flex;
+    font-family: "SBAggroB";
 
-	#dropdown:checked + label + div.content {
-		display: block;
-		border-top: 1px solid #00000026;
-	}
-	.caretIcon {
-		transition: transform 250ms ease-out;
-	}
-	#dropdown:checked + label > .caretIcon {
-		transform: rotate(-180deg);
-	}
-
-	.content ul {
-		list-style-type: none;
-		padding: 12px;
-		margin: 0;
-	}
-	.content ul li {
-		margin: 0.8rem 0;
-	}
-
-	@keyframes slide-fade-in-dropdown-animation {
-		0% {
-			transform: translateY(-100%);
-		}
-
-		100% {
-			transform: translateY(0);
-		}
-	}
-
-	.slide-fade-in-dropdown {
-		overflow: hidden;
-	}
-
-	.slide-fade-in-dropdown > ul {
-		animation: slide-fade-in-dropdown-animation 0.4s ease;
-	}
-
-	@keyframes slide-fade-out-dropdown-animation {
-		0% {
-			transform: translateY(0);
-		}
-
-		100% {
-			transform: translateY(-100%);
-		}
-	}
+    min-width: 220px;
+    box-shadow: 0 4px 5px 0 #00000026;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    .dropBox {
+      position: absolute;
+      width: 600px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      line-height: 34px;
+      transform: translate(-100%, 0%);
+      .link {
+        color: white;
+      }
+      .drop_item {
+        .link {
+          color: white !important;
+          :hover {
+            color: #3c9f58 !important;
+            transition: all linear 0.1s;
+          }
+        }
+      }
+    }
+    p {
+      transition: all linear 0.3s;
+      transition-delay: 0.3s;
+      font-size: 18px;
+      font-family: "GmarketSansMedium";
+      span {
+        color: #3c9f58;
+      }
+    }
+    .hidden {
+      visibility: hidden;
+    }
+  }
 `;
 
-const Dropdown = (props) => {
-	const [visibilityAnimation, setVisibilityAnimation] = useState(false);
-	const [repeat, setRepeat] = useState(null);
-
-	useEffect(() => {
-		if (props.visibility) {
-			clearTimeout(repeat);
-			setRepeat(null);
-			setVisibilityAnimation(true);
-		} else {
-			setRepeat(
-				setTimeout(() => {
-					setVisibilityAnimation(false);
-				}, 400)
-			);
-		}
-	}, [props.visibility]);
-
-	return (
-		<article
-			article
-			className={`components-dropdown ${
-				props.visibility ? "slide-fade-in-dropdown" : "slide-fade-out-dropdown"
-			}`}
-		>
-			{visibilityAnimation && props.children}
-		</article>
-	);
-};
-
 function Navbar({ width, navigate }) {
-	const [modalOpen, setModalOpen] = useState(false);
-	const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
-	const [user, setUser] = useState("");
-	const [member, setMember] = useRecoilState(MemberData);
-	const [token, setToken] = useRecoilState(Token);
-	const [dropdownVisibility, setDropdownVisibility] = useState(false);
-	const showModal = () => {
-		setModalOpen(true);
-	};
+  const [modalOpen, setModalOpen] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+  const [user, setUser] = useState("");
+  const [member, setMember] = useRecoilState(MemberData);
+  const [token, setToken] = useRecoilState(Token);
+  const [dropdownVisibility, setDropdownVisibility] = useState(false);
+  const [dropBox, setDropBox] = useState(false);
 
-	useEffect(() => {
-		if (cookies.accessToken) {
-			localStorage.setItem("accessToken", cookies.accessToken);
-			const userInfo = jwt(cookies.accessToken);
-			console.log(userInfo.nickname);
-			setUser(userInfo.nickname);
-			const memberId = userInfo.sub;
-			setMember({
-				member: {
-					Id: memberId,
-				},
-			});
-			setToken(cookies.accessToken);
-		}
-	}, []);
+  const showModal = () => {
+    setModalOpen(true);
+  };
 
-	return (
-		<Nav width={width}>
-			<div className="logo">
-				<Link to={"/"}>
-					<img src={Logo} alt="" />
-				</Link>
-			</div>
-			{localStorage.getItem("accessToken") ? (
-				<div className="login">
-					<div className="container">
-						<input id="dropdown" type="checkbox" />
-						<label className="dropdownLabel" for="dropdown">
-							<p style={{ fontSize: 16, color: "#3c9f58" }}>{user} </p>
-							<p style={{ fontSize: 16 }}> 님 안녕하세요</p>
-						</label>
-						<div className="content">
-							<ul>
-								<li>
-									<Link to={`/mypage/${member.member.Id}`} class="link">
-										마이페이지
-									</Link>
-								</li>
-								<li>
-									<Link to="/style" class="link">
-										환경스타일 검사
-									</Link>
-								</li>
-								<li>
-									<Link to="/campaign" class="link">
-										별보러 갈래?
-									</Link>
-								</li>
-								<li>
-									<Link to="/quiz" class="link">
-										환경상식퀴즈
-									</Link>
-								</li>
-								<li>
-									<Link
-										to="/"
-										class="link"
-										onClick={() => {
-											const config = {
-												Headers: {
-													Authorization: "Bearer " + cookies.accessToken,
-												},
-											};
-											axios
-												.post("https://j7d107.p.ssafy.io/api/logout", config, {
-													withCredentials: true,
-												})
-												.then((response) => {
-													localStorage.removeItem("accessToken");
-													removeCookie("accessToken");
-													alert("로그아웃 되었습니다.");
-												});
-										}}
-									>
-										로그아웃
-									</Link>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			) : (
-				<div className="login" onClick={showModal}>
-					LOGIN
-				</div>
-			)}
+  const toggleDropDown = () => {
+    setDropBox((val) => !val);
+  };
 
-			{modalOpen && <LoginModal setModalOpen={setModalOpen} />}
-		</Nav>
-	);
+  useEffect(() => {
+    if (cookies.accessToken) {
+      localStorage.setItem("accessToken", cookies.accessToken);
+      const userInfo = jwt(cookies.accessToken);
+
+      setUser(userInfo.nickname);
+      const memberId = userInfo.sub;
+      setMember({
+        member: {
+          Id: memberId,
+        },
+      });
+      setToken(cookies.accessToken);
+    }
+  }, []);
+
+  const subMenuAnimate = {
+    enter: {
+      opacity: 1,
+      rotateX: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.2,
+      },
+      display: "block",
+    },
+    exit: {
+      opacity: 0,
+      rotateX: -15,
+      transition: {
+        duration: 0.5,
+        delay: 0.2,
+      },
+      transitionEnd: {
+        display: "none",
+      },
+    },
+  };
+
+  return (
+    <Nav width={width}>
+      <div className="logo">
+        <Link to={"/"}>
+          <img src={Logo} alt="" />
+        </Link>
+      </div>
+      {localStorage.getItem("accessToken") ? (
+        <div className="login">
+          <motion.div
+            className="container"
+            onHoverStart={toggleDropDown}
+            onHoverEnd={toggleDropDown}
+          >
+            {dropBox ? (
+              <p className="hidden">
+                <span>{user}</span> 님 안녕하세요
+              </p>
+            ) : (
+              <p>
+                <span>{user}</span> 님 안녕하세요
+              </p>
+            )}
+            <motion.div
+              className="content"
+              initial="exit"
+              animate={dropBox ? "enter" : "exit"}
+              variants={subMenuAnimate}
+            >
+              <div className="dropBox">
+                <p className="drop_item">
+                  <Link to={`/mypage/${member.member.Id}`} className="link">
+                    마이페이지
+                  </Link>
+                </p>
+                <p className="drop_item">
+                  <Link to="/style" className="link">
+                    환경스타일 검사
+                  </Link>
+                </p>
+                <p className="drop_item">
+                  <Link to="/campaign" className="link">
+                    별보러 갈래?
+                  </Link>
+                </p>
+                <p className="drop_item">
+                  <Link to="/quiz" className="link">
+                    환경상식퀴즈
+                  </Link>
+                </p>
+                <p>
+                  <Link
+                    to="/"
+                    className="link"
+                    onClick={() => {
+                      const config = {
+                        Headers: {
+                          Authorization: "Bearer " + cookies.accessToken,
+                        },
+                      };
+                      axios
+                        .post("https://j7d107.p.ssafy.io/api/logout", config, {
+                          withCredentials: true,
+                        })
+                        .then((response) => {
+                          localStorage.removeItem("accessToken");
+                          removeCookie("accessToken");
+                          alert("로그아웃 되었습니다.");
+                        });
+                    }}
+                  >
+                    로그아웃
+                  </Link>
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      ) : (
+        <div className="login" onClick={showModal}>
+          LOGIN
+        </div>
+      )}
+
+      {modalOpen && <LoginModal setModalOpen={setModalOpen} />}
+    </Nav>
+  );
 }
 
 export default Navbar;

@@ -7,12 +7,12 @@ function ResultTwoLine({ xline, yline, zline, title, name, color, format }) {
       <ApexChart
         series={[
           {
-            name: "Temperature",
+            name: "지라포밍 전",
             data: yline,
             type: "line",
           },
           {
-            name: "Temperature_predict",
+            name: "지라포밍 후",
             data: zline,
             type: "line",
           },
@@ -20,6 +20,11 @@ function ResultTwoLine({ xline, yline, zline, title, name, color, format }) {
         options={{
           theme: {
             mode: "dark",
+          },
+          legend: {
+            labels: {
+              colors: "black",
+            },
           },
           chart: {
             height: 500,

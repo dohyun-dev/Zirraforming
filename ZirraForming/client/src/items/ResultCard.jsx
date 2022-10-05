@@ -13,12 +13,12 @@ const ResultCard = styled(motion.div)`
   .title {
     display: flex;
     align-items: center;
-    font-size: min(2.2vw, 30px);
+    font-size: min(1.7vw, 20px);
     color: black;
     margin-bottom: 5px;
   }
   .result {
-    font-size: min(2.9vw, 40px);
+    font-size: min(2.5vw, 40px);
     color: black;
 
     span {

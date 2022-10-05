@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 
 const CanvasWrap = styled.div`
   width: 100%;
-
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("/assets/bg/space.jfif");
   background-position: center center;

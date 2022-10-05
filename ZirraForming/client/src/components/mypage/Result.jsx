@@ -32,7 +32,7 @@ const Title = styled(motion.div)`
   font-family: "SBAggroB";
   margin-bottom: 2vw;
 
-  font-size: min(4vw, 60px);
+  font-size: min(3vw, 40px);
   color: black;
   span {
     color: red;
@@ -78,20 +78,20 @@ function Result({ memberId }) {
           <ResultCard color="#487EB0">
             <div className="title">10년 후 지구온도</div>
             <div className="result">
-              <span>{result.data.temperature_2030}</span> 감소
+              <span>{result.data.temperature_2030 * 1} </span> 감소
             </div>
           </ResultCard>
           <ResultCard color="#9C88FF">
             <div className="title">10년 후 이산화탄소</div>
             <div className="result">
-              <span>{Math.round(result.data.co2_2030 * 1000) / 1000}</span>%
+              <span>{Math.round(result.data.co2_2030 * 1000) / 1000}%</span>
               감소
             </div>
           </ResultCard>
           <ResultCard color="#3c9f58">
             <div className="title">10년 후 빙하무게</div>
             <div className="result">
-              <span>{Math.round(result.data.ice_2030 * 1000) / 1000}</span>%
+              <span>{Math.round(result.data.ice_2030 * 1000) / 1000}%</span>
               감소
             </div>
           </ResultCard>
