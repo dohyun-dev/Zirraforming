@@ -247,7 +247,6 @@ function Profile({ memberId }) {
       return newData;
     });
   };
-  console.log(memberInfo);
   return (
     <Wrapper variants={childernVar}>
       <div className="profile">

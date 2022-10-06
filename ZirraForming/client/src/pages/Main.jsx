@@ -76,7 +76,6 @@ function Main() {
     axios
       .get(Urls.total())
       .then(({ data }) => {
-        console.log(data);
         setAllData(data);
       })
       .catch((err) => {
