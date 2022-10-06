@@ -35,6 +35,7 @@ public class StarHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        log.info("message 전송");
         for (WebSocketSession sess : sessions) {
             sess.sendMessage(new TextMessage(makeResponse()));
 //            sess.sendMessage(message);
