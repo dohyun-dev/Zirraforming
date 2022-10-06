@@ -59,7 +59,7 @@ function Co2Image({ html }) {
         <div className="title">
           <div className="top">이산화탄소</div>
           {/* <div className="bottom_left">DIRECT MEASUREMENTS: 2005-PRESENT</div> */}
-          <div className="bottom_left">2005년부터 현재까지 추이</div>
+          <div className="bottom_left">2002년부터 현재까지 추이</div>
           <div
             className="bottom_right"
             style={{

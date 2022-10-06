@@ -6,12 +6,12 @@ function TwoLine({ xline, yline, zline, title, name, color, format }) {
       <ApexChart
         series={[
           {
-            name: "평활화 데이터",
+            name: "연 평균온도 ",
             data: yline,
             type: "line",
           },
           {
-            name: "연 평균온도",
+            name: "평활화 데이터",
             data: zline,
             type: "line",
           },

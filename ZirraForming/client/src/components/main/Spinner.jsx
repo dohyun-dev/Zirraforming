@@ -1,4 +1,5 @@
 import { Html } from "@react-three/drei";
+import { Position } from "@react-three/drei/helpers/Position";
 import { useEffect } from "react";
 import styled from "styled-components";
 import Rocket from "../../assets/spinner/rocket.svg";
@@ -117,13 +118,24 @@ const Wrapper = styled(Html)`
     color: #fff;
     font-family: GmarketSansMedium;
   }
+  .textwrap {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    width: 500px;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    p {
+      font-size: 16px;
+    }
+  }
 `;
 
 function Spinner() {
   const randomText = [
-    "6월 5일은 환경의 날 인거 아시나요? 하지만, 환경은 365일 지켜야합니다",
-    "의약품은 약 종류에 따른 지정된 방법으로 배출해야합니다. 토양으로 들어갈 경우 생태계 파괴를 일으 킬 수 있어요",
-    "맛있는 치킨! 먹고난 후 치킨뼈는 일반 쓰레기입니다!. 헷갈릴 때는 물이 먹을 수 있는지 아닌지 생각해 보세요!",
+    `6월 5일은 환경의 날 인거 아시나요?/하지만, 환경은 365일 지켜야합니다`,
+    `의약품은 약 종류에 따른 지정된 방법으로 배출해야합니다. /토양으로 들어갈 경우 생태계 파괴를 일으 킬 수 있어요`,
+    "맛있는 치킨! 먹고난 후 치킨뼈는 일반 쓰레기입니다!./헷갈릴 때는 물이 먹을 수 있는지 아닌지 생각해 보세요!",
   ];
 
   useEffect(() => {
@@ -280,7 +292,11 @@ function Spinner() {
           <img src={Rocket} className="rocket" />
         </div>
         <div className="textwrap">
-          <p className="randomP">{randomText[Math.floor(Math.random() * 3)]}</p>
+          {randomText[Math.floor(Math.random() * 3)]
+            .split("/")
+            .map((text, idx) => {
+              return <p className="randomP">{text}</p>;
+            })}
         </div>
       </div>
     </Wrapper>

@@ -143,7 +143,7 @@ function Banner({ navigate }) {
               </div>
 
               <BasicButton onClick={() => navigate("/style")}>
-                <p>한경스타일 분석</p>
+                <p>환경스타일 분석</p>
               </BasicButton>
             </div>
           </Card>

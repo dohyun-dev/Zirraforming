@@ -8,6 +8,7 @@ import QuizResult from "./pages/QuizResult";
 import Campaign from "./pages/Campaign";
 import CampaignResult from "./pages/CampaignResult";
 import MyPage from "./pages/MyPage";
+import News from "./pages/News";
 
 function Router() {
   return (
@@ -25,6 +26,7 @@ function Router() {
           <Route path="/campaign" element={<Campaign />}></Route>
           <Route path="/campaign/result" element={<CampaignResult />}></Route>
           <Route path="/mypage/:memberId" element={<MyPage />}></Route>
+          <Route path="/news" element={<News />}></Route>
         </Routes>
       </BrowserRouter>
     </>
