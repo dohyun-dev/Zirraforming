@@ -1,5 +1,4 @@
 import { Html } from "@react-three/drei";
-import { Position } from "@react-three/drei/helpers/Position";
 import { useEffect } from "react";
 import styled from "styled-components";
 import Rocket from "../../assets/spinner/rocket.svg";
