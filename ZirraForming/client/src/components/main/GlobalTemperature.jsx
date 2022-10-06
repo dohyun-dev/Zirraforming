@@ -25,8 +25,8 @@ function GlobalTemperature() {
       <div className="graph">
         <TwoLine
           title={"세계 평균 기온 추세"}
-          xline={globalTemp?.lowess}
-          yline={globalTemp?.year}
+          xline={globalTemp?.year}
+          yline={globalTemp?.lowess}
           zline={globalTemp?.temperature}
           name={"Temperature"}
           color={"#FBC531"}
