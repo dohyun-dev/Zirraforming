@@ -34,7 +34,6 @@ public class SurveyService {
         return surveyRepository.findAll();
     }
 
-    @Cacheable(key = "#characterTypeName", value = "getSurveyTestResult")
     public CharacterType getSurveyTestResult(String characterTypeName) {
         return characterTypeRepository.findByName(characterTypeName).orElseThrow(() -> new CharacterTypeNotFoundException(characterTypeName));
     }
