@@ -136,6 +136,7 @@ function Intro() {
 
   useEffect(() => {
     axios.get("https://j7d107.p.ssafy.io/api/stars").then((response) => {
+      console.log(response.data);
       setStars(response.data.stars);
       setTotalcount(response.data.totalCount);
       setPercentage(Math.min((response.data.totalCount / 80) * 100).toFixed(1));
@@ -145,12 +146,15 @@ function Intro() {
     axios
       .get("https://j7d107.p.ssafy.io/api/stars/ranking")
       .then((response) => {
+        console.log(response.data);
         setRank(response.data);
       });
 
     webSocket.current = new WebSocket(`wss://j7d107.p.ssafy.io/ws/socket`);
 
-    webSocket.current.onopen = (event) => {};
+    webSocket.current.onopen = (event) => {
+      console.log("인트로 소켓연결");
+    };
 
     webSocket.current.onmessage = (event) => {
       const response = JSON.parse(event.data);
@@ -162,10 +166,14 @@ function Intro() {
         Math.min((response.stars.totalCount / 80) * 100).toFixed(1)
       );
 
+      console.log("인트로 메시지");
       star(response.stars.stars);
     };
 
-    return () => (webSocket.current.onclose = () => {});
+    return () =>
+      (webSocket.current.onclose = () => {
+        console.log("인트로 소켓연결해제");
+      });
   }, []);
 
   const handleMouseEnter = () => {
@@ -449,8 +457,8 @@ function Intro() {
             style={{
               position: "fixed",
               width: "5vw",
-              right: "80px",
-              bottom: "200px",
+              left: "100px",
+              bottom: "60px",
               zIndex: "100",
               cursor: "pointer",
             }}

@@ -61,7 +61,7 @@ const GridWrapper = styled(motion.div)`
     .border {
       background-color: #d8dee7;
       border-radius: 3px;
-
+      margin: 10px 0px;
       height: 5px;
     }
 
@@ -107,7 +107,7 @@ const GridWrapper = styled(motion.div)`
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: 150px;
-      grid-gap: 30px;
+      grid-gap: 25px;
       overflow: scroll;
       grid-auto-flow: row;
       grid-auto-rows: 150px;
