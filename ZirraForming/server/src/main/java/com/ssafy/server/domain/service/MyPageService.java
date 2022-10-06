@@ -11,6 +11,7 @@ import com.ssafy.server.domain.repository.MemberRepository;
 import com.ssafy.server.domain.repository.StarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class MyPageService {
     private final RedisTemplate<String, StarDto> redisTemplate;
     private final RestTemplateService restTemplateService;
 
+    @Cacheable(key = "#memberId", value = "getProfileEnvScore")
     public Map<String, String> getProfileAndEnvScore(Long memberId){
         Map<String, String> map = new HashMap<>();
 
