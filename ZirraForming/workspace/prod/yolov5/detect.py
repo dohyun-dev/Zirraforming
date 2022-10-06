@@ -53,7 +53,7 @@ def run(
         source=ROOT / 'data/images',  # file/dir/URL/glob, 0 for webcam
         data=ROOT / 'data.yaml',  # dataset.yaml path
         imgsz=(418, 418),  # inference size (height, width)
-        conf_thres=0.3,  # confidence threshold
+        conf_thres=0.25,  # confidence threshold
         iou_thres=0.5,  # NMS IOU threshold
         max_det=1000,  # maximum detections per image
         device='',  # cuda device, i.e. 0 or 0,1,2,3 or cpu
