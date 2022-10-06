@@ -128,7 +128,6 @@ function LoginModal({ setModalOpen }) {
                 cursor: "pointer",
               }}
               onClick={() => {
-                console.log("클릭");
                 window.location.href =
                   "https://j7d107.p.ssafy.io/oauth2/authorization/naver";
                 // "http://localhost:8080/oauth2/authorization/naver";

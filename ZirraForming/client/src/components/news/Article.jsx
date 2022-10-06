@@ -58,7 +58,7 @@ const MyHover = {
 function Article({ images, title, des, link }) {
   const [hover, isHover] = useState(false);
   const newTitle = title.slice(0, 30) + "...";
-  console.log(newTitle);
+
   return (
     <Wrapper
       variants={MyHover}

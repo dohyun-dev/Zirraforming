@@ -88,8 +88,6 @@ function MyZira({ memberId }) {
     axios.get(Urls.todayZira(memberId.memberId, date)).then((res) => {
       setDatas(res.data.images);
       setCount(res.data.count);
-      console.log(date);
-      console.log(res.data);
     });
   }, [date]);
   const mySVG = document.getElementsByTagName("svg")[0];
@@ -109,7 +107,6 @@ function MyZira({ memberId }) {
         </div>
         <div className="image_wrap">
           {datas.map((data, idx) => {
-            console.log(data);
             return (
               <div className="image_div" key={idx}>
                 <img src={data} width="100%" />

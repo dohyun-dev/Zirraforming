@@ -139,7 +139,6 @@ function News() {
   };
   useEffect(() => {
     axios.get(Urls.news(isNow)).then(({ data }) => {
-      console.log(data);
       setArticles(data);
     });
   }, [isNow]);
@@ -154,7 +153,6 @@ function News() {
             <div className="categorys">
               <Suspense fallback={null}>
                 {cate.map((ca, idx) => {
-                  console.log(idx + 1 === isNow);
                   return (
                     <div
                       onClick={() => setIsNow(idx + 1)}

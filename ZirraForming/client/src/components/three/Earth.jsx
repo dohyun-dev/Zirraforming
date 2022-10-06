@@ -126,6 +126,8 @@ function Earth(
       setIceAreaPage(false);
       setIceAreaImage(false);
       setSummaryPage(false);
+      setFirst(false);
+      setSecond(false);
 
       setFirstAni(true);
       setSecondAni(false);

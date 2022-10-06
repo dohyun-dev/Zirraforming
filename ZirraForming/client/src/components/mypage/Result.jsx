@@ -66,7 +66,6 @@ function Result({ memberId }) {
     axios.get(Urls.myResult(memberId.memberId)).then(({ data }) => {
       setResult({ data });
     });
-    console.log(result);
   }, []);
 
   return (
