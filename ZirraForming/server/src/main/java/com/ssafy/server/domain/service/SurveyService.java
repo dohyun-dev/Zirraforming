@@ -10,6 +10,7 @@ import com.ssafy.server.domain.repository.MemberRepository;
 import com.ssafy.server.domain.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +29,12 @@ public class SurveyService {
     private final BadgeRepository badgeRepository;
     private final ApplicationEventPublisher publisher;
 
+    @Cacheable(value = "surveyFindAll")
     public List<Survey> findAll() {
         return surveyRepository.findAll();
     }
 
+    @Cacheable(key = "#characterTypeName", value = "getSurveyTestResult")
     public CharacterType getSurveyTestResult(String characterTypeName) {
         return characterTypeRepository.findByName(characterTypeName).orElseThrow(() -> new CharacterTypeNotFoundException(characterTypeName));
     }
