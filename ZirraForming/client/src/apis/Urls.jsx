@@ -13,4 +13,7 @@ export default {
 
   //지라포밍결과
   myResult: (memberId) => HOST + `member/${memberId}/zirraformingresult`,
+
+  // 뉴스
+  news: (kind) => HOST + `news?kind=${kind}`,
 };

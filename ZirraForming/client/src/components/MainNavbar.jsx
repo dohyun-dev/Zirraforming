@@ -173,6 +173,9 @@ function MainNavbar({ width, navigate }) {
                 <p className="drop_item" onClick={() => navigate("/quiz")}>
                   환경상식퀴즈
                 </p>
+                <p className="drop_item" onClick={() => navigate("/news")}>
+                  환경뉴스
+                </p>
                 <p
                   onClick={() => {
                     const config = {

@@ -33,7 +33,7 @@ const Title = styled(motion.div)`
   font-family: "SBAggroB";
   margin-bottom: 2vw;
 
-  font-size: min(3vw, 40px);
+  font-size: min(3vw, 30px);
   color: black;
   span {
     color: red;

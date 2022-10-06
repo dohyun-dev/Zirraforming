@@ -88,6 +88,8 @@ function MyZira({ memberId }) {
     axios.get(Urls.todayZira(memberId.memberId, date)).then((res) => {
       setDatas(res.data.images);
       setCount(res.data.count);
+      console.log(date);
+      console.log(res.data);
     });
   }, [date]);
   const mySVG = document.getElementsByTagName("svg")[0];

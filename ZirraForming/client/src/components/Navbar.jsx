@@ -191,6 +191,11 @@ function Navbar({ width, navigate }) {
                     환경상식퀴즈
                   </Link>
                 </p>
+                <p className="drop_item">
+                  <Link to="/news" className="link">
+                    환경뉴스
+                  </Link>
+                </p>
                 <p>
                   <Link
                     to="/"
