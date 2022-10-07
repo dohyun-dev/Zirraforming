@@ -9,13 +9,15 @@ import java.util.stream.Collectors;
 
 @Data
 public class SurveyTestResultResponse implements Serializable {
+    private final String characterPrefix;
     private final String characterName;
     private final String characterImgUrl;
     private final String description;
     private final List<CampaignDto> campaigns;
 
     public SurveyTestResultResponse(CharacterType result) {
-        this.characterName = result.getDisplayName() + " " + result.getName();
+        this.characterPrefix = result.getDisplayName();
+        this.characterName = result.getName();
         this.characterImgUrl = result.getImgUrl();
         this.description = result.getDescription();
         this.campaigns = result.getCampaignList().stream().map(CampaignDto::new).collect(Collectors.toList());

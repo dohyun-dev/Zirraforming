@@ -86,7 +86,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         AuthToken accessToken = tokenProvider.createAuthToken(
                 String.valueOf(member.getId()),
                 RoleType.USER.getCode(),
-                member.getEmail(),
+                member.getNickname(),
                 new Date(new Date().getTime() + tokenProperties.getAuth().getTokenExpiry())
         );
         cookieAccessToken(request, response, accessToken);

@@ -16,9 +16,6 @@ public class AirPollutionEmission {
 
     private Double no;
 
-    private Double so;
-
-    @Column(name = "ultra_particular")
     private Double ultraParticular;
 
     private Double particular;

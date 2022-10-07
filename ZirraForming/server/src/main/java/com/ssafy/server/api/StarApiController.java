@@ -1,19 +1,21 @@
 package com.ssafy.server.api;
 
-import com.ssafy.server.domain.entity.Stars;
+import com.ssafy.server.api.dto.star.StarRankingResponse;
+import com.ssafy.server.api.dto.star.StarSaveResponse;
+import com.ssafy.server.api.dto.star.StarTodayResultResponse;
+import com.ssafy.server.api.dto.star.StarsResultResponse;
+import com.ssafy.server.domain.entity.Trash;
 import com.ssafy.server.domain.service.StarService;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -31,27 +33,20 @@ public class StarApiController {
     }
 
     @GetMapping(value = "/stars/ranking", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StarsRankingResponse> getRanking() {
-        StarsRankingResponse result = new StarsRankingResponse();
-        result.changeRank(starService.getRankResult());
-        result.changeCount(starService.getRankCount());
+    public ResponseEntity<List<StarRankingResponse>> getRanking() {
+        List<StarRankingResponse> result = starService.getRankCountResponse().stream().map(s -> new StarRankingResponse(s)).collect(Collectors.toList());
         return ResponseEntity.ok(result);
     }
 
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class StarsResultResponse{
-        List<Stars> stars = new ArrayList<>();
-        int totalCount;
+    @PostMapping(value = "/stars", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StarSaveResponse> savaStar(@ModelAttribute StarSaveRequest request) throws IOException {
+        Trash result = starService.saveStar(request.memberId, request.getImage());
+        return ResponseEntity.ok().body(new StarSaveResponse(result));
+    }
 
-        public void changeStars(List<Stars> starsResult) {
-            this.stars = starsResult;
-        }
-
-        public void changeTotalCount(int totalCount) {
-            this.totalCount = totalCount;
-        }
+    @GetMapping(value = "/todayresult", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StarTodayResultResponse> savaStar() throws IOException {
+        return ResponseEntity.ok().body(new StarTodayResultResponse(starService.getTodayResult()));
     }
 
     @Getter
@@ -68,5 +63,11 @@ public class StarApiController {
         public void changeCount(List<Integer> count) {
             this.count = count;
         }
+    }
+
+    @Data
+    public static class StarSaveRequest {
+        private Long memberId;
+        private MultipartFile image;
     }
 }

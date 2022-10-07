@@ -1,0 +1,5 @@
+FROM openjdk:11-jdk
+MAINTAINER jihye
+ARG JAR_FILE=./app/server/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=${ENV_IDLE_PROFILE}","-Duser.timezone=Asia/Seoul","/app.jar"]

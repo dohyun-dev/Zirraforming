@@ -6,7 +6,7 @@ import { ReactComponent as Down } from "../assets/svgs/down.svg";
 
 const Wrapper = styled(motion.div)`
   height: 120px;
-  width: 300px;
+  width: 350px;
   margin: auto;
   display: flex;
   align-items: center;
@@ -24,7 +24,7 @@ const Wrapper = styled(motion.div)`
       color: ${(props) => props.color};
       grid-area: 1 / 1 / 2/ 3;
       white-space: nowrap;
-      font-size: 1.5rem;
+      font-size: 2.5rem;
       padding: 10px 0px;
     }
 
@@ -32,14 +32,14 @@ const Wrapper = styled(motion.div)`
       display: flex;
       padding: 0px;
       align-items: flex-start;
-      font-size: 3rem;
-      line-height: 3rem;
+      font-size: 2.8rem;
+      line-height: 2.8rem;
       padding-left: 5px;
     }
 
     .grid__dan {
       padding-left: 2px;
-      font-size: 15px;
+      font-size: 10px;
       line-height: 20px;
     }
   }

@@ -26,10 +26,9 @@ public class QuizApiController {
         return ResponseEntity.ok(results);
     }
 
-    @PatchMapping(value = "/quiz", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/quiz", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResultDto> saveQuizResult(@RequestBody QuizResultSaveRequest request) {
-        Long memberId = authenticationUtil.getLoginMemberId();
-        quizService.updateMemberEnvScore(memberId, request.getScore());
+        quizService.updateMemberEnvScore(request.getMemberId(), request.getScore());
         return ResponseEntity.ok(ResultDto.of("환경 상식 퀴즈 결과가 저장되었습니다."));
     }
 }

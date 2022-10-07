@@ -12,7 +12,7 @@ export const BasicButton = styled.button`
 	color: black;
 	font-size: 25px;
 	font-weight: 300;
-	font-family: "Black Han Sans";
+	font-family: "GmarketSansMedium";
 	cursor: pointer;
 
 	@media screen and (${(props) => props.theme.tablet}) {

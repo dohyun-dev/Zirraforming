@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { BasicButton } from "../../items/quizButton";
 import { HomeButton } from "../../items/goHome";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
 import Share from "../common/Share";
+import homebanner from "../../assets/homeBanner.png";
 
 const Wrapper = styled(motion.div)`
 	position: relative;
@@ -34,18 +34,21 @@ const Wrapper = styled(motion.div)`
 
 const Note = styled(motion.div)`
 	background-color: #d9d9d9;
+	display: flex;
 	flex-direction: column;
-	justify-content: end;
+
 	width: 400px;
-	height: 230px;
+	height: 430px;
 	border-radius: 10px;
 	border: 0px;
 	color: black;
-	font-size: 25px;
-	font-weight: 300;
-	font-family: "Black Han Sans";
-	margin: 3vh 0px 3vh 0px;
-	cursor: pointer;
+	font-size: 20px;
+	font-weight: 700;
+	font-family: "GmarketSansMedium";
+	margin: 3vh 0px 6vh 0px;
+	padding: 10px 10px 10px 10px;
+	overflow-y: scroll;
+	cursor: default;
 
 	@media screen and (${(props) => props.theme.tablet}) {
 		width: 55vw;
@@ -62,8 +65,8 @@ const Note = styled(motion.div)`
 
 function Result() {
 	const navigate = useNavigate();
-	const { state } = useLocation();
-	console.log(state);
+	const location = useLocation();
+
 	return (
 		<>
 			<Wrapper>
@@ -87,7 +90,7 @@ function Result() {
 						margin: "7vh 0px 0px 0px",
 					}}
 				>
-					<p style={{ color: "red" }}>{state}</p>/10
+					<p style={{ color: "red" }}>{location.state.score}</p>/10
 				</div>
 				<div
 					style={{
@@ -97,14 +100,14 @@ function Result() {
 						margin: "3vh 0px 3vh 0px",
 					}}
 				>
-					<Share />
+					<Share state={location.state.score} />
 				</div>
 
 				<BasicButton
 					onClick={() => {
 						navigate("../quiz");
 					}}
-					style={{ marginBottom: "2vh" }}
+					style={{ marginBottom: "2vh", fontFamily: "SBAggroB" }}
 				>
 					테스트 다시하기
 				</BasicButton>
@@ -112,7 +115,7 @@ function Result() {
 					onClick={() => {
 						navigate("../../style");
 					}}
-					style={{ backgroundColor: "#99D1A9" }}
+					style={{ backgroundColor: "#99D1A9", fontFamily: "SBAggroB" }}
 				>
 					나의 환경스타일 분석하기
 				</BasicButton>
@@ -123,7 +126,7 @@ function Result() {
 					}}
 				>
 					<img
-						src="/assets/homebanner.png"
+						src={homebanner}
 						style={{ width: "100%", height: "100%" }}
 						alt=""
 					/>
@@ -136,11 +139,41 @@ function Result() {
 							width: "width: 400px",
 							color: "white",
 						}}
+						onClick={() => navigate("/")}
 					>
 						지구의 이야기를 들으러 GO!
 					</HomeButton>
 				</HomeButton>
-				<Note>오답노트</Note>
+				<Note>
+					<p style={{ alignSelf: "center", fontFamily: "SBAggroB" }}>
+						오답노트
+					</p>
+					{location.state.solution.map((data, idx) => {
+						return (
+							<div key={idx} style={{ margin: "10px 0 20px 0" }}>
+								<p style={{ color: "#3c9f58" }}>{data.quizId}번</p>
+								<p
+									style={{
+										color: "#40744f",
+										fontSize: "17px",
+										margin: "5px 0 5px 0",
+									}}
+								>
+									Q. {data.question}
+								</p>
+								<p style={{ fontSize: "15px" }}>
+									{data.solutionData.split("<br>").map((line) => {
+										return (
+											<>
+												{line} <br />
+											</>
+										);
+									})}
+								</p>
+							</div>
+						);
+					})}
+				</Note>
 			</Wrapper>
 		</>
 	);

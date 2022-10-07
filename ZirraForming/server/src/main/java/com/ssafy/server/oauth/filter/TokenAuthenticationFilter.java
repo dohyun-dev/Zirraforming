@@ -2,6 +2,7 @@ package com.ssafy.server.oauth.filter;
 
 import com.ssafy.server.oauth.token.AuthToken;
 import com.ssafy.server.oauth.token.AuthTokenProvider;
+import com.ssafy.server.oauth.utils.CookieUtil;
 import com.ssafy.server.oauth.utils.HeaderUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)  throws ServletException, IOException {
         log.debug("TokenAuthenticationFilter start");
-        String tokenStr = HeaderUtil.getAccessToken(request);
+        String tokenStr = CookieUtil.getCookieValue(request, "accessToken");
         AuthToken token = tokenProvider.convertAuthToken(tokenStr);
 
         if (token.validate()) {

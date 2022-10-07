@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="59e12d63-a812-43de-8e7b-0e70d665074b" name="ssafy">
+        <fileTransfer accessType="SFTP" host="j7d107.p.ssafy.io" port="22" sshConfigId="2561e248-a05c-4fe8-9508-63c75adadae2" sshConfig="ubuntu@j7d107.p.ssafy.io:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

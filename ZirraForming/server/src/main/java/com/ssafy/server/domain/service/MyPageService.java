@@ -1,6 +1,7 @@
 package com.ssafy.server.domain.service;
 
 import com.ssafy.server.api.dto.star.StarDto;
+import com.ssafy.server.domain.dto.PredictResultResponse;
 import com.ssafy.server.domain.entity.Member;
 import com.ssafy.server.domain.entity.MemberBadge;
 import com.ssafy.server.domain.entity.Star;
@@ -10,12 +11,14 @@ import com.ssafy.server.domain.repository.MemberRepository;
 import com.ssafy.server.domain.repository.StarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -29,7 +32,9 @@ public class MyPageService {
     private final MemberBadgeRepository memberBadgeRepository;
     private final StarRepository starRepository;
     private final RedisTemplate<String, StarDto> redisTemplate;
+    private final RestTemplateService restTemplateService;
 
+    @Cacheable(key = "#memberId", value = "getProfileEnvScore")
     public Map<String, String> getProfileAndEnvScore(Long memberId){
         Map<String, String> map = new HashMap<>();
 
@@ -151,5 +156,46 @@ public class MyPageService {
         }
 
         return result;
+    }
+
+    public List<Star> findThisYearTotalStar(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFountException(memberId));
+        LocalDate now = LocalDate.now();
+        String start = String.format("%4d-%02d-%02dT00:00:00", now.getYear(), 1, 1);
+        String end = String.format("%4d-%02d-%02dT00:00:00", now.getYear(), now.getMonthValue(), now.getDayOfMonth());
+        LocalDateTime startDate = LocalDateTime.parse(start);
+        LocalDateTime endDate = LocalDateTime.parse(end);
+        System.out.println(startDate + " " + endDate);
+        List<Star> findStars = starRepository
+                .findByMemberAndCreatedAtBetweenOrderByCreatedAt(findMember, startDate, endDate);
+        return findStars;
+    }
+
+    public PredictResultResponse getZirraformingResult(Long memberId){
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFountException(memberId));
+
+        double sum = 0;
+
+        // 오늘 co2 총합
+        String key = "starList:"+memberId;
+        if(redisTemplate.type(key).code()=="set"){
+            SetOperations<String, StarDto> starSetOperations = redisTemplate.opsForSet();
+            Set<StarDto> starDtoList = starSetOperations.members(key);
+            Iterator<StarDto> iter = starDtoList.iterator();
+            while(iter.hasNext()) {
+                Map<String, Object> map = (Map<String, Object>) iter.next();
+                sum += (double) map.get("co2");
+            }
+        }
+
+        // 과거 co2 총합
+        List<Star> starList = starRepository.findAllByMember(findMember);
+        for(int i=0; i<starList.size(); i++){
+            sum += starList.get(i).getCo2();
+        }
+
+        return restTemplateService.getPredictResult(1, sum);
     }
 }

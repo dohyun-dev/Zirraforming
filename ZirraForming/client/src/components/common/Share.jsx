@@ -50,9 +50,9 @@ const KakaoIcon = styled.img`
 	border-radius: 24px;
 `;
 
-const handleKakaoButton = () => {
+const handleKakaoButton = (props) => {
 	// window.Kakao.Link.sendScrap({
-	// 	requestUrl: "http://j7d107.p.ssafy.io",
+	// 	requestUrl: "https://j7d107.p.ssafy.io",
 	// });
 
 	window.Kakao.Link.sendDefault({
@@ -60,46 +60,52 @@ const handleKakaoButton = () => {
 		content: {
 			title: "환경 상식 테스트",
 			description: "나의 환경 점수는 몇점일까?",
-			imageUrl: "http://j7d107.p.ssafy.io/images/zzang.jpeg",
+			imageUrl: `https://j7d107.p.ssafy.io/images/quiz${props.score}.jpg`,
 			link: {
-				webUrl: "http://j7d107.p.ssafy.io/quiz",
-				mobileWebUrl: "http://j7d107.p.ssafy.io/quiz",
+				webUrl: "https://j7d107.p.ssafy.io/quiz",
+				mobileWebUrl: "https://j7d107.p.ssafy.io/quiz",
 			},
 		},
 		buttons: [
 			{
 				title: "환경 상식퀴즈 풀러가기",
 				link: {
-					webUrl: "http://j7d107.p.ssafy.io/quiz",
-					mobileWebUrl: "http://j7d107.p.ssafy.io/quiz",
+					webUrl: "https://j7d107.p.ssafy.io/quiz",
+					mobileWebUrl: "https://j7d107.p.ssafy.io/quiz",
 				},
 			},
 		],
 	});
 };
 
-function Share() {
+function Share(props) {
+	const score = props.state;
+
 	return (
 		<FlexContainer>
 			<h3 style={{ color: "black" }}>이 결과 공유하기</h3>
 			<GridContainer>
-				<FacebookShareButton url="http://j7d107.p.ssafy.io/quiz">
+				<FacebookShareButton url="https://j7d107.p.ssafy.io/quiz">
 					<FacebookIcon size={48} round={true} borderRadius={24}></FacebookIcon>
 				</FacebookShareButton>
-				<TwitterShareButton url="http://j7d107.p.ssafy.io/quiz">
+				<TwitterShareButton url="https://j7d107.p.ssafy.io/quiz">
 					<TwitterIcon size={48} round={true} borderRadius={24}></TwitterIcon>
 				</TwitterShareButton>
 
 				<URLShareButton
 					onClick={() => {
-						navigator.clipboard.writeText("http://j7d107.p.ssafy.io/quiz");
+						navigator.clipboard.writeText("https://j7d107.p.ssafy.io/quiz");
 						alert("링크가 복사되었습니다!");
 					}}
 				>
 					URL
 				</URLShareButton>
 
-				<KakaoShareButton onClick={handleKakaoButton}>
+				<KakaoShareButton
+					onClick={() => {
+						handleKakaoButton({ score });
+					}}
+				>
 					<KakaoIcon src={kakaoLogo}></KakaoIcon>
 				</KakaoShareButton>
 			</GridContainer>

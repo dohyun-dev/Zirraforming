@@ -47,11 +47,7 @@ spring:
         google:
           clientId: 676448010615-l92nu3hnd67fhb9l7dovm2euu3c4p9f4.apps.googleusercontent.com
           clientSecret: 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
-          scope:
-            - email
-        facebook:
-          clientId: "{페이스북 client-id}"
-          clientSecret: "{페이스북 client-secret}"
+          redirectUri: ${server.baseURL}/{action}/oauth2/code/{registrationId}
           scope:
             - email
         naver:
@@ -59,7 +55,7 @@ spring:
           clientSecret: YPlSdz6TVv
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          redirectUri: ${server.baseURL}/{action}/oauth2/code/{registrationId}
           scope:
             - email
           clientName: Naver
@@ -68,7 +64,7 @@ spring:
           clientSecret: Qsmqx8sM5oe1ygclWuNgY8NNv8A5OmX8
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          redirectUri: ${server.baseURL}/{action}/oauth2/code/{registrationId}
           scope:
             - account_email
           clientName: Kakao
@@ -101,8 +97,6 @@ app:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
-  oauth2:
-    authorizedRedirectUris: http://localhost:3000
 
 logging:
   level:
@@ -113,6 +107,8 @@ logging:
 
 file:
   dir: /images/
+
+ssafy.server.url: https://j7d107.p.ssafy.io
 
 ---
 # 운영 DB
@@ -137,16 +133,20 @@ spring:
   # Redis 설정
   redis:
     host: j7d107.p.ssafy.io
-    port: 6379
+    port: 6380
 
   # mongodb 설정
   mongodb:
     host: j7d107.p.ssafy.io
-    port: 27017
+    port: 27018
     database: zirraforming
-    username: ssafy
+    username: root
     password: ssafywlfkvhald
-    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/admin
+    url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
+
+app:
+  oauth2:
+    authorizedRedirectUris: ${server.authURL}
 
 ---
 # 개발 DB
@@ -155,7 +155,7 @@ spring:
     activate:
       on-profile: development_database
   datasource:
-    #    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    url: jdbc:mysql://j7d107.p.ssafy.io:3307/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ssafywlfkvhald
@@ -173,6 +173,10 @@ spring:
     username: root
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
+
+app:
+  oauth2:
+    authorizedRedirectUris: ${server.authURL}
 
 ---
 # 로컬 DB
@@ -199,6 +203,9 @@ spring:
     username: root
     password: ssafywlfkvhald
     url: mongodb://${spring.mongodb.username}:${spring.mongodb.password}@${spring.mongodb.host}:${spring.mongodb.port}/zirraforming?authSource=admin&authMechanism=SCRAM-SHA-1;
+app:
+  oauth2:
+    authorizedRedirectUris: ${server.authURL}
 
 ---
 spring:
@@ -208,6 +215,8 @@ spring:
 
 server:
   port: 8080
+  baseURL: http://localhost:8080
+  authURL: http://localhost:3000
 
 ---
 spring:
@@ -217,6 +226,8 @@ spring:
 
 server:
   port: 9001
+  baseURL: https://j7d107.p.ssafy.io
+  authURL: https://j7d107.p.ssafy.io
 
 ---
 spring:
@@ -226,3 +237,5 @@ spring:
 
 server:
   port: 9002
+  baseURL: https://j7d107.p.ssafy.io
+  authURL: https://j7d107.p.ssafy.io

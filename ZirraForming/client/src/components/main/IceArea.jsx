@@ -2,65 +2,108 @@ import { Html } from "@react-three/drei";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { globalTemperature, iceArea } from "../../atoms";
-import OneLine from "./charts/OneLine";
+import { Wrapper } from "../../items/MainWrapper";
+import OneLine from "../charts/OneLine";
+import { motion } from "framer-motion";
+import {
+  AnimatedCharacters,
+  AnimatedCharactersTwo,
+} from "../../items/Animation";
 
-const Wrapper = styled.div`
-  position: relative;
-  top: 950vh;
-  left: 50%;
-
+const TextBox = styled(motion.div)`
   display: flex;
-  flex-direction: column;
-  line-break: normal;
-
-  transform: translate(0, 0);
-  width: min(calc(50vw - 20px), 1000px);
-
-  .title {
-    font-size: 2rem;
-    align-self: center;
-    margin-bottom: 100vh;
-  }
-
-  .content {
-    margin-bottom: 50vh;
-  }
-  .graph {
-    width: 90%;
-
-    align-self: center;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 40vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  max-width: 800px;
+  font-size: 20px;
+  p {
+    font-size: 20px;
+    font-family: GmarketSansMedium;
   }
 `;
 
-function IceArea() {
-  const co2Datas = useRecoilValue(iceArea);
+const GraphBox = styled(motion.div)`
+  position: fixed;
+  font-family: GmarketSansMedium;
+  top: 20vh;
+  left: 50vw;
+  transform: translate(-50%, -5%);
+  width: 35vw;
+  height: 35vw;
+  max-width: 800px;
+  max-height: 800px;
+  font-size: 20px;
+`;
+
+const container = {
+  visible: {
+    transition: {
+      staggerChildren: 0.025,
+    },
+  },
+};
+
+const textHolder = {
+  first: { type: "heading1", text: "줄어드는 북극 빙하" },
+  third: [
+    {
+      type: "paragraph",
+      text: "북극 해빙은 1981년부터 2010년 사이의 평균범위와 비교하여 10년 마다 13%의 비율로 줄어들고 있습니다. / 아래의 애니메이션은 위성관측을 기반으로 1979년 이후 매년 측정된 북극해빙의 최소 크기를 보여줍니다. ",
+    },
+    {
+      type: "paragraph",
+      text: " 기후변화에 관한 정부 간 협의체 (IPCC)에 따르면 2021년 북극해의 얼음면적이 과거 1천년 역사를 통틀어 가장작았다고 한다. / 2000년 이후로 줄어드는 속도가 더 빨라지고 있으며, 유럽 아이슬라드 빙하는 길이가 1km 이상 줄었다고 알려집니다 / 빙하가 녹으면서 북극 생태계는 큰 영향을 받고 있습니다.",
+    },
+  ],
+};
+
+function IceArea({ first, second, third, forth }) {
+  const areaData = useRecoilValue(iceArea);
+
   return (
-    <Wrapper>
-      <div className="title">줄어드는 지구빙하</div>
-      <div className="content">
-        세계 인구의 최대 밀집 지역이라고 할 중국, 동남아시아, 인도 사람들의 삶은
-        황허강, 양쯔강, 메콩강, 갠지스강, 인더스강이라는 다섯 개의 큰 강에
-        절대적으로 의존하고 있다. 이 다섯 개의 강 모두의 발원지가
-        힌두쿠시-히말라야 인접 지역이며, 여기에서의 빙하의 변화는 이 강들의
-        흐름에 큰 영향을 미친다. 지금 급속히 진행되는 해빙으로 인하여 이
-        나라들은 강물 유량의 극심한 불안정에 시달리고 있으며, 몇년 전 중국처럼
-        대규모 댐이 붕괴할 뻔한 끔찍한 홍수도 나타나고 있고, 이 때문에 이 강들의
-        조절을 놓고 여러 나라들 간의 갈등이 극심해지고 있다.
-      </div>
-      <div className="content">
-        이런저런 이유로 살 곳을 잃고 떠돌게 될 전 지구적인 유랑민들의 숫자에
-        대해 한 보고서는 2060년 12억명, 2100년에는 20억명에 달할 것으로 전망하고
-        있다. 2100년에 지구 전체의 인구가 100억명 정도에 도달할 것으로 예측되는
-        것을 감안한다면, 5명 중 1명이 기후 유랑민이 되는 그림이다.
-      </div>
-      <div className="graph">
-        {/* <OneLine
-          title={"Global Temperature"}
-          xline={co2Datas?.year}
-          yline={co2Datas?.temperature}
-        /> */}
-      </div>
-    </Wrapper>
+    <>
+      {forth ? (
+        <GraphBox>
+          <OneLine
+            title={" 매년 북극 빙하 최소 넓이"}
+            xline={areaData?.year}
+            yline={areaData?.extent}
+            name={"빙하 넓이"}
+            color={"#487EB0"}
+            format={"million sq km"}
+          />
+        </GraphBox>
+      ) : (
+        <>
+          <TextBox
+            initial="hidden"
+            animate={first ? "visible" : "hidden"}
+            variants={container}
+          >
+            <AnimatedCharactersTwo item={textHolder.first} />
+          </TextBox>
+          <TextBox
+            initial="hidden"
+            animate={second ? "visible" : "hidden"}
+            variants={container}
+          >
+            <AnimatedCharactersTwo item={textHolder.third[0]} />
+          </TextBox>
+          <TextBox
+            initial="hidden"
+            animate={third ? "visible" : "hidden"}
+            variants={container}
+          >
+            <AnimatedCharactersTwo item={textHolder.third[1]} />
+          </TextBox>
+        </>
+      )}
+    </>
   );
 }
 

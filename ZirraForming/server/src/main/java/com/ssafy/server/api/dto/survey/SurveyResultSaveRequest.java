@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class SurveyResultSaveRequest {
     private Long memberId;
-    private String characterName;
+    private Long characterId;
 }

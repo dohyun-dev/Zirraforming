@@ -1,0 +1,11 @@
+FROM openjdk:11-jdk
+MAINTAINER jihye
+ENV SPRING_DATASOURCE_URL = "jdbc:mysql://mysql_db:3306/zirraforming?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false"
+ENV SPRING_DATASOURCE_USERNAME = root
+ENV SPRING_DATASOURCE_PASSWORD = ssafywlfkvhald
+ENV SPRING_REDIS_HOST = redis
+ENV SPRING_REDIS_PORT = 6379
+ENV ENV_IDLE_PROFILE=$IDLE_PROFILE
+VOLUME ["/home/ubuntu/front/build/images", "/images"]
+COPY /home/ubuntu/app/server/*.jar app.jar
+ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=${ENV_IDLE_PROFILE}","-Duser.timezone=Asia/Seoul","/app.jar"]

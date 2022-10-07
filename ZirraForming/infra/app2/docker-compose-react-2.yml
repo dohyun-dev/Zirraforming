@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  react:
+    container_name: ubuntu_react_2
+    build:
+      context: /home/ubuntu
+      dockerfile: ./app2/Dockerfile-react
+    ports:
+      - 3001:3000
+    stdin_open: true
+    tty: true
+    networks:
+      - dev_network
+      - infra
+
+networks:
+  dev_network:
+  infra:

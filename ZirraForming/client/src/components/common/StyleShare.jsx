@@ -50,56 +50,60 @@ const KakaoIcon = styled.img`
 	border-radius: 24px;
 `;
 
-const handleKakaoButton = () => {
+const handleKakaoButton = (props) => {
 	// window.Kakao.Link.sendScrap({
-	// 	requestUrl: "http://j7d107.p.ssafy.io",
+	// 	requestUrl: "https://j7d107.p.ssafy.io",
 	// });
 
 	window.Kakao.Link.sendDefault({
 		objectType: "feed",
 		content: {
-			title: "환경지킴이 짱구",
+			title: `${props.characterName}`,
 			description: "나는 어떤 유형의 스타일일까?",
-			imageUrl: "http://j7d107.p.ssafy.io/images/zzang.jpeg",
+			imageUrl: `https://j7d107.p.ssafy.io/images/${props.characterId}.jpg`,
 			link: {
-				webUrl: "http://j7d107.p.ssafy.io/style",
-				mobileWebUrl: "http://j7d107.p.ssafy.io/style",
+				webUrl: "https://j7d107.p.ssafy.io/style",
+				mobileWebUrl: "https://j7d107.p.ssafy.io/style",
 			},
 		},
 		buttons: [
 			{
 				title: "환경유형 검사하러가기",
 				link: {
-					webUrl: "http://j7d107.p.ssafy.io/style",
-					mobileWebUrl: "http://j7d107.p.ssafy.io/style",
+					webUrl: "https://j7d107.p.ssafy.io/style",
+					mobileWebUrl: "https://j7d107.p.ssafy.io/style",
 				},
 			},
 		],
 	});
 };
 
-function StyleShare() {
+function StyleShare({ characterId, characterName }) {
 	return (
 		<FlexContainer>
 			<h3 style={{ color: "black" }}>이 결과 공유하기</h3>
 			<GridContainer>
-				<FacebookShareButton url="http://j7d107.p.ssafy.io/style">
+				<FacebookShareButton url="https://j7d107.p.ssafy.io/style">
 					<FacebookIcon size={48} round={true} borderRadius={24}></FacebookIcon>
 				</FacebookShareButton>
-				<TwitterShareButton url="http://j7d107.p.ssafy.io/style">
+				<TwitterShareButton url="https://j7d107.p.ssafy.io/style">
 					<TwitterIcon size={48} round={true} borderRadius={24}></TwitterIcon>
 				</TwitterShareButton>
 
 				<URLShareButton
 					onClick={() => {
-						navigator.clipboard.writeText("http://j7d107.p.ssafy.io/style");
+						navigator.clipboard.writeText("https://j7d107.p.ssafy.io/style");
 						alert("링크가 복사되었습니다!");
 					}}
 				>
 					URL
 				</URLShareButton>
 
-				<KakaoShareButton onClick={handleKakaoButton}>
+				<KakaoShareButton
+					onClick={() => {
+						handleKakaoButton({ characterId, characterName });
+					}}
+				>
 					<KakaoIcon src={kakaoLogo}></KakaoIcon>
 				</KakaoShareButton>
 			</GridContainer>
