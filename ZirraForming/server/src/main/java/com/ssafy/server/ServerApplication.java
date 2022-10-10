@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 @Slf4j
+@Async
 @EnableScheduling
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -48,15 +50,15 @@ public class ServerApplication {
 
 	/*
 	 * 0시 0분 0초에 DB에 넣기
-	 * */
-	@Scheduled(cron = "0 0 0 * * ?", zone="Asia/Seoul")
+	 */
+	@Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Seoul")
 	public void updateStars() {
 		// 오늘 하루 랭킹 1위한 경우 뱃찌 추가
 		List<String> ranking = starService.getRankResult();
 		Member findMember = memberRepository.findByNickname(ranking.get(0))
 				.orElseThrow(() -> new MemberNicknameNotFountException(ranking.get(0)));
 		Badge findBadge = badgeRepository.findById(4L)
-				.orElseThrow(()-> new BadgeNotFountException(4L));
+				.orElseThrow(() -> new BadgeNotFountException(4L));
 		publisher.publishEvent(new MemberBadge(findMember, findBadge));
 
 		// key = starList:{memberId}
@@ -65,15 +67,17 @@ public class ServerApplication {
 		Set<String> keys = redisTemplate.keys("starList:*");
 
 		for (String key : keys) {
-			if(redisTemplate.type(key).code()=="set"){
+			if (redisTemplate.type(key).code() == "set") {
 				SetOperations<String, StarDto> starSetOperations = redisTemplate.opsForSet();
 				Set<StarDto> starDtoList = starSetOperations.members(key);
 
 				Long memberId = Long.parseLong(key.substring(9));
 
 				Iterator<StarDto> iter = starDtoList.iterator();
-				while(iter.hasNext()){
-					StarDto tmp = objectMapper().convertValue(iter.next(), new TypeReference<StarDto>() {});;
+				while (iter.hasNext()) {
+					StarDto tmp = objectMapper().convertValue(iter.next(), new TypeReference<StarDto>() {
+					});
+					;
 					result.add(new StarDto(memberId, tmp.getCo2(), tmp.getIce(), tmp.getImgUrl(), tmp.getType()));
 				}
 				redisTemplate.delete(key);

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.server.api.dto.star.StarDto;
 import com.ssafy.server.domain.dto.PredictResultResponse;
 import com.ssafy.server.domain.entity.*;
+import com.ssafy.server.domain.event.StarSaveEvent;
 import com.ssafy.server.domain.exception.BadgeNotFountException;
 import com.ssafy.server.domain.exception.MemberNotFountException;
 import com.ssafy.server.domain.repository.BadgeRepository;
@@ -182,6 +183,7 @@ public class StarService {
         if (!trash.getType().equals("null"))
             redisTemplate.opsForSet().add("starList:" + memberId.toString(), new StarDto(memberId, trash.getCo2(), trash.getIce(), serverFilePath, trashNamedict.get(aiDetectionResult)));
         addBadge(memberId);
+        publisher.publishEvent(new StarSaveEvent(memberId));
         return trash;
     }
 
