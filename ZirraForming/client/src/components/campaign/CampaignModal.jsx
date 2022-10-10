@@ -114,7 +114,7 @@ function CampaignModal({ setModalOpen }) {
 		});
 	};
 
-	const submit = (webSocket) => {
+	const submit = () => {
 		
 		if (!file) {
 			setIsFile(true);
@@ -325,7 +325,7 @@ function CampaignModal({ setModalOpen }) {
 
 							<BasicButton
 								style={{ width: "80%", height: "50px", marginTop: "40px" }}
-									onClick={() => { submit(webSocket) }}
+									onClick={ submit }
 							>
 								등록하기
 							</BasicButton>
