@@ -135,36 +135,15 @@ function Intro() {
   };
 
   useEffect(() => {
-    axios.get("https://j7d107.p.ssafy.io/api/stars").then((response) => {
-      console.log(response.data);
-      setStars(response.data.stars);
-      setTotalcount(response.data.totalCount);
-      setPercentage(Math.min((response.data.totalCount / 80) * 100).toFixed(1));
-      star(response.data.stars);
-    });
-
-    axios
-      .get("https://j7d107.p.ssafy.io/api/stars/ranking")
-      .then((response) => {
-        console.log(response.data);
-        setRank(response.data);
-      });
-
     webSocket.current = new WebSocket(`wss://j7d107.p.ssafy.io/ws/socket`);
 
     webSocket.current.onopen = (event) => {
       console.log("인트로 소켓연결");
+      getSocketMessage(event);
     };
 
     webSocket.current.onmessage = (event) => {
-      const response = JSON.parse(event.data);
-      setStars(response.stars.stars);
-      setRank(response.rankings);
-      setTotalcount(response.stars.totalCount);
-      setPercentage(
-        Math.min((response.stars.totalCount / 80) * 100).toFixed(1)
-      );
-      star(response.stars.stars);
+      getSocketMessage(event);
     };
 
     return () =>
@@ -179,6 +158,17 @@ function Intro() {
   const handleMouseLeave = () => {
     setIsHover(false);
   };
+
+  const getSocketMessage = (event) => {
+    const response = JSON.parse(event.data);
+    setStars(response.stars.stars);
+    setRank(response.rankings);
+    setTotalcount(response.stars.totalCount);
+    setPercentage(
+      Math.min((response.stars.totalCount / 80) * 100).toFixed(1)
+    );
+    star(response.stars.stars);
+  }
 
   return (
     <>
