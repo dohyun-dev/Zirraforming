@@ -58,6 +58,8 @@ public class StarService {
         List<Stars> result = new ArrayList<>();
         Set<String> keys = redisTemplate.keys("starList:*");
 
+        loadingMembers(keys);
+
         for (String key : keys) {
             if(redisTemplate.type(key).code()=="set"){
                 SetOperations<String, StarDto> starSetOperations = redisTemplate.opsForSet();
@@ -97,6 +99,8 @@ public class StarService {
         List<Stars> result = new ArrayList<>();
         Set<String> keys = redisTemplate.keys("starList:*");
 
+        loadingMembers(keys);
+
         for (String key : keys) {
             if(redisTemplate.type(key).code()=="set"){
                 SetOperations<String, StarDto> starSetOperations = redisTemplate.opsForSet();
@@ -131,6 +135,8 @@ public class StarService {
         List<Integer> result = new ArrayList<>();
         Set<String> keys = redisTemplate.keys("starList:*");
 
+        loadingMembers(keys);
+
         for (String key : keys) {
             if(redisTemplate.type(key).code()=="set"){
                 SetOperations<String, StarDto> starSetOperations = redisTemplate.opsForSet();
@@ -157,6 +163,8 @@ public class StarService {
     public List<Stars> getRankCountResponse() {
         List<Stars> result = new ArrayList<>();
         Set<String> keys = redisTemplate.keys("starList:*");
+
+        loadingMembers(keys);
 
         for (String key : keys) {
             if(redisTemplate.type(key).code()=="set"){
@@ -292,5 +300,17 @@ public class StarService {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
         mapper.registerModules(new JavaTimeModule(), new Jdk8Module()); // LocalDateTime 매핑을 위해 모듈 활성화
         return mapper;
+    }
+
+    private void loadingMembers(Set<String> keys) {
+        List<Long> temp = new ArrayList<>();
+        for (String key : keys) {
+            if(redisTemplate.type(key).code()=="set"){
+                SetOperations<String, StarDto> starSetOperations = redisTemplate.opsForSet();
+                Set<StarDto> starDtoList = starSetOperations.members(key);
+                temp.add(Long.parseLong(key.substring(9)));
+            }
+        }
+        memberRepository.findMembersById(temp);
     }
 }
