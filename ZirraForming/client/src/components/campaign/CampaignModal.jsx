@@ -96,7 +96,7 @@ function CampaignModal({ setModalOpen, webSocket }) {
 	const imageInput = useRef();
 
 	const onLoadFile = (e) => {
-	
+		console.log(e.target.files[0]);
 		setFile(e.target.files[0]);
 		showImage(e.target.files[0]);
 	};
@@ -122,9 +122,10 @@ function CampaignModal({ setModalOpen, webSocket }) {
 		} else {
 			const formdata = new FormData();
 			formdata.append("image", file);
-			
+			console.log(memberId.member.Id);
 			formdata.append("memberId", memberId.member.Id);
-	
+			console.log(file);
+			console.log(formdata);
 			const config = {
 				Headers: {
 					"content-type": "multipart/form-data",
@@ -135,13 +136,9 @@ function CampaignModal({ setModalOpen, webSocket }) {
 			axios
 				.post("https://j7d107.p.ssafy.io/api/stars", formdata, config)
 				.then((response) => {
-		
-		
+					console.log(response);
 					setResult(response.data);
 					setIsSubmit(true);
-
-					webSocket.current.send("success")
-				
 				});
 		}
 		
