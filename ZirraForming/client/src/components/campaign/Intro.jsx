@@ -158,15 +158,12 @@ function Intro() {
 
     webSocket.current.onmessage = (event) => {
       const response = JSON.parse(event.data);
-      // console.log(result)
       setStars(response.stars.stars);
       setRank(response.rankings);
       setTotalcount(response.stars.totalCount);
       setPercentage(
         Math.min((response.stars.totalCount / 80) * 100).toFixed(1)
       );
-
-      console.log("인트로 메시지");
       star(response.stars.stars);
     };
 
@@ -466,7 +463,7 @@ function Intro() {
             alt=""
           />
           {modalOpen && (
-            <CampaignModal setModalOpen={setModalOpen} webSocket={webSocket} />
+            <CampaignModal setModalOpen={setModalOpen} />
           )}
         </div>
       </Wrapper>
