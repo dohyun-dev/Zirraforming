@@ -122,10 +122,7 @@ function CampaignModal({ setModalOpen, webSocket }) {
 		} else {
 			const formdata = new FormData();
 			formdata.append("image", file);
-			console.log(memberId.member.Id);
 			formdata.append("memberId", memberId.member.Id);
-			console.log(file);
-			console.log(formdata);
 			const config = {
 				Headers: {
 					"content-type": "multipart/form-data",
