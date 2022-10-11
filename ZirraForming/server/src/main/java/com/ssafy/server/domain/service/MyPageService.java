@@ -42,11 +42,11 @@ public class MyPageService {
                 .orElseThrow(() -> new MemberNotFountException(memberId));
 
         map.put("nickname", findMember.getNickname());
-        if(findMember.getCharacterType().equals(null)){
+        if(findMember.getCharacterType() != null){
             map.put("characterName", findMember.getCharacterType().getName());
             map.put("characterImgPath", findMember.getCharacterType().getImgUrl());
         }
-        if(findMember.getEnvScore().equals(null)){
+        if(findMember.getEnvScore() != null){
             map.put("score", String.valueOf(findMember.getEnvScore()));
         }
 
