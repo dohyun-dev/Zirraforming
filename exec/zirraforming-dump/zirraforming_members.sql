@@ -43,12 +43,7 @@ CREATE TABLE `members` (
 -- Dumping data for table `members`
 --
 
-LOCK TABLES `members` WRITE;
-/*!40000 ALTER TABLE `members` DISABLE KEYS */;
-INSERT INTO `members` VALUES (10,'KAKAO_mine53@daum.net','이츠마인','2022-09-23 21:04:07','2022-10-06 14:56:46',6,4,1),(11,'GOOGLE_sawol634@gmail.com','지구방위대','2022-09-23 21:41:14','2022-10-07 03:59:29',5,6,1),(12,'KAKAO_qkslffkab@hanmail.net','사월코천2','2022-09-23 22:49:24','2022-10-03 02:17:07',10,NULL,1),(13,'GOOGLE_su980323@gmail.com','수갬','2022-09-24 11:07:23','2022-10-01 23:23:46',10,NULL,1),(14,'test@naver.com','안녕하세요1','2022-09-24 11:47:00','2022-10-01 23:23:42',NULL,NULL,1),(15,'test1@naver.com','안녕하세요2','2022-09-24 14:31:52','2022-10-01 23:23:38',NULL,NULL,1),(17,'KAKAO_spy03128@naver.com','지구뿌셔','2022-09-26 02:06:17','2022-10-06 22:51:33',7,6,1),(18,'GOOGLE_spy03128@gmail.com','첼시맛있어','2022-09-26 14:09:51','2022-10-07 03:39:25',3,4,1),(19,'NAVER_spy03128@naver.com','천사팀장','2022-09-26 14:13:34','2022-10-07 00:25:14',4,6,1),(20,'KAKAO_heo3793@naver.com','안녕ccc','2022-10-02 01:10:14','2022-10-05 17:21:35',6,4,1),(21,'GOOGLE_tobeykwon@gmail.com','외계인탐사선','2022-10-03 18:11:02','2022-10-07 02:58:20',6,4,1),(22,'KAKAO_mstkang@gmail.com','지구사랑','2022-10-04 09:15:40','2022-10-05 11:05:06',8,6,1),(23,'KAKAO_null','널이에요','2022-10-04 17:06:31','2022-10-06 03:27:05',NULL,NULL,1),(25,'NAVER_workcom0@naver.com','수경이짱','2022-10-05 09:36:26','2022-10-06 22:25:58',7,4,1),(26,'GOOGLE_mstkang@gmail.com','User26','2022-10-05 10:18:28','2022-10-05 10:18:29',NULL,NULL,0),(27,'GOOGLE_whdgur1068@gmail.com','정종혁','2022-10-05 10:55:19','2022-10-05 13:39:55',NULL,4,1),(28,'KAKAO_dnjsvltm425@naver.com','User28','2022-10-05 12:41:08','2022-10-05 12:41:08',NULL,NULL,0),(29,'KAKAO_zmstjftk@nate.com','멋쟁이동욱이','2022-10-05 23:55:26','2022-10-07 02:46:06',NULL,NULL,1),(30,'GOOGLE_hannabaek101@gmail.com','User30','2022-10-06 10:13:11','2022-10-06 10:13:11',NULL,NULL,0),(31,'GOOGLE_siryeongchoi@gmail.com','최시령','2022-10-06 14:52:34','2022-10-06 15:00:13',8,4,1);
-/*!40000 ALTER TABLE `members` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
