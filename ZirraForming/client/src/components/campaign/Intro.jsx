@@ -64,8 +64,8 @@ function star(props) {
     let star = document.createElement("img");
     let content = document.createElement("div");
 
-    let x = Math.floor(Math.random() * (window.innerWidth - 180));
-    let y = Math.floor(Math.random() * (window.innerHeight - 180));
+    let x = Math.floor(Math.random() * (window.innerWidth * 0.55)) + Math.floor(window.innerHeight * 0.2);
+    let y = Math.floor(Math.random() * (window.innerHeight * 0.6)) + Math.floor(window.innerHeight * 0.2);
     let size = 20 + props[i].count * 5.5;
     let imgSelector = Math.floor(Math.random() * 10);
 
