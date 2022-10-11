@@ -34,7 +34,6 @@ public class MyPageService {
     private final RedisTemplate<String, StarDto> redisTemplate;
     private final RestTemplateService restTemplateService;
 
-    @Cacheable(key = "#memberId", value = "getProfileEnvScore")
     public Map<String, String> getProfileAndEnvScore(Long memberId){
         Map<String, String> map = new HashMap<>();
 
@@ -43,11 +42,11 @@ public class MyPageService {
                 .orElseThrow(() -> new MemberNotFountException(memberId));
 
         map.put("nickname", findMember.getNickname());
-        if(findMember.getCharacterType()!=null){
+        if(findMember.getCharacterType().equals(null)){
             map.put("characterName", findMember.getCharacterType().getName());
             map.put("characterImgPath", findMember.getCharacterType().getImgUrl());
         }
-        if(findMember.getEnvScore()!=null){
+        if(findMember.getEnvScore().equals(null)){
             map.put("score", String.valueOf(findMember.getEnvScore()));
         }
 
